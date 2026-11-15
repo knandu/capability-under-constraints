@@ -7,9 +7,9 @@ The original stopping point is preserved; curation did not start new experiments
 - Contexts, output counts, prompt construction, tokenizers, stopping behavior,
   and timing sources differ across phases. The tables are labeled per experiment;
   they must not be flattened into one overall performance chart.
-- The original controlled baseline is a recorded point, not a three-repeat
-  baseline confidence interval. Finalist and closing-kernel repetitions do not
-  retroactively create missing baseline repetitions.
+- The locality archive retains three original controlled-baseline repetitions
+  as well as three repetitions per finalist. These small samples do not establish
+  a general confidence interval or isolate every possible hardware/runtime cause.
 - The earliest baseline-comparison raw directory was not available locally.
   The retained original control row comes from the subsequent locality exploration.
   No missing raw directory was recreated or called recovered.

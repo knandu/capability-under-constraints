@@ -1,0 +1,337 @@
+{
+  "Experiments": [
+    "controlled-cache1024-share95",
+    "controlled-cache2048-share95",
+    "controlled-cache2048-share95-ub128",
+    "controlled-experts6-ub128"
+  ],
+  "Tokens": 1024,
+  "Repeats": 3,
+  "Matrix": {
+    "cpu-baseline": {
+      "Case": "CPU"
+    },
+    "cpu-load-none": {
+      "LoadMode": "none",
+      "Case": "CPU"
+    },
+    "cpu-no-affinity": {
+      "NoAffinity": true,
+      "Case": "CPU"
+    },
+    "cpu-matched": {
+      "NoAffinity": true,
+      "Case": "CPU",
+      "MicroBatch": 512,
+      "LoadMode": "none",
+      "FlashAttention": "auto"
+    },
+    "cuda4-baseline": {
+      "Case": "Auto",
+      "GpuLayers": 4
+    },
+    "cuda4-load-none": {
+      "Case": "Auto",
+      "GpuLayers": 4,
+      "LoadMode": "none"
+    },
+    "cuda4-flash-auto": {
+      "Case": "Auto",
+      "GpuLayers": 4,
+      "FlashAttention": "auto"
+    },
+    "cuda4-ub512": {
+      "Case": "Auto",
+      "GpuLayers": 4,
+      "MicroBatch": 512
+    },
+    "controlled-baseline": {
+      "Case": "Controlled"
+    },
+    "controlled-load-none": {
+      "LoadMode": "none",
+      "Case": "Controlled"
+    },
+    "controlled-flash-auto": {
+      "Case": "Controlled",
+      "FlashAttention": "auto"
+    },
+    "controlled-ub512": {
+      "Case": "Controlled",
+      "MicroBatch": 512
+    },
+    "cuda4-matched": {
+      "NoAffinity": true,
+      "LoadMode": "none",
+      "Case": "Auto",
+      "MicroBatch": 512,
+      "GpuLayers": 4,
+      "FlashAttention": "auto"
+    },
+    "cuda6-matched": {
+      "NoAffinity": true,
+      "LoadMode": "none",
+      "Case": "Auto",
+      "MicroBatch": 512,
+      "GpuLayers": 6,
+      "FlashAttention": "auto"
+    },
+    "cuda8-matched": {
+      "NoAffinity": true,
+      "LoadMode": "none",
+      "Case": "Auto",
+      "MicroBatch": 512,
+      "GpuLayers": 8,
+      "FlashAttention": "auto"
+    },
+    "cuda9-matched": {
+      "NoAffinity": true,
+      "LoadMode": "none",
+      "Case": "Auto",
+      "MicroBatch": 512,
+      "GpuLayers": 9,
+      "FlashAttention": "auto"
+    },
+    "controlled-matched": {
+      "NoAffinity": true,
+      "Case": "Controlled",
+      "MicroBatch": 512,
+      "LoadMode": "none",
+      "FlashAttention": "auto"
+    },
+    "controlled-none-flash": {
+      "Case": "Controlled",
+      "LoadMode": "none",
+      "FlashAttention": "auto"
+    },
+    "controlled-none-ub512": {
+      "Case": "Controlled",
+      "MicroBatch": 512,
+      "LoadMode": "none"
+    },
+    "controlled-none-no-affinity": {
+      "Case": "Controlled",
+      "LoadMode": "none",
+      "NoAffinity": true
+    },
+    "controlled-none-flash-no-affinity": {
+      "Case": "Controlled",
+      "NoAffinity": true,
+      "LoadMode": "none",
+      "FlashAttention": "auto"
+    },
+    "controlled-none-flash-ub512": {
+      "Case": "Controlled",
+      "MicroBatch": 512,
+      "LoadMode": "none",
+      "FlashAttention": "auto"
+    },
+    "controlled-matched-no-host": {
+      "NoAffinity": true,
+      "NoHost": true,
+      "LoadMode": "none",
+      "Case": "Controlled",
+      "MicroBatch": 512,
+      "FlashAttention": "auto"
+    },
+    "controlled-matched-no-host-no-repack": {
+      "NoAffinity": true,
+      "NoHost": true,
+      "LoadMode": "none",
+      "Case": "Controlled",
+      "MicroBatch": 512,
+      "NoRepack": true,
+      "FlashAttention": "auto"
+    },
+    "controlled-matched-no-op-offload": {
+      "NoAffinity": true,
+      "NoOpOffload": true,
+      "LoadMode": "none",
+      "Case": "Controlled",
+      "MicroBatch": 512,
+      "FlashAttention": "auto"
+    },
+    "controlled-ub128-no-op-offload": {
+      "NoAffinity": true,
+      "NoOpOffload": true,
+      "LoadMode": "none",
+      "Case": "Controlled",
+      "MicroBatch": 128,
+      "FlashAttention": "auto"
+    },
+    "controlled-ub128-no-host": {
+      "NoAffinity": true,
+      "NoHost": true,
+      "LoadMode": "none",
+      "Case": "Controlled",
+      "MicroBatch": 128,
+      "FlashAttention": "auto"
+    },
+    "cuda8-matched-no-host": {
+      "NoAffinity": true,
+      "NoHost": true,
+      "LoadMode": "none",
+      "Case": "Auto",
+      "MicroBatch": 512,
+      "GpuLayers": 8,
+      "FlashAttention": "auto"
+    },
+    "cuda8-sm75-mmq": {
+      "NoAffinity": true,
+      "LoadMode": "none",
+      "Case": "Auto",
+      "MicroBatch": 512,
+      "GpuLayers": 8,
+      "FlashAttention": "auto",
+      "CudaVariant": "SM75-MMQ"
+    },
+    "cuda8-pascal-mmq": {
+      "NoAffinity": true,
+      "LoadMode": "none",
+      "Case": "Auto",
+      "MicroBatch": 512,
+      "GpuLayers": 8,
+      "FlashAttention": "auto",
+      "CudaVariant": "Pascal-MMQ"
+    },
+    "controlled-sm75-mmq": {
+      "NoAffinity": true,
+      "LoadMode": "none",
+      "Case": "Controlled",
+      "MicroBatch": 512,
+      "CudaVariant": "SM75-MMQ",
+      "FlashAttention": "auto"
+    },
+    "controlled-pascal-mmq": {
+      "NoAffinity": true,
+      "LoadMode": "none",
+      "Case": "Controlled",
+      "MicroBatch": 512,
+      "CudaVariant": "Pascal-MMQ",
+      "FlashAttention": "auto"
+    },
+    "controlled-sm75-mmq-no-op-offload": {
+      "NoAffinity": true,
+      "NoOpOffload": true,
+      "LoadMode": "none",
+      "Case": "Controlled",
+      "MicroBatch": 512,
+      "CudaVariant": "SM75-MMQ",
+      "FlashAttention": "auto"
+    },
+    "controlled-pascal-mmq-no-op-offload": {
+      "NoAffinity": true,
+      "NoOpOffload": true,
+      "LoadMode": "none",
+      "Case": "Controlled",
+      "MicroBatch": 512,
+      "CudaVariant": "Pascal-MMQ",
+      "FlashAttention": "auto"
+    },
+    "controlled-experts4": {
+      "NoAffinity": true,
+      "NoOpOffload": true,
+      "LoadMode": "none",
+      "Case": "Controlled",
+      "MicroBatch": 512,
+      "CpuExpertLayers": 44,
+      "FlashAttention": "auto"
+    },
+    "controlled-experts5": {
+      "NoAffinity": true,
+      "NoOpOffload": true,
+      "LoadMode": "none",
+      "Case": "Controlled",
+      "MicroBatch": 512,
+      "CpuExpertLayers": 43,
+      "FlashAttention": "auto"
+    },
+    "controlled-experts6-ub128": {
+      "NoAffinity": true,
+      "NoOpOffload": true,
+      "LoadMode": "none",
+      "Case": "Controlled",
+      "MicroBatch": 128,
+      "CpuExpertLayers": 42,
+      "FlashAttention": "auto"
+    },
+    "controlled-experts5-pascal": {
+      "CpuExpertLayers": 43,
+      "LoadMode": "none",
+      "Case": "Controlled",
+      "CudaVariant": "Pascal-MMQ",
+      "NoOpOffload": true,
+      "FlashAttention": "auto",
+      "MicroBatch": 512,
+      "NoAffinity": true
+    },
+    "controlled-cache1024": {
+      "NoAffinity": true,
+      "NoOpOffload": true,
+      "FlashAttention": "auto",
+      "LoadMode": "none",
+      "Case": "Controlled",
+      "MicroBatch": 512,
+      "MoeCacheMiB": 1024
+    },
+    "controlled-cache1024-share50": {
+      "LoadMode": "none",
+      "Case": "Controlled",
+      "MoeCacheCpuShare": 0.5,
+      "NoOpOffload": true,
+      "FlashAttention": "auto",
+      "NoAffinity": true,
+      "MicroBatch": 512,
+      "MoeCacheMiB": 1024
+    },
+    "controlled-cache1024-share95": {
+      "LoadMode": "none",
+      "Case": "Controlled",
+      "MoeCacheCpuShare": 0.95,
+      "NoOpOffload": true,
+      "FlashAttention": "auto",
+      "NoAffinity": true,
+      "MicroBatch": 512,
+      "MoeCacheMiB": 1024
+    },
+    "controlled-cache2048": {
+      "NoAffinity": true,
+      "NoOpOffload": true,
+      "FlashAttention": "auto",
+      "LoadMode": "none",
+      "Case": "Controlled",
+      "MicroBatch": 512,
+      "MoeCacheMiB": 2048
+    },
+    "controlled-cache2048-share50": {
+      "LoadMode": "none",
+      "Case": "Controlled",
+      "MoeCacheCpuShare": 0.5,
+      "NoOpOffload": true,
+      "FlashAttention": "auto",
+      "NoAffinity": true,
+      "MicroBatch": 512,
+      "MoeCacheMiB": 2048
+    },
+    "controlled-cache2048-share95": {
+      "LoadMode": "none",
+      "Case": "Controlled",
+      "MoeCacheCpuShare": 0.95,
+      "NoOpOffload": true,
+      "FlashAttention": "auto",
+      "NoAffinity": true,
+      "MicroBatch": 512,
+      "MoeCacheMiB": 2048
+    },
+    "controlled-cache2048-share95-ub128": {
+      "LoadMode": "none",
+      "Case": "Controlled",
+      "MoeCacheCpuShare": 0.95,
+      "NoOpOffload": true,
+      "FlashAttention": "auto",
+      "NoAffinity": true,
+      "MicroBatch": 128,
+      "MoeCacheMiB": 2048
+    }
+  }
+}

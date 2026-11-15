@@ -18,3 +18,11 @@ placement and timing controls, and measure sustained generation rather than
 mistaking successful compilation or a short burst for useful inference.
 [Baseline protocol](experiments/baseline/README.md).
 
+
+### 2. Expert locality was the useful performance lever
+
+The original controlled configuration decoded at **24.16 tok/s**. A 2 GiB expert
+cache reached **43.95 tok/s**, versus **32.28 tok/s** for the repeated Ollama
+reference. Placement mattered more than the next kernel specialization.
+[Original measurement rows and controls](experiments/expert-locality/README.md).
+

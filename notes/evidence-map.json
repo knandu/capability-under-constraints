@@ -12,6 +12,21 @@
         "43e1ceeb007a06a493bbe3ae8041f5b798823d90"
       ],
       "timestamp_basis": "Original source checkpoint; not a newly invented experiment time."
+    },
+    {
+      "number": 2,
+      "id": "expert-locality",
+      "title": "Adopt expert caching after the locality experiment",
+      "decision": "ADOPT",
+      "author_date": "2026-11-15T12:26:46-06:00",
+      "source_commits": [
+        "f5bd15bfdb74f5f31cb184c9982c7d45ac77788c",
+        "1d92b68d746c0bc7848c97f930d874afbce937da",
+        "c16e3e3d65bdbc621a7416e1a4174b333db90346",
+        "2075bb5d4d83b00f890896ae061e7ce7f49b2d39",
+        "ac39a5b4f53590cd83fe8d4e254ee23851ac0764"
+      ],
+      "timestamp_basis": "Original source checkpoint; not a newly invented experiment time."
     }
   ],
   "artifact_origins": [
@@ -25,6 +40,50 @@
       "original_sha256": "fb46f9a09ca1f4df643964414244a6e312234f75b86c3637aed3d494be569553",
       "normalization": "Unmodified source bytes; public identity/path review.",
       "public_sha256": "fb46f9a09ca1f4df643964414244a6e312234f75b86c3637aed3d494be569553"
+    },
+    {
+      "gate": "expert-locality",
+      "public_path": "experiments/expert-locality/exploration.csv",
+      "artifact": "original locality exploration results",
+      "kind": "local raw experiment artifact",
+      "source_commit": null,
+      "source_blob": null,
+      "original_sha256": "33d7c8d0cbca520efda8a7e60b99ef1bac760349aa0224e9077805b8c64ec464",
+      "normalization": "UTF-8 CSV; retain original row values; omit only fields: Evidence.",
+      "public_sha256": "ab8e77f430c43ba3c5bbdb024312f6951e6d4c375688cf5be93e7e564e516ead"
+    },
+    {
+      "gate": "expert-locality",
+      "public_path": "experiments/expert-locality/finalists.csv",
+      "artifact": "original locality finalist repetitions",
+      "kind": "local raw experiment artifact",
+      "source_commit": null,
+      "source_blob": null,
+      "original_sha256": "4de837df2b812a46f4df58b57be99570d1ac980dc5dd053655c57eb7277f238b",
+      "normalization": "UTF-8 CSV; retain original row values; omit only fields: Evidence.",
+      "public_sha256": "d255cb1a5e473f792512caa6291337528a728dd88380b0129ced26f0c5d9cecd"
+    },
+    {
+      "gate": "expert-locality",
+      "public_path": "experiments/expert-locality/ollama.csv",
+      "artifact": "original repeated Ollama reference",
+      "kind": "local raw experiment artifact",
+      "source_commit": null,
+      "source_blob": null,
+      "original_sha256": "b8bf3cac29094afd290ea5b95b89d14ae5a3e96e5ee6dee03e930d76d3c15e1c",
+      "normalization": "UTF-8 CSV; retain original row values; omit only fields: Evidence.",
+      "public_sha256": "63d8315d1f7d53820c7f25d9cdc351613c5097fcf66f05fe97a52c301eca2659"
+    },
+    {
+      "gate": "expert-locality",
+      "public_path": "experiments/expert-locality/controls.json",
+      "artifact": "frozen locality finalist plan",
+      "kind": "local raw experiment artifact",
+      "source_commit": null,
+      "source_blob": null,
+      "original_sha256": "2b5b40a5230232427d4b26e6181c33418eb057ee8132fd4aebfc68345ee47a98",
+      "normalization": "Retain frozen public case parameters; omit operational plan metadata.",
+      "public_sha256": "a1c121555f0f59c412e6ff959134f089b1145878a9d4ec1c6e31890151fec372"
     }
   ]
 }

@@ -1,0 +1,11 @@
+{
+  "record_type": "derived from retained CSV rows",
+  "original_controlled_decode_tok_s": 24.16,
+  "selected_finalist_decode_tok_s": 43.95,
+  "ollama_reference_decode_tok_s": 32.28,
+  "selected_case": "controlled-cache2048-share95-ub128",
+  "controlled_repetitions": 3,
+  "selected_repetitions": 3,
+  "ollama_repetitions": 3,
+  "caution": "Small matched phase samples are not a universal model/backend ranking."
+}
