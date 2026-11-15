@@ -50,6 +50,17 @@
         "170988b2548fdf10df0adae162e114f2ce917c09"
       ],
       "timestamp_basis": "Original source checkpoint; not a newly invented experiment time."
+    },
+    {
+      "number": 5,
+      "id": "gemma-model-selection",
+      "title": "Reject Gemma 3 12B for the end-to-end Tamil workload",
+      "decision": "REJECT",
+      "author_date": "2026-11-15T14:52:19-06:00",
+      "source_commits": [
+        "6aabf7fd4ea65ae1a051e4c2d9845b89039e44b6"
+      ],
+      "timestamp_basis": "Original source checkpoint; not a newly invented experiment time."
     }
   ],
   "artifact_origins": [
@@ -217,6 +228,61 @@
       "original_sha256": "8e03cb96a705254b44d1da015df158bbab5aa66ee8d176f09a6cafa0ac273af5",
       "normalization": "Source for a labeled generated-output excerpt; not a complete redistributed response.",
       "public_sha256": "b5c74463c28b3ebf6a74f87f56c6375ea34792511d963857cf432a4627d78959"
+    },
+    {
+      "gate": "gemma-model-selection",
+      "public_path": "experiments/gemma-model-selection/performance.csv",
+      "artifact": "Gemma selection performance.csv",
+      "kind": "tracked source artifact",
+      "source_commit": "6aabf7fd4ea65ae1a051e4c2d9845b89039e44b6",
+      "source_blob": "f12c7a8c4297901cde09a73567ebe80736fccc6a",
+      "original_sha256": "7fabcf3d6d463fddc12d7b3124ff153464a2c8b7d4b1e785af2dab3ce1a96325",
+      "normalization": "UTF-8 CSV; retain original row values; omit only fields: Evidence.",
+      "public_sha256": "232c04703f0a261ba6f3c01a4df8fb33f5147ecb56e91ceed6e6295cac492f46"
+    },
+    {
+      "gate": "gemma-model-selection",
+      "public_path": "experiments/gemma-model-selection/performance-summary.csv",
+      "artifact": "Gemma selection performance-summary.csv",
+      "kind": "tracked source artifact",
+      "source_commit": "6aabf7fd4ea65ae1a051e4c2d9845b89039e44b6",
+      "source_blob": "f1ab48bed31de369ab5313e839339c1eab07b5c0",
+      "original_sha256": "c74471a00c40f279263f6212ca660d27282b5617ec853ef089d0256e72995011",
+      "normalization": "UTF-8 CSV; retain original row values; omit only fields: Evidence.",
+      "public_sha256": "93ae172f299176b8c88ae6eb04408c4167a388b54f247a300f4a66cd0123ea41"
+    },
+    {
+      "gate": "gemma-model-selection",
+      "public_path": "experiments/gemma-model-selection/quality.csv",
+      "artifact": "Gemma selection quality.csv",
+      "kind": "tracked source artifact",
+      "source_commit": "6aabf7fd4ea65ae1a051e4c2d9845b89039e44b6",
+      "source_blob": "fcf68860e8b3d1b1a9a1387373fff06a85836e8f",
+      "original_sha256": "7f198d5885434b68647b3921e875cd68ff63d88dda1fc2e80cd308466d2933e9",
+      "normalization": "UTF-8 CSV; retain original row values; omit only fields: Evidence.",
+      "public_sha256": "e1534e5032cb72726a42eb9e3aee92cfe836fd93acf77c79ffbd735aa8e655c1"
+    },
+    {
+      "gate": "gemma-model-selection",
+      "public_path": "experiments/gemma-model-selection/qualification.csv",
+      "artifact": "Gemma selection qualification-results.csv",
+      "kind": "tracked source artifact",
+      "source_commit": "6aabf7fd4ea65ae1a051e4c2d9845b89039e44b6",
+      "source_blob": "d7cabb9f8d8a5c26dffce107e5cb16f2ff7bf8f2",
+      "original_sha256": "fcad49bd2b29298468a0cc4dcd118fe9951e17ea66221463ab9f282a3c7868b0",
+      "normalization": "UTF-8 CSV; retain original row values; omit only fields: Evidence.",
+      "public_sha256": "e12a5412b66db570ff837eb5b2ed43da8c7bfb54b8a78032fe934c47b8714f1d"
+    },
+    {
+      "gate": "gemma-model-selection",
+      "public_path": "experiments/gemma-model-selection/excerpts.json",
+      "artifact": "generated output response-G-p1.txt",
+      "kind": "tracked source artifact",
+      "source_commit": "6aabf7fd4ea65ae1a051e4c2d9845b89039e44b6",
+      "source_blob": "e7af0e1b041af2cc78e3196b0e8cad4f81b10b01",
+      "original_sha256": "82916bbef425ecc97cdf3238aaf659245cd479d613b0b8fb062ff8db085ad9fa",
+      "normalization": "Source for a labeled generated-output excerpt; not a complete redistributed response.",
+      "public_sha256": "eeb26011d6dbe6e07b4be46cad471f07ee770f89ff53f059e1449e09edca29fb"
     }
   ]
 }

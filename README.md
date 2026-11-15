@@ -49,3 +49,12 @@ invented benchmark. The earlier article,
 [I Thought I Had a Model Problem. It Turned Out to Be a Latency Problem](https://www.linkedin.com/pulse/i-thought-had-model-problem-turned-out-latency-nandu-kirubanandan-2esbc/),
 provides the preceding transliteration/writing context.
 
+
+### 5. Gemma was a mixed result, not the answer
+
+Gemma 3 12B supplied some promising individual candidates, but wrong-language
+output, omissions, padding, and latency prevented a dependable end-to-end win.
+Mean response wall time was **134.57 s**, versus **46.48 s** for sampled Qwen.
+**REJECT for this workload**, not as a universal model judgment.
+[Model-selection branch](experiments/gemma-model-selection/README.md).
+

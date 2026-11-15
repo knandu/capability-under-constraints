@@ -1,0 +1,7 @@
+Candidate,Model,Request,ParagraphCoverage,TamilBodies,FullFactTamilAlternatives,Diversity,PublicationReadiness
+C01,Q,2,3/3,3/3,1;2;3,"Low; short changes to the opening and partnership phrase, otherwise almost identical.","Requires substantial editing as the requested three-alternative package; option 2 alone may be usable with light editing, provisionally."
+C02,G,1,3/3,0/3,,"Meaningfully different emphasis and narrative framing, but in English.",Unusable as the requested Tamil deliverable; translation and further fidelity checking would be needed.
+C03,G,3,3/3,3/3,1,"Moderate: formal, compressed news style, and emphatic presentation. Compression loses facts and drama invents a detail.",Requires substantial editing as a three-alternative package. Alternative 1 alone is a provisional light-edit candidate.
+C04,Q,1,3/3,3/3,,"Low; openings differ superficially, with virtually unchanged background.","Requires substantial editing to restore facts, remove the extra rewrite and produce genuinely different alternatives."
+C05,Q,3,0/3,3/3,,Low; nearly the same lead with small lexical substitutions.,Requires substantial rewriting to restore the missing paragraph and distinguish alternatives.
+C06,G,2,3/3,3/3,1,"Moderate: formal, conversational and summary styles. The latter two achieve brevity partly by dropping information.",Requires substantial editing as a three-alternative package. Alternative 1 alone is a provisional light-edit candidate.
