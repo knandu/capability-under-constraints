@@ -38,6 +38,18 @@
         "ac39a5b4f53590cd83fe8d4e254ee23851ac0764"
       ],
       "timestamp_basis": "Original source checkpoint; not a newly invented experiment time."
+    },
+    {
+      "number": 4,
+      "id": "tamil-quality",
+      "title": "Close throughput tuning after Tamil quality evaluation",
+      "decision": "STOP",
+      "author_date": "2026-11-15T13:34:02-06:00",
+      "source_commits": [
+        "ac1ac9d9943f4bc35b2495afe7787338364abc53",
+        "170988b2548fdf10df0adae162e114f2ce917c09"
+      ],
+      "timestamp_basis": "Original source checkpoint; not a newly invented experiment time."
     }
   ],
   "artifact_origins": [
@@ -128,6 +140,83 @@
       "original_sha256": "1a1d94b78ac01eb1a3d7c079314b775c97d7cd7928cd94f1527a6ecaa9a77e92",
       "normalization": "Retain control verdicts, output identity and caveats; omit operational commands.",
       "public_sha256": "57609b3f718f4139d048a39b87b656dbc444be1bf77b38ada7c932f1f8869742"
+    },
+    {
+      "gate": "tamil-quality",
+      "public_path": "experiments/tamil-quality/results.csv",
+      "artifact": "Tamil policy results.csv",
+      "kind": "tracked source artifact",
+      "source_commit": "170988b2548fdf10df0adae162e114f2ce917c09",
+      "source_blob": "ed70dc783c4ac2c16909a800ea1e044c009ee536",
+      "original_sha256": "4a4260f77bd691a49daf1c94d35b0a6cb3c006745d833ea5e128a8e6543d8b84",
+      "normalization": "UTF-8 CSV; retain original row values; omit only fields: Evidence.",
+      "public_sha256": "ec57d50336f79c9d3133c85b25a31a67aa5d13b947c521599b47be216d9706dd"
+    },
+    {
+      "gate": "tamil-quality",
+      "public_path": "experiments/tamil-quality/summary.csv",
+      "artifact": "Tamil policy summary.csv",
+      "kind": "tracked source artifact",
+      "source_commit": "170988b2548fdf10df0adae162e114f2ce917c09",
+      "source_blob": "5cb9e36394de351e9875115f2981de47457a63de",
+      "original_sha256": "5f6531d0fa5e242a9efaff363413ae971eeb9a27963b139ee4891ecf33edafa8",
+      "normalization": "UTF-8 CSV; retain original row values; omit only fields: Evidence.",
+      "public_sha256": "54587432d16cfbc7269d0acc8dbed01480523923e23b35bf81736aec6134d7be"
+    },
+    {
+      "gate": "tamil-quality",
+      "public_path": "experiments/tamil-quality/quality.csv",
+      "artifact": "Tamil policy quality.csv",
+      "kind": "tracked source artifact",
+      "source_commit": "170988b2548fdf10df0adae162e114f2ce917c09",
+      "source_blob": "1b22cb2f666aabb872d9b31257ac3ec7307e42b9",
+      "original_sha256": "1f51de6b99631c85335dbcb3a3ced4f7a8113c209c37bc7b29da63a062962f88",
+      "normalization": "UTF-8 CSV; retain original row values; omit only fields: Evidence.",
+      "public_sha256": "b48381de38eea9928ae77495f020698eeaece3f83c4079aa20150e3b56fffef7"
+    },
+    {
+      "gate": "tamil-quality",
+      "public_path": "experiments/tamil-quality/structural-audit.csv",
+      "artifact": "Tamil policy structural-audit.csv",
+      "kind": "tracked source artifact",
+      "source_commit": "170988b2548fdf10df0adae162e114f2ce917c09",
+      "source_blob": "e821c0368ebabd2117cec17227f3d6e6b7e3f16e",
+      "original_sha256": "430aeb38d78c4305fa0c11c385869a122503563421d4a017fee9ab0d93eb658f",
+      "normalization": "UTF-8 CSV; retain original row values; omit only fields: Evidence.",
+      "public_sha256": "eaec7f691d1a877a4d5253ba7e6f78c861a3dceee8b38ac00c60d894ece91c08"
+    },
+    {
+      "gate": "tamil-quality",
+      "public_path": "experiments/tamil-quality/controls.json",
+      "artifact": "frozen Tamil policy plan",
+      "kind": "tracked source artifact",
+      "source_commit": "170988b2548fdf10df0adae162e114f2ce917c09",
+      "source_blob": "fe883ce766ad681911fbb78ea9db81f2687d5584",
+      "original_sha256": "1573034518a2f93e31f2eb17f06edfd7f4b40e1146ba85608fc0820e1293485b",
+      "normalization": "Omit model/template/prompt filesystem paths; preserve prompt digests and controls.",
+      "public_sha256": "8dda5224f3cdef10785722603b5960c83273ff92c5ecb5b136ff5bd0b9a178fd"
+    },
+    {
+      "gate": "tamil-quality",
+      "public_path": "experiments/tamil-quality/excerpts.json",
+      "artifact": "generated output response-A-p2.txt",
+      "kind": "tracked source artifact",
+      "source_commit": "170988b2548fdf10df0adae162e114f2ce917c09",
+      "source_blob": "74c4a0193dd8a9f483f90262708b142504c52c09",
+      "original_sha256": "7197959e4652799885a358dcc1551ef328d9457a8668245c3e67120af569a19d",
+      "normalization": "Source for a labeled generated-output excerpt; not a complete redistributed response.",
+      "public_sha256": "b5c74463c28b3ebf6a74f87f56c6375ea34792511d963857cf432a4627d78959"
+    },
+    {
+      "gate": "tamil-quality",
+      "public_path": "experiments/tamil-quality/excerpts.json",
+      "artifact": "generated output response-B-p1.txt",
+      "kind": "tracked source artifact",
+      "source_commit": "170988b2548fdf10df0adae162e114f2ce917c09",
+      "source_blob": "6680fab25aa812f4d40055a2116d666f0a12a7e9",
+      "original_sha256": "8e03cb96a705254b44d1da015df158bbab5aa66ee8d176f09a6cafa0ac273af5",
+      "normalization": "Source for a labeled generated-output excerpt; not a complete redistributed response.",
+      "public_sha256": "b5c74463c28b3ebf6a74f87f56c6375ea34792511d963857cf432a4627d78959"
     }
   ]
 }

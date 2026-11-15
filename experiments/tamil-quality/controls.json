@@ -1,0 +1,62 @@
+{
+  "Question": "Does inference policy make this checkpoint useful for the unchanged Tamil rewrite requests?",
+  "PromptCommit": "ac1ac9d",
+  "ModelSHA256": "E9183B5C18A0CF736578C1E3D1CBD4B7E98E3AD3BE6176B68C20F156D54A07AC",
+  "Prompts": [
+    {
+      "Index": 1,
+      "SHA256": "490360CAC9607520FD52506EEE7B7F024DC050F2BDB7ECC8C454427896157471"
+    },
+    {
+      "Index": 2,
+      "SHA256": "DBE3315A7C2C9817983F13C0247E6C0710A651BCEA0C8BC2E87970D8B69ECE82"
+    },
+    {
+      "Index": 3,
+      "SHA256": "BEF1A0B9E0A8A39AF53205F0B1CC3732F429EFD96032D5FB9B053F370B63C6E7"
+    }
+  ],
+  "NativeRuntime": {
+    "Case": "Controlled",
+    "MoeCacheCpuShare": 0.95,
+    "Threads": 8,
+    "NoOpOffload": true,
+    "MoeCacheMiB": 2048,
+    "Context": 4096,
+    "Conversation": true,
+    "Tokens": 3036,
+    "NaturalStop": true,
+    "LoadMode": "none",
+    "MicroBatch": 128,
+    "FlashAttention": "auto",
+    "NoAffinity": true
+  },
+  "Arms": {
+    "A": {
+      "Samplers": "temperature",
+      "Seed": 1234,
+      "Temperature": 0
+    },
+    "B": {
+      "TopK": 20,
+      "MinP": 0,
+      "TopP": 0.8,
+      "Samplers": "penalties;top_k;top_p;min_p;temperature",
+      "Temperature": 0.5,
+      "Seed": 1234
+    },
+    "C": {
+      "RepeatLastN": 64,
+      "TopP": 0.95,
+      "Source": "Installed model params plus Ollama v0.40.16 api/types.go DefaultOptions; no request sampling overrides",
+      "MinP": 0,
+      "TopK": 20,
+      "RepeatPenalty": 1,
+      "Seed": -1,
+      "Temperature": 0.6
+    }
+  },
+  "MaximumMainResponses": 9,
+  "OllamaThinking": false,
+  "ConditionalBridge": "At most two native responses on prompt 2 if Ollama and sampled native differ enough to require frontend attribution; no hardware changes"
+}

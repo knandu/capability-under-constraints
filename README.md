@@ -34,3 +34,18 @@ Three interleaved repetitions gave mean sustained decode of **44.17 / 44.11 /
 That was not a useful improvement. **STOP; retain stock SM75.**
 [Null result](experiments/kernel-stop/README.md).
 
+
+### 4. Fast tokens did not deliver the requested Tamil package
+
+At roughly **49 tok/s**, Qwen still duplicated alternatives, omitted source
+material, and weakly differentiated rewrites. Sampling improved coverage without
+reliably producing three complete, distinct alternatives.
+**STOP further runtime tuning of the original checkpoint for this workload.**
+[Quality observations and selected output excerpts](experiments/tamil-quality/README.md).
+
+This reused a practical writing workload from
+[tamil-transliterator](https://github.com/knandu/tamil-transliterator), not a newly
+invented benchmark. The earlier article,
+[I Thought I Had a Model Problem. It Turned Out to Be a Latency Problem](https://www.linkedin.com/pulse/i-thought-had-model-problem-turned-out-latency-nandu-kirubanandan-2esbc/),
+provides the preceding transliteration/writing context.
+
