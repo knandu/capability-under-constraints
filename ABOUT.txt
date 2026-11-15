@@ -1,0 +1,1 @@
+Engineering notebook: extracting useful AI inference and agent capability from constrained hardware, memory, context, and tooling.

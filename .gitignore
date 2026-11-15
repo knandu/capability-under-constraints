@@ -1,0 +1,12 @@
+__pycache__/
+*.py[cod]
+.runtime/
+.venv/
+captures/
+checkpoints/
+.validation/
+models/
+*.gguf
+*.dll
+*.exe
+node_modules/

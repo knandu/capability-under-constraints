@@ -1,0 +1,30 @@
+{
+  "source_head": "40bb069f6dc9e9ca2f9e6469cb423f1a98955a8c",
+  "history": "Curated decision gates, not literal development history.",
+  "gates": [
+    {
+      "number": 1,
+      "id": "baseline",
+      "title": "Establish reproducible constrained-inference baseline",
+      "decision": "CONTINUE",
+      "author_date": "2026-11-14T18:28:38-06:00",
+      "source_commits": [
+        "43e1ceeb007a06a493bbe3ae8041f5b798823d90"
+      ],
+      "timestamp_basis": "Original source checkpoint; not a newly invented experiment time."
+    }
+  ],
+  "artifact_origins": [
+    {
+      "gate": "baseline",
+      "public_path": "experiments/baseline/upstream.lock",
+      "artifact": "pinned upstream runtime revision",
+      "kind": "tracked source artifact",
+      "source_commit": "43e1ceeb007a06a493bbe3ae8041f5b798823d90",
+      "source_blob": "20b975e51af68217f4374703f917f4766a9851d7",
+      "original_sha256": "fb46f9a09ca1f4df643964414244a6e312234f75b86c3637aed3d494be569553",
+      "normalization": "Unmodified source bytes; public identity/path review.",
+      "public_sha256": "fb46f9a09ca1f4df643964414244a6e312234f75b86c3637aed3d494be569553"
+    }
+  ]
+}
