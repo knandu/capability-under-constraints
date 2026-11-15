@@ -27,6 +27,17 @@
         "ac39a5b4f53590cd83fe8d4e254ee23851ac0764"
       ],
       "timestamp_basis": "Original source checkpoint; not a newly invented experiment time."
+    },
+    {
+      "number": 3,
+      "id": "kernel-stop",
+      "title": "Stop kernel tuning after equivalent sustained decode",
+      "decision": "STOP",
+      "author_date": "2026-11-15T12:26:46-06:00",
+      "source_commits": [
+        "ac39a5b4f53590cd83fe8d4e254ee23851ac0764"
+      ],
+      "timestamp_basis": "Original source checkpoint; not a newly invented experiment time."
     }
   ],
   "artifact_origins": [
@@ -84,6 +95,39 @@
       "original_sha256": "2b5b40a5230232427d4b26e6181c33418eb057ee8132fd4aebfc68345ee47a98",
       "normalization": "Retain frozen public case parameters; omit operational plan metadata.",
       "public_sha256": "a1c121555f0f59c412e6ff959134f089b1145878a9d4ec1c6e31890151fec372"
+    },
+    {
+      "gate": "kernel-stop",
+      "public_path": "experiments/kernel-stop/runs.csv",
+      "artifact": "closing kernel validated-runs.csv",
+      "kind": "tracked source artifact",
+      "source_commit": "ac39a5b4f53590cd83fe8d4e254ee23851ac0764",
+      "source_blob": "ce22769e6063d668fb1d7ea01f2f93a0e58af3a0",
+      "original_sha256": "2e71b7d50721876b2889076769cf1086e3f345e826d2a79539cf1ad9b6a3b38f",
+      "normalization": "UTF-8 CSV; retain original row values; omit only fields: (none).",
+      "public_sha256": "95f4af802877d0ad663b2acd8ab963ee7b0179626f582fd950564fd37f3da8fe"
+    },
+    {
+      "gate": "kernel-stop",
+      "public_path": "experiments/kernel-stop/summary.csv",
+      "artifact": "closing kernel summary.csv",
+      "kind": "tracked source artifact",
+      "source_commit": "ac39a5b4f53590cd83fe8d4e254ee23851ac0764",
+      "source_blob": "8047a01aaea3bcf4ecbd820ab9012ebd3dd38652",
+      "original_sha256": "47ace711d24cc9172d5483ecb987b9d03d3ad2d45264f576ce527434577d7b8a",
+      "normalization": "UTF-8 CSV; retain original row values; omit only fields: (none).",
+      "public_sha256": "53ed5f13032a3232204c4bcc24edb48194817ffc5a1864c6d80dc966b6ac026b"
+    },
+    {
+      "gate": "kernel-stop",
+      "public_path": "experiments/kernel-stop/validation.json",
+      "artifact": "closing kernel verification",
+      "kind": "tracked source artifact",
+      "source_commit": "ac39a5b4f53590cd83fe8d4e254ee23851ac0764",
+      "source_blob": "9484accb54e16f9a426d82d88c710d15f696807e",
+      "original_sha256": "1a1d94b78ac01eb1a3d7c079314b775c97d7cd7928cd94f1527a6ecaa9a77e92",
+      "normalization": "Retain control verdicts, output identity and caveats; omit operational commands.",
+      "public_sha256": "57609b3f718f4139d048a39b87b656dbc444be1bf77b38ada7c932f1f8869742"
     }
   ]
 }

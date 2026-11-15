@@ -26,3 +26,11 @@ cache reached **43.95 tok/s**, versus **32.28 tok/s** for the repeated Ollama
 reference. Placement mattered more than the next kernel specialization.
 [Original measurement rows and controls](experiments/expert-locality/README.md).
 
+
+### 3. Stop kernel tuning
+
+Three interleaved repetitions gave mean sustained decode of **44.17 / 44.11 /
+44.32 tok/s** for stock SM75, forced MMQ, and Pascal PTX plus forced MMQ.
+That was not a useful improvement. **STOP; retain stock SM75.**
+[Null result](experiments/kernel-stop/README.md).
+

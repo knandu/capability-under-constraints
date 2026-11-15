@@ -1,0 +1,9 @@
+{
+  "AllNineEffectiveControlsVerified": true,
+  "UniqueOutputHashes": [
+    "70EF2A82FA9A3FF48F04749DF4D8B81B083C02E16417CE4E1D3FBED5BA468151",
+    "8AB8DE3D380F01F62A0FA96FE553DB28FA0FCA993E8E2CF821A551487AA7CB73"
+  ],
+  "CounterLimitation": "Cache counters include initialization/warmup; CPU share is a policy, not an exact lifetime observed fraction",
+  "MemoryLimitation": "Sampled device-total VRAM includes desktop and can miss transient peaks"
+}
