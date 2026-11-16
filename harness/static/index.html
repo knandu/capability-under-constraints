@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Local model instrument</title>
+  <link rel="stylesheet" href="/style.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+<header><h1>Local model instrument</h1><span id="status">No session</span><strong id="capture">CAPTURE OFF</strong></header>
+<main>
+<section id="configuration"><h2>Session configuration</h2>
+  <label>Model base URL<input id="base_url" type="url"></label>
+  <label>Model identifier<input id="model"></label>
+  <label>Local working root<input id="working_root" placeholder="Absolute local directory"></label>
+  <div class="columns">
+    <label>Session context<input id="context" type="number" min="1"></label>
+    <label>Maximum input<input id="max_input" type="number" min="1"></label>
+    <label>Maximum output<input id="max_output" type="number" min="1"></label>
+  </div>
+  <label>System prompt<textarea id="system_prompt" rows="8"></textarea></label>
+  <label>Completion criteria<textarea id="completion_criteria" rows="2"></textarea></label>
+  <fieldset><legend>Tool surface</legend><div id="tools"></div></fieldset>
+  <label class="inline"><input id="explicit_completion" type="checkbox">Require task_complete</label>
+  <div class="columns">
+    <label>Iterations<input id="max_iterations" type="number"></label>
+    <label>Seconds<input id="max_seconds" type="number"></label>
+    <label>Repeat threshold<input id="repeat_limit" type="number"></label>
+  </div>
+  <div class="columns">
+    <label>Temperature<input id="temperature" type="number" step=".05"></label>
+    <label>Top p<input id="top_p" type="number" step=".05"></label>
+    <label>Seed (optional)<input id="seed" type="number"></label>
+  </div>
+  <label>History policy<select id="reduction"><option>truncate-oldest</option><option>summarize-oldest</option></select></label>
+  <div class="columns">
+    <label>Recent groups<input id="recent_groups" type="number"></label>
+    <label>Summary tokens<input id="summary_tokens" type="number"></label>
+  </div>
+  <details><summary>Per-tool output / scan limits (JSON)</summary><textarea id="limits" rows="14"></textarea>
+    <label>Read bytes per file<input id="read_bytes" type="number"></label>
+    <label>Scan entries<input id="scan_files" type="number"></label>
+    <label>Scan depth<input id="scan_depth" type="number"></label>
+  </details>
+  <label class="inline capture-control"><input id="capture_enabled" type="checkbox">Record sensitive raw interactions locally</label>
+  <label>Capture parent directory<input id="capture_directory"></label>
+  <div class="buttons"><button id="create">New session</button><button id="apply">Apply changes</button></div>
+  <div class="buttons"><button id="save">Export transcript</button><button id="load">Import transcript</button>
+    <input id="import_file" type="file" accept=".json" hidden></div>
+</section>
+<section id="conversation-panel"><h2>Conversation</h2>
+  <div id="conversation" aria-live="polite"></div>
+  <label>Request<textarea id="prompt" rows="5" placeholder="Enter your objective, including Tamil or other Unicode."></textarea></label>
+  <div class="buttons"><button id="send">Send</button><button id="stop">Stop</button></div>
+  <p id="error" role="alert"></p>
+</section>
+<section><h2>Agent activity</h2><ol id="activity"></ol></section>
+<section><h2>Context accounting</h2><button id="measure">Measure / refresh tokenizer</button>
+  <p id="accuracy"></p><table><tbody id="accounting"></tbody></table><pre id="usage"></pre></section>
+<section id="inspector-panel"><h2>Raw inspector</h2>
+  <p>In-memory data is visible here even with capture off. Nothing is sent to third-party services.</p>
+  <select id="inspector_select"></select><pre id="inspector"></pre>
+</section>
+</main>
+</body>
+</html>

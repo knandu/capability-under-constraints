@@ -85,6 +85,22 @@
         "de521e04326b05657ad57bd964610faaaf62f530"
       ],
       "timestamp_basis": "Original source checkpoint; not a newly invented experiment time."
+    },
+    {
+      "number": 8,
+      "id": "observable-harness",
+      "title": "Introduce the minimal observable agent instrument",
+      "decision": "CONTINUE",
+      "author_date": "2026-11-16T00:29:57-06:00",
+      "source_commits": [
+        "35702cfc113bd947ff7c316624f522a21fe6d02a",
+        "a78bd78cfff8d9dfa9244f1f0df16f4bfa1d5c53",
+        "0b8cbcd5a074b6144c009a9f8c24f6dcdc78c66a",
+        "b5ca678c80d4ecee10ec7fb54f65b07af7b4de94",
+        "01b8a84967a4b75fe1e9db02f1da565010bd6dcf",
+        "138fb1eba2b2192e8db9bccb6024ffcae4454783"
+      ],
+      "timestamp_basis": "Original source checkpoint; not a newly invented experiment time."
     }
   ],
   "artifact_origins": [
@@ -439,6 +455,127 @@
       "original_sha256": "fedaa00b80388003b357b1a9f53026530b527f02d1bc6c5af6711dda3faa2bd3",
       "normalization": "Focused outcomes only; policy variants grouped by original control.",
       "public_sha256": "9d5ade8364ca8974fc50f813e957bde542178f0353c84a8244f29c217ee2bb50"
+    },
+    {
+      "gate": "observable-harness",
+      "public_path": "harness/harness.py",
+      "artifact": "authored harness harness.py, checkpoint 138fb1e",
+      "kind": "tracked source artifact",
+      "source_commit": "138fb1eba2b2192e8db9bccb6024ffcae4454783",
+      "source_blob": "63c2dbd9a594e9da99b38d6b8251a5c4c7bad561",
+      "original_sha256": "90360b84b1744221b79acd492d84b470cfe6d06bf408b8641d60b8e5f83c0aa0",
+      "normalization": "Unmodified source bytes; public identity/path review.",
+      "public_sha256": "90360b84b1744221b79acd492d84b470cfe6d06bf408b8641d60b8e5f83c0aa0"
+    },
+    {
+      "gate": "observable-harness",
+      "public_path": "harness/engine.py",
+      "artifact": "authored harness engine.py, checkpoint 138fb1e",
+      "kind": "tracked source artifact",
+      "source_commit": "138fb1eba2b2192e8db9bccb6024ffcae4454783",
+      "source_blob": "9ab8aa3baf22ba0904d0137c3611767409821c3b",
+      "original_sha256": "f355947bfbdf334ae7c386940554960b4a0aa44379174b4c9a324ca7e141489f",
+      "normalization": "Unmodified source bytes; public identity/path review.",
+      "public_sha256": "f355947bfbdf334ae7c386940554960b4a0aa44379174b4c9a324ca7e141489f"
+    },
+    {
+      "gate": "observable-harness",
+      "public_path": "harness/transport.py",
+      "artifact": "authored harness transport.py, checkpoint 138fb1e",
+      "kind": "tracked source artifact",
+      "source_commit": "138fb1eba2b2192e8db9bccb6024ffcae4454783",
+      "source_blob": "eccd363aa306fbbe705b353f8fc197377f6b1a02",
+      "original_sha256": "62be3bd2332aa9569fcb3725e3d00ccb4f62fc6be7a0edadcb03980490497f5b",
+      "normalization": "Unmodified source bytes; public identity/path review.",
+      "public_sha256": "62be3bd2332aa9569fcb3725e3d00ccb4f62fc6be7a0edadcb03980490497f5b"
+    },
+    {
+      "gate": "observable-harness",
+      "public_path": "harness/tools.py",
+      "artifact": "authored harness tools.py, checkpoint 138fb1e",
+      "kind": "tracked source artifact",
+      "source_commit": "138fb1eba2b2192e8db9bccb6024ffcae4454783",
+      "source_blob": "2b530d2aea62f9954d70c731c0385c02049511e9",
+      "original_sha256": "ed6c0e6e66096b468dd5fbbee67429f1fd5be5a05026cf8f26172d4fd42fce50",
+      "normalization": "Unmodified source bytes; public identity/path review.",
+      "public_sha256": "ed6c0e6e66096b468dd5fbbee67429f1fd5be5a05026cf8f26172d4fd42fce50"
+    },
+    {
+      "gate": "observable-harness",
+      "public_path": "harness/system-prompt.txt",
+      "artifact": "authored harness system-prompt.txt, checkpoint 138fb1e",
+      "kind": "tracked source artifact",
+      "source_commit": "138fb1eba2b2192e8db9bccb6024ffcae4454783",
+      "source_blob": "a92c493b21abcaa80667f867c24daa7e15f606b0",
+      "original_sha256": "e4792eb906f1f5b420bf3be0a1888efc55b6ec77cce802429a5e582de839d10b",
+      "normalization": "Unmodified source bytes; public identity/path review.",
+      "public_sha256": "e4792eb906f1f5b420bf3be0a1888efc55b6ec77cce802429a5e582de839d10b"
+    },
+    {
+      "gate": "observable-harness",
+      "public_path": "harness/start.ps1",
+      "artifact": "authored harness start.ps1, checkpoint 138fb1e",
+      "kind": "tracked source artifact",
+      "source_commit": "138fb1eba2b2192e8db9bccb6024ffcae4454783",
+      "source_blob": "ce5a44683f03b74b828fc20268e73c8846e7bffe",
+      "original_sha256": "e750da91f243b6b61cb806a16dc04b8711945841978048ae5b33b3ad927de6d7",
+      "normalization": "Unmodified source bytes; public identity/path review.",
+      "public_sha256": "e750da91f243b6b61cb806a16dc04b8711945841978048ae5b33b3ad927de6d7"
+    },
+    {
+      "gate": "observable-harness",
+      "public_path": "harness/static/app.js",
+      "artifact": "authored harness static/app.js, checkpoint 138fb1e",
+      "kind": "tracked source artifact",
+      "source_commit": "138fb1eba2b2192e8db9bccb6024ffcae4454783",
+      "source_blob": "3ff709b6b56aa507705e4b21cfea3d56b15cf061",
+      "original_sha256": "477744dcd17af20eb8d3313014d60e7116ce6c29b02d01bf4e5a2f890b435020",
+      "normalization": "Unmodified source bytes; public identity/path review.",
+      "public_sha256": "477744dcd17af20eb8d3313014d60e7116ce6c29b02d01bf4e5a2f890b435020"
+    },
+    {
+      "gate": "observable-harness",
+      "public_path": "harness/static/index.html",
+      "artifact": "authored harness static/index.html, checkpoint 138fb1e",
+      "kind": "tracked source artifact",
+      "source_commit": "138fb1eba2b2192e8db9bccb6024ffcae4454783",
+      "source_blob": "95688588a5834d8b4bb91c848a4d64040223e6dd",
+      "original_sha256": "0c48764236107b74e77d11005563b33067ddefd33078a11a853f204cc940f077",
+      "normalization": "Unmodified source bytes; public identity/path review.",
+      "public_sha256": "0c48764236107b74e77d11005563b33067ddefd33078a11a853f204cc940f077"
+    },
+    {
+      "gate": "observable-harness",
+      "public_path": "harness/static/style.css",
+      "artifact": "authored harness static/style.css, checkpoint 138fb1e",
+      "kind": "tracked source artifact",
+      "source_commit": "138fb1eba2b2192e8db9bccb6024ffcae4454783",
+      "source_blob": "de53ab61af637bdfb5ca6b158f479105bacf4ced",
+      "original_sha256": "d7fd16a5837ad07f37014f6b5de30bfb7f08c31c98b4a15bd2dde725055c0663",
+      "normalization": "Unmodified source bytes; public identity/path review.",
+      "public_sha256": "d7fd16a5837ad07f37014f6b5de30bfb7f08c31c98b4a15bd2dde725055c0663"
+    },
+    {
+      "gate": "observable-harness",
+      "public_path": "harness/tests/test_harness.py",
+      "artifact": "authored harness tests/test_harness.py, checkpoint 138fb1e",
+      "kind": "tracked source artifact",
+      "source_commit": "138fb1eba2b2192e8db9bccb6024ffcae4454783",
+      "source_blob": "4bf7fec62754b32f92fb10377e9c9d2eaec74779",
+      "original_sha256": "24aa3bbc8f3f93aa2ce968008712f19265cb7e86e2c77c7ee5b392bbca8d603b",
+      "normalization": "Unmodified source bytes; public identity/path review.",
+      "public_sha256": "24aa3bbc8f3f93aa2ce968008712f19265cb7e86e2c77c7ee5b392bbca8d603b"
+    },
+    {
+      "gate": "observable-harness",
+      "public_path": "harness/tests/browser_timing.js",
+      "artifact": "authored harness tests/browser_timing.js, checkpoint 138fb1e",
+      "kind": "tracked source artifact",
+      "source_commit": "138fb1eba2b2192e8db9bccb6024ffcae4454783",
+      "source_blob": "2961073918752b4e3a233582fcda895a1991d289",
+      "original_sha256": "29210b4a1b69935b91302d566672a0a76b89a91540b4921c02c34c420676ab98",
+      "normalization": "Unmodified source bytes; public identity/path review.",
+      "public_sha256": "29210b4a1b69935b91302d566672a0a76b89a91540b4921c02c34c420676ab98"
     }
   ]
 }

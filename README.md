@@ -87,3 +87,10 @@ explicitly directed to complete. Instruction-policy variants caused regressions,
 including an undone edit. **STOP policy tweaking; preserve the boundary.**
 [Focused protocol records](experiments/agent-completion/README.md).
 
+
+### 8. Build an observable instrument, not an agent framework
+
+The small [standard-library harness](harness/README.md) exposes the model/tool
+loop, context accounting, timing, streamed output, and explicit completion.
+Its purpose is to make experiments inspectable, not to claim general autonomy.
+
