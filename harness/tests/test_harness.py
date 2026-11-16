@@ -19,6 +19,7 @@ from engine import Capture, Session, configuration, defaults, validate_history
 from harness import HarnessServer
 from tools import SCHEMAS, ToolError, bound_result, dumps, execute
 from transport import ModelError, Transport
+from documents import DocumentWorkflow, align_chunk, validate_document
 
 
 TAMIL = "\u0ba4\u0bae\u0bbf\u0bb4\u0bcd \u0bae\u0bca\u0bb4\u0bbf: \u0bb5\u0ba3\u0b95\u0bcd\u0b95\u0bae\u0bcd!"
@@ -92,6 +93,11 @@ class FakeHandler(BaseHTTPRequestHandler):
             self.wfile.write(b'data: {"choices":[{"delta":{"tool_calls":[{"index":0,"function":null}]}}]}\n\n')
             return
         events = []
+        if message.get("reasoning_content"):
+            for character in message["reasoning_content"]:
+                events.append({"choices": [{"delta": {"reasoning_content": character}}]})
+        if payload.get("return_progress"):
+            events.append({"choices": [], "prompt_progress": {"total": 100, "cache": 20, "processed": 80, "time_ms": 10}})
         if message.get("content"):
             for character in message["content"]:
                 events.append({"choices": [{"delta": {"content": character}}]})
@@ -174,13 +180,17 @@ class HarnessTests(unittest.TestCase):
                 self.wfile.write(data)
 
         with serving(ThreadingHTTPServer(("127.0.0.1", 0), BrowserHandler)) as server:
-            result = subprocess.run([str(edge), "--headless=new", "--disable-gpu",
-                "--no-first-run", "--no-default-browser-check", "--disable-background-networking",
-                f"--user-data-dir={self.root / 'browser-profile'}", "--virtual-time-budget=3000",
-                "--dump-dom", f"http://127.0.0.1:{server.server_port}/"],
-                capture_output=True, encoding="utf-8", errors="replace", timeout=30)
-        self.assertEqual(result.returncode, 0, result.stderr)
-        self.assertIn('data-browser-check="passed"', result.stdout, result.stdout)
+            output, errors = self.root / "browser-dom.html", self.root / "browser-errors.txt"
+            # Browser children can inherit pipes after the main process exits.
+            with output.open("wb") as stdout, errors.open("wb") as stderr:
+                result = subprocess.run([str(edge), "--headless=new", "--disable-gpu",
+                    "--no-first-run", "--no-default-browser-check", "--disable-background-networking",
+                    f"--user-data-dir={self.root / 'browser-profile'}", "--virtual-time-budget=3000",
+                    "--dump-dom", f"http://127.0.0.1:{server.server_port}/"],
+                    stdout=stdout, stderr=stderr, timeout=30)
+        dom = output.read_text(encoding="utf-8", errors="replace")
+        self.assertEqual(result.returncode, 0, errors.read_text(encoding="utf-8", errors="replace"))
+        self.assertIn('data-browser-check="passed"', dom, dom)
 
     def test_high_cardinality_glob_and_byte_token_limits(self):
         for number in range(656):
@@ -345,7 +355,7 @@ class HarnessTests(unittest.TestCase):
         with serving(FakeModel([{"role": "assistant", "content": "not complete"}])) as model:
             session = self.session(model, explicit_completion=True, max_iterations=1)
             session.run("finish")
-            self.assertEqual(session.status, "stopped")
+            self.assertEqual(session.status, "paused")
             self.assertIn("iteration", session.events[-2]["data"]["message"])
 
     def history_fixture(self, session):
@@ -411,6 +421,7 @@ class HarnessTests(unittest.TestCase):
             session.run("hello")
             self.assertLess(time.monotonic() - start, 1.8)
             self.assertNotEqual(session.status, "answered")
+            self.assertEqual(session.status, "paused")
         with serving(FakeModel([{"role": "assistant", "content": "late"}])) as model:
             model.delay = 2
             session = self.session(model)
@@ -423,6 +434,316 @@ class HarnessTests(unittest.TestCase):
             worker.join(1)
             self.assertFalse(worker.is_alive())
             self.assertEqual(session.status, "stopped")
+
+    def test_lossless_cursor_long_line_utf8_bounding_and_beyond_read_prefix(self):
+        source = b"\xef\xbb\xbf" + (TAMIL * 80 + "\r\nend").encode("utf-8")
+        (self.root / "long.txt").write_bytes(source)
+        self.config["read_bytes"] = 137
+        offset, parts = 0, []
+        limit = {"max_bytes": 400, "max_tokens": 400}
+        while offset < len(source):
+            full = self.run_tool("view", {"path": "long.txt", "offset": offset})
+            result, text = bound_result(full, limit, lambda value: len(value.encode("utf-8")))
+            self.assertLessEqual(len(text.encode("utf-8")), 400)
+            self.assertEqual(result["start_offset"], offset)
+            self.assertGreater(result["next_offset"], offset)
+            parts.append(result["text"].encode("utf-8"))
+            offset = result["next_offset"]
+            self.assertEqual(result["eof"], offset == len(source))
+        self.assertEqual(b"".join(parts), source)
+        self.assertGreater(offset, self.config["read_bytes"])
+        self.assertTrue(self.run_tool("view", {"path": "long.txt", "offset": offset})["eof"])
+        for args in ({"offset": 1, "start": 1}, {"offset": -1}, {"offset": len(source) + 1}):
+            with self.assertRaises(ToolError):
+                self.run_tool("view", {"path": "long.txt", **args})
+        with self.assertRaises(ToolError):
+            self.run_tool("view", {"path": "long.txt", "offset": 2})
+
+    def document_session(self, model, **changes):
+        return self.session(model, **{"workflow": "document", "document_path": "document.txt",
+            "checkpoint_directory": str(self.root / "checkpoints"), "document_chunk_bytes": 64,
+            "document_fan_in": 2, **changes})
+
+    def test_document_coverage_hierarchy_persistence_and_no_raw_source_checkpoint(self):
+        source = ("source-only-UNIQUE " + TAMIL * 3).encode("utf-8")
+        (self.root / "document.txt").write_bytes(source)
+        replies = [{"role": "assistant", "content": f"note {index}"} for index in range(30)]
+        with serving(FakeModel(replies)) as model:
+            session = self.document_session(model, max_iterations=50, summary_tokens=64)
+            session.run("Summarize the whole document.")
+            self.assertEqual(session.status, "completed")
+            state = validate_document(session.document)
+            self.assertEqual(state["offset"], len(source))
+            self.assertGreater(state["chunks"], 2)
+            self.assertEqual(len(state["frontier"]), 1)
+            self.assertGreater(state["notes"][-1]["level"], 1)
+            self.assertEqual(len(model.requests), state["chunks"] * 2)
+            self.assertTrue(all(not payload.get("tools") for payload in model.requests))
+            self.assertTrue(all(payload["max_tokens"] == 64 for payload in model.requests[:-1]))
+            checkpoint = next((self.root / "checkpoints").glob("document-*.json")).read_text(encoding="utf-8")
+            self.assertNotIn("source-only-UNIQUE", checkpoint)
+            self.assertNotIn("model_request", checkpoint)
+            self.assertEqual(json.loads(checkpoint)["document"]["result"], state["result"])
+            self.assertEqual(len(session.history), 2)
+            self.assertEqual(len([event for event in session.events if event["type"] == "task_complete"]), 1)
+            broken = copy.deepcopy(state)
+            broken["notes"][1]["start"] += 1
+            with self.assertRaisesRegex(ValueError, "gap|overlap"):
+                validate_document(broken)
+
+    def test_document_chunks_prefer_complete_sentences_without_gaps(self):
+        source = ("1901: Alder opened with two telescopes. " + "Background detail. " * 9 +
+                  "1932: Birch opened with five rooms. " + "Background detail. " * 9 +
+                  "1978: Cedar opened with seven galleries.").encode("utf-8")
+        (self.root / "sentences.txt").write_bytes(source)
+        self.config["read_bytes"] = 230
+        offset, parts = 0, []
+        while offset < len(source):
+            chunk = align_chunk(self.run_tool("view", {"path": "sentences.txt", "offset": offset}))
+            parts.append(chunk["text"])
+            offset = chunk["next_offset"]
+        self.assertEqual("".join(parts).encode("utf-8"), source)
+        for year, name in (("1901", "Alder"), ("1932", "Birch"), ("1978", "Cedar")):
+            self.assertTrue(any(year in part and name in part for part in parts))
+
+    def test_document_budget_pause_http_checkpoint_import_and_resume_same_objective(self):
+        (self.root / "document.txt").write_text("x" * 150, encoding="utf-8")
+        with serving(FakeModel([{"role": "assistant", "content": "durable note"}] * 20)) as model:
+            session = self.document_session(model, max_iterations=1)
+            session.run("Read everything.")
+            self.assertEqual(session.status, "paused")
+            self.assertEqual(session.document["offset"], 64)
+            checkpoint = json.loads(next((self.root / "checkpoints").glob("document-*.json")).read_text(encoding="utf-8"))
+            with serving(HarnessServer(("127.0.0.1", 0))) as app:
+                connection = http.client.HTTPConnection("127.0.0.1", app.server_port, timeout=10)
+                connection.request("POST", "/api/import", dumps(checkpoint).encode("utf-8"),
+                    {"Content-Type": "application/json"})
+                response = connection.getresponse()
+                imported = json.loads(response.read())
+                self.assertEqual(response.status, 201)
+                restored = app.sessions[imported["id"]]
+                restored.update({"max_iterations": 20})
+                previous = len(model.requests)
+                connection.request("POST", f"/api/sessions/{restored.id}/resume", b"{}",
+                    {"Content-Type": "application/json"})
+                response = connection.getresponse()
+                stream = response.read()
+                self.assertIn(b"run_finished", stream)
+                self.assertEqual(restored.status, "completed")
+                self.assertEqual(restored.objective, "Read everything.")
+                observations = json.loads(model.requests[previous]["messages"][-1]["content"])["observations"]
+                self.assertEqual(observations["start_offset"], 64)
+                self.assertEqual(len([item for item in restored.history if item["role"] == "user"]), 1)
+                self.assertGreater(restored.document["iterations"], 1)
+                connection.close()
+
+    def test_document_interrupted_summary_retains_cursor_and_rejects_changed_source(self):
+        path = self.root / "document.txt"
+        path.write_text("original source " * 10, encoding="utf-8")
+        with serving(FakeModel([{"role": "assistant", "content": "late note"}])) as model:
+            model.delay = 2
+            session = self.document_session(model, max_seconds=1)
+            session.run("Summarize all.")
+            self.assertEqual(session.status, "paused")
+            self.assertEqual(session.document["offset"], 0)
+            self.assertEqual(session.document["notes"], [])
+            self.assertGreaterEqual(session.document["elapsed_seconds"], 1)
+            path.write_text("different document", encoding="utf-8")
+            session.update({"max_seconds": 30})
+            session.run(resume=True)
+            self.assertEqual(session.status, "error")
+            self.assertTrue(any("changed since" in event["data"].get("message", "") for event in session.events))
+            self.assertEqual(session.document["offset"], 0)
+
+    def test_document_early_completion_and_overlong_summary_do_not_advance(self):
+        (self.root / "document.txt").write_text("source" * 50, encoding="utf-8")
+        for reply in (tool("task_complete", {"summary": "done"}),
+                      {"role": "assistant", "content": "partial", "finish_reason": "length"}):
+            with self.subTest(reply=reply), serving(FakeModel([reply, reply])) as model:
+                session = self.document_session(model)
+                session.run("Read all.")
+                self.assertNotEqual(session.status, "completed")
+                self.assertEqual(session.document["offset"], 0)
+                self.assertFalse(any(event["type"] == "task_complete" for event in session.events))
+
+    def test_document_merge_retries_compactly_before_growing_output_without_committing_partial_notes(self):
+        (self.root / "document.txt").write_text("x" * 128, encoding="utf-8")
+        replies = [{"role": "assistant", "content": f"leaf {index}"} for index in range(2)]
+        replies += [{"role": "assistant", "content": "UNCOMMITTED partial", "finish_reason": "length"}] * 2
+        replies += [{"role": "assistant", "content": "merged complete"}, {"role": "assistant", "content": "final complete"}]
+        with serving(FakeModel(replies)) as model:
+            session = self.document_session(model, max_iterations=30,
+                summary_tokens=64, max_output=256)
+            session.run("Read all.")
+            self.assertEqual(session.status, "completed")
+            self.assertEqual([payload["max_tokens"] for payload in model.requests[2:5]], [64, 64, 128])
+            self.assertNotIn("COMPACT RETRY", model.requests[2]["messages"][0]["content"])
+            self.assertIn("COMPACT RETRY", model.requests[3]["messages"][0]["content"])
+            self.assertEqual(session.document["chunks"], 2)
+            self.assertNotIn("UNCOMMITTED", dumps(session.document))
+            self.assertEqual(len([event for event in session.events if event["type"] == "document_retry"]), 2)
+            validate_document(session.document)
+
+    def test_document_merge_learns_smaller_batch_and_preserves_it_across_checkpoint_import(self):
+        (self.root / "document.txt").write_text("x" * 512, encoding="utf-8")
+
+        def reply(payload):
+            observations = json.loads(payload["messages"][-1]["content"])["observations"]
+            return {"role": "assistant", "content": "too much" if isinstance(observations, list)
+                    and len(observations) > 2 else "complete note",
+                    "finish_reason": "length" if isinstance(observations, list) and len(observations) > 2 else "stop"}
+
+        with serving(FakeModel([reply] * 20)) as model:
+            session = self.document_session(model, document_fan_in=4, max_iterations=11,
+                summary_tokens=64, max_output=256)
+            session.run("Read all.")
+            self.assertEqual(session.status, "paused")
+            retries = [event["data"] for event in session.events if event["type"] == "document_retry"]
+            self.assertEqual([(item["previous_batch_size"], item["next_batch_size"]) for item in retries],
+                             [(4, 4), (4, 2)])
+            self.assertEqual(session.document["merge_fan_in"], 2)
+            checkpoint = json.loads(next((self.root / "checkpoints").glob("document-*.json")).read_text(encoding="utf-8"))
+            with serving(HarnessServer(("127.0.0.1", 0))) as app:
+                connection = http.client.HTTPConnection("127.0.0.1", app.server_port, timeout=10)
+                connection.request("POST", "/api/import", dumps(checkpoint).encode("utf-8"),
+                    {"Content-Type": "application/json"})
+                response = connection.getresponse()
+                imported = json.loads(response.read())
+                self.assertEqual(response.status, 201)
+                restored = app.sessions[imported["id"]]
+                restored.update({"max_iterations": 40})
+                previous = len(model.requests)
+                restored.run(resume=True)
+                self.assertEqual(restored.status, "completed")
+                observations = [json.loads(payload["messages"][-1]["content"])["observations"]
+                                for payload in model.requests[previous:]]
+                self.assertTrue(all(isinstance(parts, list) and len(parts) <= 2 for parts in observations))
+                self.assertEqual(restored.document["chunks"], 8)
+                connection.close()
+            legacy = copy.deepcopy(session.document)
+            legacy.pop("merge_fan_in")
+            validate_document(legacy)
+            for invalid in (True, 1, 33, "2"):
+                with self.subTest(invalid=invalid), self.assertRaisesRegex(ValueError, "fan-in"):
+                    validate_document({**legacy, "merge_fan_in": invalid})
+            validate_document(session.document)
+
+    def test_document_intermediate_targets_do_not_expand_with_final_budget(self):
+        (self.root / "document.txt").write_text("source", encoding="utf-8")
+        with serving(FakeModel([])) as model:
+            session = self.document_session(model, context=20480, summary_tokens=4000, max_output=4000)
+            workflow = DocumentWorkflow(session)
+            for kind in ("document_chunk", "document_merge"):
+                normal = workflow.payload(kind, [])
+                compact = workflow.payload(kind, [], compact=True)
+                self.assertIn("at most 256 words", normal["messages"][0]["content"])
+                self.assertIn("at most 96 words", compact["messages"][0]["content"])
+                self.assertEqual(normal["max_tokens"], compact["max_tokens"])
+            final = workflow.payload("document_final", [])
+            self.assertNotIn("at most 256 words", final["messages"][0]["content"])
+            self.assertNotIn("compact intermediate note", final["messages"][0]["content"])
+
+    def test_document_chunk_retries_compactly_without_duplicate_coverage(self):
+        (self.root / "document.txt").write_text("source", encoding="utf-8")
+        replies = [{"role": "assistant", "content": "UNCOMMITTED", "finish_reason": "length"},
+                   {"role": "assistant", "content": "compact note"},
+                   {"role": "assistant", "content": "final"}]
+        with serving(FakeModel(replies)) as model:
+            session = self.document_session(model)
+            session.run("Read everything.")
+            self.assertEqual(session.status, "completed")
+            self.assertEqual(session.document["chunks"], 1)
+            self.assertEqual(session.document["offset"], 6)
+            self.assertNotIn("UNCOMMITTED", dumps(session.document))
+            self.assertIn("COMPACT RETRY", model.requests[1]["messages"][0]["content"])
+
+    def test_exhausted_two_note_merge_resumes_without_rereading_source(self):
+        (self.root / "document.txt").write_text("x" * 128, encoding="utf-8")
+        replies = [{"role": "assistant", "content": "leaf"}] * 2
+        replies += [{"role": "assistant", "content": "partial", "finish_reason": "length"}] * 2
+        replies += [{"role": "assistant", "content": "merged"}, {"role": "assistant", "content": "final"}]
+        with serving(FakeModel(replies)) as model:
+            session = self.document_session(model, summary_tokens=64, max_output=64)
+            session.run("Read all.")
+            self.assertEqual(session.status, "paused")
+            self.assertEqual((session.document["offset"], len(session.document["frontier"])), (128, 2))
+            first = len(model.requests)
+            session.update({"max_output": 128})
+            session.run(resume=True)
+            self.assertEqual(session.status, "completed")
+            for payload in model.requests[first:]:
+                self.assertIsInstance(json.loads(payload["messages"][-1]["content"])["observations"], list)
+            self.assertEqual(session.document["chunks"], 2)
+            self.assertNotIn("partial", dumps(session.document))
+
+    def test_document_final_retries_compactly_and_pauses_if_still_truncated(self):
+        (self.root / "document.txt").write_text("x", encoding="utf-8")
+        for twice in (False, True):
+            replies = [{"role": "assistant", "content": "leaf"},
+                {"role": "assistant", "content": "partial final", "finish_reason": "length"},
+                {"role": "assistant", "content": "partial again" if twice else "complete final",
+                 "finish_reason": "length" if twice else "stop"}]
+            with self.subTest(twice=twice), serving(FakeModel(replies)) as model:
+                session = self.document_session(model)
+                session.run("Read all.")
+                self.assertEqual(session.status, "paused" if twice else "completed")
+                self.assertEqual(session.document["offset"], 1)
+                self.assertNotIn("partial", dumps(session.document))
+                self.assertIn("Finish comfortably below", model.requests[-1]["messages"][0]["content"])
+                self.assertEqual(any(event["type"] == "task_complete" for event in session.events), not twice)
+
+    def test_document_empty_file_and_checkpoint_write_failure(self):
+        (self.root / "document.txt").write_bytes(b"")
+        with serving(FakeModel([{"role": "assistant", "content": "The document is empty."}])) as model:
+            session = self.document_session(model)
+            session.run("Summarize all.")
+            self.assertEqual(session.status, "completed")
+            self.assertEqual(session.document["chunks"], 0)
+            self.assertEqual(len(model.requests), 1)
+            validate_document(session.document)
+            blocked = self.root / "not-a-directory"
+            blocked.write_text("unchanged", encoding="utf-8")
+            session = self.session(model, workflow="document", document_path="document.txt",
+                checkpoint_directory=str(blocked))
+            session.run("Summarize all.")
+            self.assertEqual(session.status, "error")
+            self.assertEqual(blocked.read_text(encoding="utf-8"), "unchanged")
+            self.assertFalse(any(event["type"] == "task_complete" for event in session.events))
+
+    def test_resume_chat_does_not_add_another_user_prompt(self):
+        with serving(FakeModel([{"role": "assistant", "content": "working"},
+                                tool("task_complete", {"summary": "done"})])) as model:
+            session = self.session(model, explicit_completion=True, max_iterations=1)
+            session.run("Original objective")
+            self.assertEqual(session.status, "paused")
+            users = len([item for item in session.history if item["role"] == "user"])
+            session.run(resume=True)
+            self.assertEqual(session.status, "completed")
+            self.assertEqual(users, len([item for item in session.history if item["role"] == "user"]))
+            with self.assertRaisesRegex(ValueError, "new session"):
+                session.update({"workflow": "document", "document_path": "x"})
+
+    def test_reasoning_and_prompt_progress_are_observed_not_invented_or_added_to_history(self):
+        secret = "secret-reasoning-key"
+        for streaming in (True, False):
+            with self.subTest(streaming=streaming), serving(FakeModel([
+                    {"role": "assistant", "content": "answer", "reasoning_content": secret + TAMIL}],
+                    streaming=streaming)) as model:
+                session = Session({**self.config, "base_url": model.url, "server_progress": True, "capture": True}, secret)
+                streamed = []
+                session.run("hello", streamed.append)
+                self.assertEqual(session.status, "answered")
+                self.assertTrue(any(item["type"] == "reasoning_delta" for item in streamed))
+                self.assertFalse(any(item["type"] == "reasoning_delta" for item in session.events))
+                self.assertNotIn("reasoning_content", dumps(session.history))
+                progress = [item["data"] for item in session.events if item["type"] == "model_progress"]
+                if streaming:
+                    self.assertTrue(any("prompt_progress" in item for item in progress))
+                self.assertEqual(progress[-1]["reasoning_characters"], len(secret + TAMIL))
+                self.assertNotIn(secret, dumps(session.snapshot()))
+                for file in session.capture.path.iterdir():
+                    self.assertNotIn(secret.encode("utf-8"), file.read_bytes())
+                self.assertNotIn("reasoning_tokens", dumps(progress))
 
     def test_estimates_and_configuration_change_are_explicit(self):
         with serving(FakeModel([], extras=False)) as model:
@@ -473,8 +794,14 @@ class HarnessTests(unittest.TestCase):
             self.assertEqual(snapshot["history"][0]["content"], TAMIL)
             status, body = post("/api/import", snapshot)
             self.assertEqual(status, 201)
-            self.assertEqual(json.loads(body)["history"][-1]["content"], TAMIL)
-            self.assertFalse(json.loads(body)["config"]["capture"])
+            restored = json.loads(body)
+            self.assertEqual(restored["history"][-1]["content"], TAMIL)
+            self.assertFalse(restored["config"]["capture"])
+            self.assertEqual(restored["status"], "answered")
+            status, _ = post(f"/api/sessions/{restored['id']}/resume", {})
+            self.assertEqual(status, 400)
+            connection.close()
+            connection = http.client.HTTPConnection("127.0.0.1", app.server_port)
             status, _ = post("/api/sessions", {"config": self.config}, "https://example.com")
             self.assertEqual(status, 400)
             connection.request("GET", "/")

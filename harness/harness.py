@@ -12,6 +12,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from engine import HERE, Session, configuration, validate_history
 from tools import dumps
 from transport import Meter, ModelError
+from documents import validate_document
 
 
 class HarnessServer(ThreadingHTTPServer):
@@ -57,8 +58,8 @@ class Handler(BaseHTTPRequestHandler):
         if self.headers.get_content_type() != "application/json":
             raise ValueError("Expected application/json.")
         size = int(self.headers.get("Content-Length", "0"))
-        if not 0 < size <= 4 * 1024 * 1024:
-            raise ValueError("Request JSON must be between 1 byte and 4 MiB.")
+        if not 0 < size <= 32 * 1024 * 1024:
+            raise ValueError("Request JSON must be between 1 byte and 32 MiB.")
         raw = self.rfile.read(size)
         if len(raw) != size:
             raise ValueError("Incomplete HTTP request.")
@@ -118,6 +119,21 @@ class Handler(BaseHTTPRequestHandler):
                     validate_history(session.transcript)
                     session.objective = value.get("objective", "")
                     session.task_status = value.get("task_status", "Imported.")
+                    if value.get("document") is not None:
+                        if session.config["workflow"] != "document":
+                            raise ValueError("Document checkpoints require document mode.")
+                        if not session.history or not isinstance(session.objective, str) or not session.objective.strip():
+                            raise ValueError("Document checkpoint has no original objective.")
+                        session.document = validate_document(value["document"])
+                        session.status = "completed" if session.document["phase"] == "completed" else "paused"
+                        if session.status == "completed" and not any(message.get("role") == "assistant"
+                                and message.get("content") == session.document["result"] for message in session.history):
+                            final = {"role": "assistant", "content": session.document["result"]}
+                            session.history.append(final)
+                            session.transcript.append(copy.deepcopy(final))
+                    else:
+                        session.status = value.get("status") if value.get("status") in {"answered", "completed"} else (
+                            "paused" if session.history else "idle")
                     session.events = copy.deepcopy(value.get("events", []))
                     if not isinstance(session.events, list):
                         raise ValueError("events must be a list.")
@@ -141,10 +157,14 @@ class Handler(BaseHTTPRequestHandler):
                 session.cancel.clear()
                 session.meter = Meter(session.transport, session.emit, lambda: session.deadline)
                 return self.respond(session.inspect())
-            if action != "run":
+            if action not in {"run", "resume"}:
                 return self.respond({"error": "Not found."}, 404)
-            if session.running or not isinstance(value.get("prompt"), str) or not value["prompt"].strip():
+            resume = action == "resume"
+            if session.running or (not resume and (
+                    not isinstance(value.get("prompt"), str) or not value["prompt"].strip())):
                 raise ValueError("Session is busy or prompt is empty.")
+            if resume and (not session.history or session.status in {"answered", "completed"}):
+                raise ValueError("No unfinished objective to resume.")
             self.send_response(200)
             self.send_header("Content-Type", "text/event-stream; charset=utf-8")
             self.send_header("Cache-Control", "no-store")
@@ -156,7 +176,7 @@ class Handler(BaseHTTPRequestHandler):
                 self.wfile.write(("data: " + dumps(event) + "\n\n").encode("utf-8"))
                 self.wfile.flush()
 
-            session.run(value["prompt"], send)
+            session.run(value.get("prompt"), send, resume=resume)
         except (ValueError, KeyError, ModelError, OSError) as error:
             if streaming:
                 try:

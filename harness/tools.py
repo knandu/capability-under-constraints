@@ -23,8 +23,8 @@ def schema(name, description, properties, required):
 
 S, I, B = {"type": "string"}, {"type": "integer", "minimum": 1}, {"type": "boolean"}
 SCHEMAS = {
-    "view": schema("view", "Read bounded UTF-8 lines or list one directory level.",
-                   {"path": S, "start": I, "end": I}, ["path"]),
+    "view": schema("view", "Read UTF-8 lines, page losslessly with byte offset, or list one directory level.",
+                   {"path": S, "start": I, "end": I, "offset": {"type": "integer", "minimum": 0}}, ["path"]),
     "grep": schema("grep", "Find literal text in UTF-8 files, with bounded matches.",
                    {"pattern": S, "path": S, "file_glob": S, "case_sensitive": B}, ["pattern"]),
     "glob": schema("glob", "Find paths; count matches but return a bounded subset.",
@@ -36,7 +36,7 @@ SCHEMAS = {
                             {"summary": S}, ["summary"]),
 }
 GUIDANCE = {
-    "view": "view: read bounded line ranges or list one directory level.",
+    "view": "view: list a directory or read lines. For lossless file paging start with offset=0, then use next_offset until eof.",
     "grep": "grep: literal search; narrow the path and file_glob.",
     "glob": "glob: narrow patterns or explore hierarchically when truncated.",
     "edit": "edit: supply exact old/new text; preserve unrelated bytes.",
@@ -75,6 +75,31 @@ def read_text(path, max_bytes):
     return text, truncated
 
 
+def read_chunk(path, offset, max_bytes):
+    if not stat.S_ISREG(path.stat().st_mode):
+        raise ToolError("Only regular local text files are supported.")
+    with path.open("rb") as stream:
+        size = os.fstat(stream.fileno()).st_size
+        if offset > size:
+            raise ToolError("Byte offset exceeds the file size.")
+        stream.seek(offset)
+        data = stream.read(max_bytes)
+    if b"\0" in data:
+        raise ToolError("Binary content is not allowed.")
+    decoder = codecs.getincrementaldecoder("utf-8")()
+    try:
+        text = decoder.decode(data, final=offset + len(data) == size)
+    except UnicodeDecodeError as error:
+        raise ToolError("File is not UTF-8 text or offset is not a UTF-8 boundary.") from error
+    consumed = len(data) - len(decoder.getstate()[0])
+    if data and not consumed:
+        raise ToolError("Read limit cannot fit one UTF-8 character; raise read_bytes.")
+    next_offset = offset + consumed
+    return {"text": text, "start_offset": offset, "next_offset": next_offset,
+            "total_bytes": size, "eof": next_offset == size, "more_available": next_offset < size,
+            "content_clipped": False, "truncated": False}
+
+
 def walk(root, start, depth, scan_limit, check):
     pending, scanned = [(start, 0)], 0
     while pending:
@@ -109,8 +134,8 @@ def validate_arguments(name, args):
         expected = definition["properties"][key]["type"]
         if expected == "string" and not isinstance(value, str):
             raise ToolError(f"{key} must be a string.")
-        if expected == "integer" and (type(value) is not int or value < 1):
-            raise ToolError(f"{key} must be a positive integer.")
+        if expected == "integer" and (type(value) is not int or value < definition["properties"][key].get("minimum", 1)):
+            raise ToolError(f"{key} is below its declared integer minimum.")
         if expected == "boolean" and type(value) is not bool:
             raise ToolError(f"{key} must be boolean.")
 
@@ -126,6 +151,8 @@ def execute(name, args, config, check):
         return {"summary": args["summary"], "complete": True}
     path = local_path(root, args.get("path", "."))
     if name == "view":
+        if "offset" in args and (path.is_dir() or "start" in args or "end" in args):
+            raise ToolError("offset is for files and cannot be combined with line ranges.")
         if path.is_dir():
             total, items = 0, []
             with os.scandir(path) as entries:
@@ -137,6 +164,8 @@ def execute(name, args, config, check):
                     if len(items) < limit["max_items"]:
                         items.append({"name": entry.name, "directory": entry.is_dir(follow_symlinks=False)})
             return {"items": items, "total": total, "returned": len(items), "truncated": total > len(items)}
+        if "offset" in args:
+            return read_chunk(path, args["offset"], config["read_bytes"])
         text, partial = read_text(path, config["read_bytes"])
         lines, start = text.splitlines(), args.get("start", 1)
         end = args.get("end", start + limit["max_lines"] - 1)
@@ -147,7 +176,9 @@ def execute(name, args, config, check):
         end = min(end, start + limit["max_lines"] - 1)
         items = [{"line": n + 1, "text": lines[n]} for n in range(start - 1, min(end, len(lines)))]
         return {"items": items, "total": None if partial else len(lines), "returned": len(items),
-                "file_bytes": path.stat().st_size, "truncated": partial or end < len(lines)}
+                "file_bytes": path.stat().st_size, "truncated": partial or end < len(lines),
+                "more_available": partial or end < len(lines), "content_clipped": False,
+                "read_prefix_limited": partial}
     if name in {"glob", "grep"}:
         if not path.is_dir():
             candidates = [path]
@@ -224,7 +255,16 @@ def bound_result(result, limit, count):
         if len(text.encode("utf-8")) <= limit["max_bytes"] and count(text) <= limit["max_tokens"]:
             return bounded, text
         bounded["truncated"] = True
-        if bounded.get("items"):
+        bounded["content_clipped"] = True
+        if "next_offset" in bounded and isinstance(bounded.get("text"), str):
+            value = bounded["text"]
+            if len(value) <= 1:
+                raise ToolError("Tool limits cannot fit one character and its cursor metadata.")
+            bounded["text"] = value[:max(1, len(value) // 2)]
+            bounded["next_offset"] = bounded["start_offset"] + len(bounded["text"].encode("utf-8"))
+            bounded["eof"] = False
+            bounded["more_available"] = True
+        elif bounded.get("items"):
             if len(bounded["items"]) > 1:
                 bounded["items"] = bounded["items"][:max(1, len(bounded["items"]) // 2)]
                 bounded["returned"] = len(bounded["items"])

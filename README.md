@@ -94,3 +94,12 @@ The small [standard-library harness](harness/README.md) exposes the model/tool
 loop, context accounting, timing, streamed output, and explicit completion.
 Its purpose is to make experiments inspectable, not to claim general autonomy.
 
+
+### 9. Durable document state belongs outside disposable chat context
+
+The [document workflow](document-workflow/README.md) owns byte-cursor traversal,
+bounded chunks, notes, merge/final stages, checkpoints, and pause/resume.
+Incomplete output is detected; bounded recovery can change the next attempt
+without committing a truncated note as success. Source notes survive a failed
+merge. **Byte coverage is not semantic fidelity.**
+

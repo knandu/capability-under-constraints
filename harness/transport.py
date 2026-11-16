@@ -14,6 +14,10 @@ class ModelError(RuntimeError):
     pass
 
 
+class OutputLimitError(ModelError):
+    pass
+
+
 class DeadlineReader(io.RawIOBase):
     def __init__(self, stream, deadline, check):
         self.stream, self.deadline, self.check = stream, deadline, check
@@ -133,10 +137,19 @@ class Transport:
     def json(self, path, payload=None, deadline=None):
         return self.request(path, payload, deadline)[1]
 
-    def chat(self, payload, deadline, delta, raw_response):
-        content, calls, usage, timings = [], {}, None, None
+    def chat(self, payload, deadline, delta, raw_response, progress=None, reasoning_delta=None):
+        content, reasoning, calls, usage, timings = [], [], {}, None, None
         last_event, done = None, False
         self.finish_reason = None
+        received = {"content_characters": 0, "reasoning_characters": 0, "tool_characters": 0}
+        last_progress = 0
+
+        def report(force=False, prompt=None):
+            nonlocal last_progress
+            now = time.monotonic()
+            if progress and (force or now - last_progress >= .5):
+                last_progress = now
+                progress({**received, **({"prompt_progress": prompt} if prompt is not None else {})})
 
         def consume(line):
             nonlocal usage, timings, last_event, done
@@ -158,6 +171,8 @@ class Transport:
             if "error" in event:
                 raise ModelError("Model stream error: " + dumps(event["error"]))
             usage, timings = event.get("usage") or usage, event.get("timings") or timings
+            if isinstance(event.get("prompt_progress"), dict):
+                report(force=True, prompt=event["prompt_progress"])
             for choice in event.get("choices", []):
                 if not isinstance(choice, dict):
                     raise ModelError("Malformed model choice.")
@@ -170,7 +185,15 @@ class Transport:
                     if not isinstance(part["content"], str):
                         raise ModelError("Assistant content must be text.")
                     content.append(part["content"])
+                    received["content_characters"] += len(part["content"])
                     delta(part["content"])
+                if part.get("reasoning_content"):
+                    if not isinstance(part["reasoning_content"], str):
+                        raise ModelError("Reasoning content must be text.")
+                    reasoning.append(part["reasoning_content"])
+                    received["reasoning_characters"] += len(part["reasoning_content"])
+                    if reasoning_delta:
+                        reasoning_delta(part["reasoning_content"])
                 for fragment in part.get("tool_calls", []):
                     if not isinstance(fragment, dict) or type(fragment.get("index")) is not int:
                         raise ModelError("Tool-call stream omitted its index.")
@@ -186,9 +209,12 @@ class Transport:
                         if not isinstance(value, str):
                             raise ModelError("Streamed tool names and arguments must be strings.")
                         call["function"][field] += value
+                        received["tool_characters"] += len(value)
+                report()
 
         raw, response = self.request(self.base_path + "/chat/completions", payload, deadline, consume,
-            lambda data: raw_response(data, {"content": "".join(content), "tool_calls": list(calls.values())}))
+            lambda data: raw_response(data, {"content": "".join(content),
+                "reasoning_content": "".join(reasoning), "tool_calls": list(calls.values())}))
         if response is not None:
             if (not isinstance(response, dict) or not isinstance(response.get("choices"), list)
                     or not response["choices"]):
@@ -204,6 +230,14 @@ class Transport:
                 raise ModelError("Model returned no assistant content or tool calls.")
             if message.get("content"):
                 delta(message["content"])
+                received["content_characters"] = len(message["content"])
+            if message.get("reasoning_content"):
+                if not isinstance(message["reasoning_content"], str):
+                    raise ModelError("Reasoning content must be text.")
+                received["reasoning_characters"] = len(message["reasoning_content"])
+                if reasoning_delta:
+                    reasoning_delta(message["reasoning_content"])
+            report(force=True)
             return message, response.get("usage"), response.get("timings"), response
         if not done:
             raise ModelError("SSE ended without [DONE]; partial output was not committed to history.")
@@ -212,6 +246,7 @@ class Transport:
             message["tool_calls"] = [calls[index] for index in sorted(calls)]
         if not content and not calls:
             raise ModelError("Model returned no assistant content or tool calls.")
+        report(force=True)
         return message, usage, timings, last_event
 
 

@@ -10,7 +10,8 @@ import time
 import uuid
 
 from tools import DEFAULT_LIMITS, GUIDANCE, SCHEMAS, ToolError, bound_result, dumps, execute, local_path
-from transport import Meter, ModelError, Transport, endpoint_parts
+from transport import Meter, ModelError, OutputLimitError, Transport, endpoint_parts
+from documents import DocumentWorkflow, save_checkpoint
 
 
 HERE = Path(__file__).resolve().parent
@@ -29,6 +30,9 @@ def defaults():
         "read_bytes": 1048576, "scan_files": 20000, "scan_depth": 12,
         "limits": copy.deepcopy(DEFAULT_LIMITS),
         "capture": False, "capture_directory": str(HERE / "captures"),
+        "workflow": "chat", "document_path": "", "document_chunk_bytes": 12288, "document_fan_in": 8,
+        "checkpoint_directory": str(HERE / "checkpoints"),
+        "server_progress": False,
     }
 
 
@@ -37,7 +41,8 @@ def configuration(value):
     if not isinstance(value, dict) or set(value) - set(base):
         raise ValueError("Unknown configuration fields.")
     base.update(copy.deepcopy(value))
-    for key in ("base_url", "model", "working_root", "system_prompt", "completion_criteria", "capture_directory"):
+    for key in ("base_url", "model", "working_root", "system_prompt", "completion_criteria", "capture_directory",
+                "workflow", "document_path", "checkpoint_directory"):
         if not isinstance(base[key], str):
             raise ValueError(f"{key} must be a string.")
     endpoint_parts(base["base_url"])
@@ -54,7 +59,8 @@ def configuration(value):
     if not base["model"].strip():
         raise ValueError("A model identifier is required.")
     for key in ("context", "max_input", "max_output", "max_iterations", "max_seconds", "repeat_limit",
-                "recent_groups", "summary_tokens", "read_bytes", "scan_files", "scan_depth"):
+                "recent_groups", "summary_tokens", "read_bytes", "scan_files", "scan_depth",
+                "document_chunk_bytes", "document_fan_in"):
         if type(base[key]) is not int or not 1 <= base[key] <= 10_000_000:
             raise ValueError(f"{key} must be a positive bounded integer.")
     if base["max_input"] + base["max_output"] > base["context"]:
@@ -64,7 +70,7 @@ def configuration(value):
             raise ValueError(f"Invalid {key}.")
     if base["seed"] is not None and type(base["seed"]) is not int:
         raise ValueError("seed must be an integer or null.")
-    for key in ("capture", "explicit_completion"):
+    for key in ("capture", "explicit_completion", "server_progress"):
         if type(base[key]) is not bool:
             raise ValueError(f"{key} must be boolean.")
     if (not isinstance(base["tools"], list) or any(not isinstance(tool, str) or tool not in SCHEMAS
@@ -74,6 +80,13 @@ def configuration(value):
         raise ValueError("Explicit completion requires task_complete to be enabled.")
     if base["reduction"] not in {"truncate-oldest", "summarize-oldest"}:
         raise ValueError("Unknown history-reduction policy.")
+    if base["workflow"] not in {"chat", "document"}:
+        raise ValueError("Unknown workflow.")
+    if not 2 <= base["document_fan_in"] <= 32:
+        raise ValueError("Document fan-in must be between 2 and 32.")
+    if base["workflow"] == "document" and (not base["document_path"].strip()
+            or not {"view", "task_complete"} <= set(base["tools"])):
+        raise ValueError("Document mode requires a document path, view and task_complete.")
     limits = copy.deepcopy(DEFAULT_LIMITS)
     if not isinstance(base["limits"], dict) or set(base["limits"]) - set(limits):
         raise ValueError("Unknown tool limits.")
@@ -87,22 +100,28 @@ def configuration(value):
             if type(number) is not int or not minimum <= number <= 1_000_000:
                 raise ValueError(f"{key} must be between {minimum} and 1000000.")
     base["limits"] = limits
-    if base["capture"]:
-        capture_root = Path(base["capture_directory"])
+    directories = ["capture_directory"] if base["capture"] else []
+    if base["workflow"] == "document":
+        directories.append("checkpoint_directory")
+    for directory in directories:
+        capture_root = Path(base[directory])
         if not capture_root.is_absolute() or str(capture_root).startswith(("\\\\", "//")):
-            raise ValueError("capture_directory must be an absolute local path.")
+            raise ValueError(f"{directory} must be an absolute local path.")
         if os.name == "nt" and ctypes.windll.kernel32.GetDriveTypeW(str(capture_root.anchor)) == 4:
-            raise ValueError("Mapped network capture directories are not allowed.")
-        capture_root = capture_root.resolve()
-        if str(capture_root).startswith(("\\\\", "//")):
-            raise ValueError("Capture directories resolving to network shares are not allowed.")
-        if os.name == "nt" and ctypes.windll.kernel32.GetDriveTypeW(str(capture_root.anchor)) == 4:
-            raise ValueError("Mapped network capture directories are not allowed.")
-        base["capture_directory"] = str(capture_root)
+            raise ValueError(f"Mapped network capture/checkpoint directories are not allowed: {directory}.")
+        base[directory] = str(capture_root.resolve())
+        if str(base[directory]).startswith(("\\\\", "//")):
+            raise ValueError(f"{directory} resolving to a network share is not allowed.")
+        if os.name == "nt" and ctypes.windll.kernel32.GetDriveTypeW(str(Path(base[directory]).anchor)) == 4:
+            raise ValueError(f"Mapped network capture/checkpoint directories are not allowed: {directory}.")
     return base
 
 
 class RunStop(RuntimeError):
+    pass
+
+
+class RunPause(RunStop):
     pass
 
 
@@ -165,6 +184,7 @@ class Session:
         self.objective, self.task_status, self.status = "", "Not started.", "idle"
         self.capture, self.request_number = None, 0
         self.deadline, self.physical_context = None, None
+        self.document, self.document_started, self.document_elapsed = None, None, 0
         self.transport = Transport(self.config["base_url"], api_key, self.set_socket, self.check)
         self.meter = Meter(self.transport, self.emit, lambda: self.deadline)
 
@@ -187,7 +207,14 @@ class Session:
         if self.cancel.is_set():
             raise RunStop("Stopped by user or disconnected browser.")
         if self.deadline is not None and time.monotonic() >= self.deadline:
-            raise RunStop("Elapsed-time limit reached.")
+            self.pause("Elapsed-time budget exhausted; increase Seconds and Resume.")
+
+    def pause(self, message):
+        raise RunPause(message)
+
+    def checkpoint_document(self):
+        if self.document is not None:
+            save_checkpoint(self)
 
     def stop(self):
         self.cancel.set()
@@ -203,9 +230,9 @@ class Session:
         event = {"index": len(self.events), "time": datetime.now(timezone.utc).isoformat(),
                  "type": kind, "data": self.clean(data)}
         with self.lock:
-            if kind != "assistant_delta":
+            if kind not in {"assistant_delta", "reasoning_delta"}:
                 self.events.append(event)
-            if self.capture and kind != "assistant_delta":
+            if self.capture and kind not in {"assistant_delta", "reasoning_delta"}:
                 self.capture.save("events.jsonl", (dumps(event) + "\n").encode("utf-8"))
         if self.sink:
             try:
@@ -238,6 +265,8 @@ class Session:
                    "stream": True, "stream_options": {"include_usage": True}}
         if self.config["seed"] is not None:
             payload["seed"] = self.config["seed"]
+        if self.config["server_progress"]:
+            payload["return_progress"] = True
         if tools and self.config["tools"]:
             payload["tools"] = [SCHEMAS[name] for name in self.config["tools"]]
         return payload
@@ -266,14 +295,27 @@ class Session:
             return self.clean(copy.deepcopy({"version": 1, "id": self.id, "config": self.config, "objective": self.objective,
                 "history": self.history, "transcript": self.transcript, "events": self.events,
                 "task_status": self.task_status, "status": self.status, "running": self.running,
+                "document": self.document_snapshot(),
                 "capture_path": str(self.capture.path) if self.capture else None}))
+
+    def document_snapshot(self):
+        value = copy.deepcopy(self.document)
+        if value is not None and self.document_started is not None:
+            value["elapsed_seconds"] = self.document_elapsed + time.monotonic() - self.document_started
+        return value
 
     def update(self, changes):
         with self.lock:
             if self.running:
                 raise ValueError("Configuration cannot change during a run.")
             previous = copy.deepcopy(self.config)
-            self.config = configuration({**self.config, **changes})
+            updated = configuration({**self.config, **changes})
+            if self.history and updated["workflow"] != previous["workflow"]:
+                raise ValueError("Start a new session to change workflows after sending an objective.")
+            if self.document is not None and any(updated[key] != previous[key]
+                    for key in ("workflow", "document_path", "working_root")):
+                raise ValueError("Start a new session to change a checkpointed document or working root.")
+            self.config = updated
             if previous["base_url"] != self.config["base_url"]:
                 self.transport = Transport(self.config["base_url"], self.api_key, self.set_socket, self.check)
                 self.meter = Meter(self.transport, self.emit, lambda: self.deadline)
@@ -294,7 +336,9 @@ class Session:
         started = time.monotonic()
 
         def raw(data, assembled):
-            redacted = bool(self.api_key and self.api_key in dumps(assembled))
+            redacted = bool(self.api_key and (self.api_key in dumps(assembled)
+                or self.api_key.encode("utf-8") in data
+                or json.dumps(self.api_key, ensure_ascii=True)[1:-1].encode("ascii") in data))
             if redacted:
                 data = b"[REDACTED RESPONSE: streamed model API key]\n"
             if self.capture:
@@ -303,8 +347,14 @@ class Session:
 
         message, usage, timings, response = self.transport.chat(
             payload, self.deadline, lambda text: (self.check(), self.emit("assistant_delta",
-                {"number": number, "kind": kind, "text": text})), raw)
+                {"number": number, "kind": kind, "text": text})), raw,
+            progress=lambda data: self.emit("model_progress",
+                {"number": number, "kind": kind, "elapsed_seconds": time.monotonic() - started, **data}),
+            reasoning_delta=lambda text: (self.check(), self.emit("reasoning_delta",
+                {"number": number, "kind": kind, "text": text})))
         self.check()
+        if "reasoning_content" in message:
+            message = {key: value for key, value in message.items() if key != "reasoning_content"}
         reported = usage.get("prompt_tokens") if isinstance(usage, dict) else None
         self.emit("model_response", {"number": number, "kind": kind, "message": message,
             "response": response, "usage": usage, "timings": timings,
@@ -312,7 +362,7 @@ class Session:
             "elapsed_seconds": time.monotonic() - started,
             "input_discrepancy": reported - account["total"] if isinstance(reported, int) else None})
         if self.transport.finish_reason == "length":
-            raise RunStop("Model reached the output token limit; partial output is visible but not treated as completion.")
+            raise OutputLimitError("Model reached the output token limit; partial output is visible but not treated as completion.")
         if isinstance(reported, int) and reported > self.config["max_input"]:
             raise RunStop("Server-reported input exceeded the configured budget; inspect the estimation discrepancy.")
         return message
@@ -380,20 +430,28 @@ class Session:
                 raise RunStop("History reduction made no token progress; run stopped without a hidden reset.")
         raise RunStop("History-reduction limit reached.")
 
-    def run(self, prompt, sink=None):
-        if not isinstance(prompt, str) or not prompt.strip():
+    def run(self, prompt=None, sink=None, resume=False):
+        if not resume and (not isinstance(prompt, str) or not prompt.strip()):
             raise ValueError("A nonempty user request is required.")
         with self.lock:
             if self.running:
                 raise ValueError("Session already running.")
+            if resume and (not self.history or self.status in {"answered", "completed"}):
+                raise ValueError("No unfinished objective to resume.")
+            if not resume and self.config["workflow"] == "document" and self.history:
+                raise ValueError("Use Resume for this document or create a new session for another objective.")
             self.running, self.status, self.sink = True, "running", sink
         self.cancel.clear()
-        self.deadline = time.monotonic() + self.config["max_seconds"]
+        self.document_elapsed = self.document["elapsed_seconds"] if self.document else 0
+        self.document_started = time.monotonic() if self.config["workflow"] == "document" else None
+        self.deadline = time.monotonic() + self.config["max_seconds"] - self.document_elapsed
         try:
             if self.config["capture"]:
                 self.capture = Capture(self.config["capture_directory"], self.id, self.api_key)
             self.emit("run_started", {"config": self.config,
+                "remaining_seconds": max(0, self.deadline - time.monotonic()), "resumed": resume,
                 "capture_path": str(self.capture.path) if self.capture else None})
+            self.check()
             try:
                 slots = self.transport.json(self.transport.root_path + "/slots",
                                              deadline=min(self.deadline, time.monotonic() + 2))
@@ -406,10 +464,14 @@ class Session:
                 self.emit("physical_context_unavailable", {"reason": str(error)})
             if self.physical_context and self.config["context"] > self.physical_context:
                 raise RunStop("Configured session context exceeds observed physical server context.")
-            if not self.history:
-                self.objective = prompt
-            self.append({"role": "user", "content": prompt})
-            self.emit("user_message", {"text": prompt})
+            if not resume:
+                if not self.history:
+                    self.objective = prompt
+                self.append({"role": "user", "content": prompt})
+                self.emit("user_message", {"text": prompt})
+            if self.config["workflow"] == "document":
+                DocumentWorkflow(self).run()
+                return
             repeated = {}
             for iteration in range(self.config["max_iterations"]):
                 self.check()
@@ -475,12 +537,17 @@ class Session:
                     return
                 if blocked:
                     raise RunStop("Repeated-identical-tool-call threshold reached.")
-            raise RunStop("Agent iteration limit reached.")
+            self.pause("Agent iteration limit reached; Resume continues the same objective.")
         except (RunStop, ModelError, ValueError, OSError) as error:
-            self.status = "stopped" if self.cancel.is_set() or isinstance(error, RunStop) else "error"
+            expired = self.deadline is not None and time.monotonic() >= self.deadline
+            paused = isinstance(error, RunPause) or expired or (
+                self.document is not None and self.cancel.is_set())
+            self.status = "paused" if paused else (
+                "stopped" if self.cancel.is_set() or isinstance(error, (RunStop, OutputLimitError)) else "error")
             if isinstance(error, OSError) and self.capture:
                 self.capture = None
-            self.emit("run_error", {"message": str(error), "status": self.status})
+            self.emit("run_paused" if paused else "run_error",
+                      {"message": str(error), "status": self.status, "resumable": bool(self.history)})
         finally:
             pending = {}
             for item in self.history:
@@ -491,6 +558,16 @@ class Session:
             for identity in pending:
                 self.append({"role": "tool", "tool_call_id": identity,
                              "content": dumps({"error": "Not executed: run stopped."})})
+            if self.document is not None:
+                if self.document_started is not None:
+                    self.document["elapsed_seconds"] = self.document_elapsed + time.monotonic() - self.document_started
+                self.document_started = None
+                try:
+                    self.checkpoint_document()
+                except (ValueError, OSError) as error:
+                    self.status = "error"
+                    self.emit("run_error", {"message": f"Checkpoint save failed: {error}", "status": self.status})
+            self.document_started = None
             self.running, self.deadline = False, None
             self.emit("run_finished", {"status": self.status, "task_status": self.task_status})
             self.sink = None

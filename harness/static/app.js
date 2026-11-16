@@ -1,11 +1,13 @@
 "use strict";
 const $ = id => document.getElementById(id);
 let config, session = null, events = [], inspection = null, streamingNode = null, running = false, responseMetadata = null;
+let runTimer = null, runStarted = 0, runBudget = 0;
 const tools = ["view", "grep", "glob", "edit", "task_complete"];
 const numeric = ["context", "max_input", "max_output", "max_iterations", "max_seconds", "repeat_limit",
-  "temperature", "top_p", "recent_groups", "summary_tokens", "read_bytes", "scan_files", "scan_depth"];
+  "temperature", "top_p", "recent_groups", "summary_tokens", "read_bytes", "scan_files", "scan_depth",
+  "document_chunk_bytes", "document_fan_in"];
 const strings = ["base_url", "model", "working_root", "system_prompt", "completion_criteria",
-  "reduction", "capture_directory"];
+  "reduction", "capture_directory", "workflow", "document_path", "checkpoint_directory"];
 
 async function api(path, body) {
   const response = await fetch(path, body === undefined ? {} : {
@@ -24,6 +26,7 @@ function form(value) {
   for (const key of [...numeric, ...strings]) $(key).value = value[key];
   $("seed").value = value.seed ?? "";
   $("explicit_completion").checked = value.explicit_completion;
+  $("server_progress").checked = value.server_progress;
   $("capture_enabled").checked = value.capture;
   $("limits").value = JSON.stringify(value.limits, null, 2);
   $("tools").replaceChildren();
@@ -34,6 +37,7 @@ function form(value) {
     $("tools").append(label);
   }
   captureIndicator(value.capture);
+  $("document_controls").hidden = value.workflow !== "document";
 }
 function readForm() {
   const value = {...config};
@@ -44,6 +48,7 @@ function readForm() {
   value.limits = JSON.parse($("limits").value);
   value.capture = $("capture_enabled").checked;
   value.explicit_completion = $("explicit_completion").checked;
+  value.server_progress = $("server_progress").checked;
   return value;
 }
 function captureIndicator(enabled) {
@@ -100,12 +105,29 @@ function inspectSelected() {
   const value = $("inspector_select").value;
   $("inspector").textContent = JSON.stringify(value === "current" ? inspection : events[Number(value)], null, 2);
 }
+function workflowProgress(data) {
+  const percent = data.total_bytes ? (100 * data.covered_bytes / data.total_bytes).toFixed(1) : "100.0";
+  $("workflow_progress").textContent = `${data.phase}: ${data.covered_bytes}/${data.total_bytes} bytes summarized (${percent}%); ` +
+    `${data.chunks} chunks; ${data.active_notes} active notes; ${data.iterations}/${data.max_iterations} model calls.`;
+}
+function clock() {
+  const elapsed = (Date.now() - runStarted) / 1000;
+  $("run_clock").textContent = `Running: ${Math.floor(elapsed)}s elapsed; ${Math.max(0, Math.ceil(runBudget - elapsed))}s budget remaining.`;
+}
+function visibleResponse(kind) { return kind === "agent" || kind === "document_final"; }
 $("inspector_select").onchange = inspectSelected;
 function event(event, replay = false) {
-  events.push(event);
   const data = event.data || {};
+  if (event.type === "reasoning_delta") {
+    if (!replay) {
+      $("model_reasoning").hidden = false;
+      $("reasoning_text").textContent += data.text;
+    }
+    return;
+  }
+  events.push(event);
   if (event.type === "assistant_delta") {
-    if (data.kind === "agent" && !replay) {
+    if (visibleResponse(data.kind) && !replay) {
       if (!streamingNode) streamingNode = message("assistant · streaming", "", {time: event.time});
       streamingNode.textContent += data.text;
     }
@@ -118,34 +140,86 @@ function event(event, replay = false) {
     streamingNode = null;
   }
   if (event.type === "task_complete" && !replay) message("task complete", data.summary, {...responseMetadata, time: event.time});
-  if (event.type === "run_started") { captureIndicator(data.config.capture); responseMetadata = null; }
+  if (event.type === "run_started") {
+    captureIndicator(data.config.capture); responseMetadata = null;
+    if (!replay) {
+      clearInterval(runTimer); runStarted = Date.now(); runBudget = data.remaining_seconds ?? data.config.max_seconds;
+      clock(); runTimer = setInterval(clock, 1000);
+    }
+  }
+  if (event.type === "workflow_progress") workflowProgress(data);
+  if (event.type === "document_checkpoint") $("workflow_progress").title = `Checkpoint: ${data.path}`;
   if (event.type === "model_request") {
     accounting(data.accounting);
-    if (data.kind === "agent") responseMetadata = null;
+    if (visibleResponse(data.kind)) responseMetadata = null;
+    if (!replay) $("status").textContent = `${data.kind}: waiting for model`;
+    if (!replay) {
+      $("model_progress").textContent = "Waiting for model; no streamed output received yet.";
+      $("model_reasoning").hidden = true; $("reasoning_text").textContent = "";
+    }
+  }
+  if (event.type === "document_retry" && !replay && streamingNode) {
+    streamingNode.parentElement.querySelector("strong").textContent = "assistant · incomplete attempt (retrying)";
+    streamingNode = null;
+  }
+  if (event.type === "model_progress") {
+    const prompt = data.prompt_progress;
+    $("model_progress").textContent = `${data.kind}: ${data.elapsed_seconds.toFixed(1)}s; ` +
+      `${data.content_characters} response characters; ${data.reasoning_characters} reasoning characters; ` +
+      `${data.tool_characters} tool-call characters received (not token counts).` +
+      (prompt ? ` Prompt processing: ${prompt.processed ?? "?"}/${prompt.total ?? "?"}; cached ${prompt.cache ?? "?"}.` : "");
   }
   if (event.type === "context_reduction") accounting(data.after);
   if (event.type === "model_response") {
-    if (data.kind === "agent") {
+    if (visibleResponse(data.kind)) {
       responseMetadata = {...data, time: event.time};
       if (streamingNode && !replay) messageMetadata(streamingNode, responseMetadata);
     }
     $("usage").textContent = JSON.stringify({
       server_usage: data.usage, discrepancy: data.input_discrepancy,
-      elapsed_seconds: data.elapsed_seconds, server_timings: data.timings
+      elapsed_seconds: data.elapsed_seconds, server_timings: data.timings,
+      finish_reason: data.finish_reason
     }, null, 2);
   }
-  if (event.type === "run_error" || event.type === "http_error") $("error").textContent = data.message;
-  if (event.type === "run_finished") $("status").textContent = data.status;
-  if (!["raw_response", "assistant_message", "user_message"].includes(event.type)) {
+  if (["run_error", "run_paused", "http_error"].includes(event.type)) $("error").textContent = data.message;
+  if (event.type === "run_finished") {
+    $("status").textContent = data.status;
+    if (!replay) {
+      clearInterval(runTimer); runTimer = null; $("run_clock").textContent = `Run ${data.status}.`;
+      if (streamingNode) {
+        streamingNode.parentElement.querySelector("strong").textContent = "assistant · interrupted";
+        streamingNode = null;
+      }
+    }
+  }
+  if (!["raw_response", "assistant_message", "user_message", "model_progress"].includes(event.type)) {
     const li = document.createElement("li");
     let detail = "";
     if (event.type === "tool_call") detail = `${data.name} ${JSON.stringify(data.arguments)}`;
-    else if (event.type === "tool_result") detail = `${data.name}: ${data.result.returned ?? "—"}/${data.result.total ?? "?"} returned; ` +
-      `${data.tokens} ${data.tokenizer_exact ? "tokens" : "estimated tokens"}; ${data.elapsed_seconds.toFixed(3)}s` +
-      (data.result.truncated ? "; TRUNCATED" : "") + (data.result.error ? `; ${data.result.error}` : "");
+    else if (event.type === "tool_result") detail = `${data.name}: ` +
+      (data.result.next_offset !== undefined ? `bytes ${data.result.start_offset}–${data.result.next_offset}/${data.result.total_bytes}; ` :
+        `${data.result.returned ?? "—"}/${data.result.total ?? "?"} returned; `) +
+      `${data.tokens} ${data.tokenizer_exact ? "tokens" : "estimated tokens"}` +
+      (typeof data.elapsed_seconds === "number" ? `; ${data.elapsed_seconds.toFixed(3)}s` : "") +
+      (data.result.more_available ? "; MORE PAGES" : "") +
+      (data.result.content_clipped ? "; CONTENT CLIPPED" : data.result.truncated && data.result.more_available === undefined ? "; TRUNCATED" : "") +
+      (data.result.read_prefix_limited ? "; READ PREFIX LIMITED" : "") + (data.result.error ? `; ${data.result.error}` : "");
     else if (event.type === "context_reduction") detail = `${data.before.total} → ${data.after.total} tokens; ${data.policy}`;
-    else if (event.type === "run_error") detail = data.message;
+    else if (["run_error", "run_paused"].includes(event.type)) detail = data.message;
+    else if (event.type === "document_checkpoint") detail = data.path;
+    else if (event.type === "document_note") detail = `bytes ${data.note.start}–${data.note.end}; level ${data.note.level}`;
+    else if (event.type === "document_retry") detail = `${data.kind}: output limit; ` +
+      `${data.previous_output_tokens} → ${data.next_output_tokens} output tokens; ` +
+      `${data.previous_batch_size} → ${data.next_batch_size} notes; ` +
+      (data.compact ? "compact retry; " : "") + "partial output not committed";
+    else if (event.type === "workflow_progress") detail = `${data.phase}; ${data.covered_bytes}/${data.total_bytes} bytes`;
     else if (event.type === "model_request") detail = `${data.kind}; ${data.accounting.total} input ${data.accounting.total_exact ? "tokens" : "estimated tokens"}`;
+    else if (event.type === "model_response") detail = `${data.kind}; ` +
+      (typeof data.elapsed_seconds === "number" ? `${data.elapsed_seconds.toFixed(1)}s; ` : "") +
+      `finish ${data.finish_reason ?? "unreported"}; ` +
+      `server output ${data.usage?.completion_tokens ?? "unreported"} tokens` +
+      (data.usage?.completion_tokens_details?.reasoning_tokens !== undefined ?
+        ` (reasoning ${data.usage.completion_tokens_details.reasoning_tokens})` : "");
     else if (event.type === "task_complete") detail = data.summary;
     li.textContent = `${new Date(event.time || Date.now()).toLocaleTimeString()} ${event.type}\n${detail}`;
     $("activity").append(li);
@@ -158,11 +232,12 @@ async function refresh() {
 }
 function loadSession(value) {
   session = value; form(value.config); events = []; streamingNode = null; responseMetadata = null;
+  $("workflow_progress").textContent = ""; $("workflow_progress").title = "";
   $("conversation").replaceChildren(); $("activity").replaceChildren();
   const timeline = [];
   let response = null, cursor = 0;
   for (const item of value.events) {
-    if (item.type === "model_response" && item.data.kind === "agent") response = {...item.data, time: item.time};
+    if (item.type === "model_response" && visibleResponse(item.data.kind)) response = {...item.data, time: item.time};
     if (["run_started", "model_request"].includes(item.type) && item.data.kind !== "summary") response = null;
     if (item.type === "user_message") timeline.push({role: "user", text: item.data.text, metadata: {time: item.time}});
     if (item.type === "assistant_message" && item.data.content) timeline.push({role: "assistant", text: item.data.content, metadata: response || {time: item.time}});
@@ -182,12 +257,18 @@ function loadSession(value) {
     }
   }
   for (const item of value.events) event(item, true);
-  $("status").textContent = value.status; inspector();
+  if (value.document) {
+    const doc = value.document;
+    workflowProgress({phase: doc.phase, covered_bytes: doc.offset, total_bytes: doc.source.size, chunks: doc.chunks,
+      active_notes: doc.frontier.length, iterations: doc.iterations, max_iterations: value.config.max_iterations});
+  }
+  $("status").textContent = value.status; inspector(); setRunning(Boolean(value.running));
 }
 function setRunning(value) {
   running = value;
   for (const id of ["send", "create", "apply", "load", "measure", "save"]) $(id).disabled = value;
   $("stop").disabled = !value;
+  $("resume").disabled = value || !session?.history?.length || ["answered", "completed"].includes(session?.status);
 }
 action("create", async () => { loadSession(await api("/api/sessions", {config: readForm()})); await refresh(); });
 action("apply", async () => {
@@ -195,15 +276,15 @@ action("apply", async () => {
   loadSession(await api(`/api/sessions/${session.id}/config`, readForm())); await refresh();
 });
 action("measure", async () => { if (!session) throw new Error("Create a session first."); await refresh(); });
-action("send", async () => {
+async function runSession(resume = false) {
   if (!session) throw new Error("Create a session first.");
   if (JSON.stringify(readForm()) !== JSON.stringify(session.config)) throw new Error("Apply the configuration changes before sending.");
-  const prompt = $("prompt").value; if (!prompt.trim()) return;
+  const prompt = $("prompt").value; if (!resume && !prompt.trim()) return;
   setRunning(true); streamingNode = null; $("status").textContent = "running"; $("prompt").value = "";
   let finished = false;
   try {
-    const response = await fetch(`/api/sessions/${session.id}/run`, {
-      method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify({prompt})
+    const response = await fetch(`/api/sessions/${session.id}/${resume ? "resume" : "run"}`, {
+      method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify(resume ? {} : {prompt})
     });
     if (!response.ok) throw new Error((await response.json()).error);
     const reader = response.body.getReader(), decoder = new TextDecoder("utf-8", {fatal: true});
@@ -224,8 +305,10 @@ action("send", async () => {
     if (!finished) throw new Error("Event stream ended before run_finished; inspect server terminal.");
     session = await api(`/api/sessions/${session.id}`);
     await refresh();
-  } finally { setRunning(false); }
-});
+  } finally { clearInterval(runTimer); runTimer = null; setRunning(false); }
+}
+action("send", () => runSession());
+action("resume", () => runSession(true));
 action("stop", async () => { if (session) await api(`/api/sessions/${session.id}/stop`, {}); });
 action("save", async () => {
   if (!session) throw new Error("Create a session first.");
@@ -237,9 +320,14 @@ action("load", async () => $("import_file").click());
 $("import_file").onchange = async () => {
   try {
     const file = $("import_file").files[0]; if (!file) return;
-    loadSession(await api("/api/import", JSON.parse(await file.text()))); await refresh();
+    loadSession(await api("/api/import", JSON.parse(await file.text()))); await refresh(); setRunning(false);
   } catch (error) { showError(error); } finally { $("import_file").value = ""; }
 };
+$("workflow").onchange = () => { $("document_controls").hidden = $("workflow").value !== "document"; };
+action("document_preset", async () => {
+  $("max_seconds").value = 7200; $("max_iterations").value = 600; $("summary_tokens").value = 1024;
+  $("explicit_completion").checked = true; $("reduction").value = "summarize-oldest";
+});
 for (const name of ["context", "max_output"]) $(name).onchange = () => {
   $("max_input").value = Number($("context").value) - Number($("max_output").value);
 };

@@ -21,8 +21,23 @@
   </div>
   <label>System prompt<textarea id="system_prompt" rows="8"></textarea></label>
   <label>Completion criteria<textarea id="completion_criteria" rows="2"></textarea></label>
+  <label>Workflow<select id="workflow"><option value="chat">Ordinary chat / agent</option>
+    <option value="document">Whole-document summary (persistent checkpoints)</option></select></label>
+  <fieldset id="document_controls" hidden><legend>Document workflow</legend>
+    <label>UTF-8 file (inside working root)<input id="document_path"></label>
+    <div class="columns">
+      <label>Chunk bytes (upper bound)<input id="document_chunk_bytes" type="number" min="4"></label>
+      <label>Summary fan-in<input id="document_fan_in" type="number" min="2" max="32"></label>
+    </div>
+    <label>Local checkpoint directory<input id="checkpoint_directory"></label>
+    <p>Checkpoints contain your objective and source-range summaries, even with raw capture off.
+      Import a checkpoint after a restart, then Resume. Raw source chunks are not copied into checkpoints.
+      Seconds and Iterations are total document-job budgets across resumes.</p>
+    <button id="document_preset" type="button">Use long-job budget (7200s / 600 iterations / 1024 summary tokens)</button>
+  </fieldset>
   <fieldset><legend>Tool surface</legend><div id="tools"></div></fieldset>
   <label class="inline"><input id="explicit_completion" type="checkbox">Require task_complete</label>
+  <label class="inline"><input id="server_progress" type="checkbox">Request llama.cpp prompt progress (server-dependent)</label>
   <div class="columns">
     <label>Iterations<input id="max_iterations" type="number"></label>
     <label>Seconds<input id="max_seconds" type="number"></label>
@@ -52,7 +67,11 @@
 <section id="conversation-panel"><h2>Conversation</h2>
   <div id="conversation" aria-live="polite"></div>
   <label>Request<textarea id="prompt" rows="5" placeholder="Enter your objective, including Tamil or other Unicode."></textarea></label>
-  <div class="buttons"><button id="send">Send</button><button id="stop">Stop</button></div>
+  <div class="buttons"><button id="send">Send</button><button id="resume">Resume objective</button><button id="stop">Stop</button></div>
+  <p id="run_clock" role="status"></p><p id="workflow_progress" role="status"></p>
+  <p id="model_progress" role="status"></p>
+  <details id="model_reasoning" hidden><summary>Model-supplied reasoning (current response, not the final answer)</summary>
+    <pre id="reasoning_text"></pre></details>
   <p id="error" role="alert"></p>
 </section>
 <section><h2>Agent activity</h2><ol id="activity"></ol></section>

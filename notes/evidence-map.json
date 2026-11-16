@@ -101,6 +101,21 @@
         "138fb1eba2b2192e8db9bccb6024ffcae4454783"
       ],
       "timestamp_basis": "Original source checkpoint; not a newly invented experiment time."
+    },
+    {
+      "number": 9,
+      "id": "document-state",
+      "title": "Externalize document-workflow state and bounded recovery",
+      "decision": "ADOPT",
+      "author_date": "2026-11-16T17:49:14-06:00",
+      "source_commits": [
+        "9de324f79b0c52000d8ddf6c011070e8ed8f09d7",
+        "58229fd04ccbb460285a5a3b885775cc31fdafe5",
+        "0024349c0062648e3151899de1b2b44d0ef8d1ee",
+        "6f0b345c8b7e662d5c2ad1069af0fef3221eb9db",
+        "e602ddb1f9db3ad45a2327bf5d678c835077da1a"
+      ],
+      "timestamp_basis": "Original source checkpoint; not a newly invented experiment time."
     }
   ],
   "artifact_origins": [
@@ -576,6 +591,138 @@
       "original_sha256": "29210b4a1b69935b91302d566672a0a76b89a91540b4921c02c34c420676ab98",
       "normalization": "Unmodified source bytes; public identity/path review.",
       "public_sha256": "29210b4a1b69935b91302d566672a0a76b89a91540b4921c02c34c420676ab98"
+    },
+    {
+      "gate": "document-state",
+      "public_path": "harness/harness.py",
+      "artifact": "authored harness harness.py, checkpoint e602ddb",
+      "kind": "tracked source artifact",
+      "source_commit": "e602ddb1f9db3ad45a2327bf5d678c835077da1a",
+      "source_blob": "cb2d5c23a3a015e2ecda622be8ea65c7bb3d669d",
+      "original_sha256": "603ea042e9dbfc9933c9d10d829958254a7b830efe7e805a77b0714d980e0c13",
+      "normalization": "Unmodified source bytes; public identity/path review.",
+      "public_sha256": "603ea042e9dbfc9933c9d10d829958254a7b830efe7e805a77b0714d980e0c13"
+    },
+    {
+      "gate": "document-state",
+      "public_path": "harness/engine.py",
+      "artifact": "authored harness engine.py, checkpoint e602ddb",
+      "kind": "tracked source artifact",
+      "source_commit": "e602ddb1f9db3ad45a2327bf5d678c835077da1a",
+      "source_blob": "e35051eb2a75a14092c8730581c501cb7b7f76f2",
+      "original_sha256": "69df2aaf49cec3ae49419857f914b803bfedc8cb5a8abc89edd01167a7a4205a",
+      "normalization": "Unmodified source bytes; public identity/path review.",
+      "public_sha256": "69df2aaf49cec3ae49419857f914b803bfedc8cb5a8abc89edd01167a7a4205a"
+    },
+    {
+      "gate": "document-state",
+      "public_path": "harness/transport.py",
+      "artifact": "authored harness transport.py, checkpoint e602ddb",
+      "kind": "tracked source artifact",
+      "source_commit": "e602ddb1f9db3ad45a2327bf5d678c835077da1a",
+      "source_blob": "c48f293834963aa6317644c30079f69731fae739",
+      "original_sha256": "9efe9372ff2ca810daed1dd526a4469cfad99497906dca9524d231728ee5df52",
+      "normalization": "Unmodified source bytes; public identity/path review.",
+      "public_sha256": "9efe9372ff2ca810daed1dd526a4469cfad99497906dca9524d231728ee5df52"
+    },
+    {
+      "gate": "document-state",
+      "public_path": "harness/tools.py",
+      "artifact": "authored harness tools.py, checkpoint e602ddb",
+      "kind": "tracked source artifact",
+      "source_commit": "e602ddb1f9db3ad45a2327bf5d678c835077da1a",
+      "source_blob": "5a2c52783bb9689140ab2ec25ce8d1f4e5b72a2a",
+      "original_sha256": "8ac363d90784d04513ff8b454c1dd0cb20fdd77dec1fdb122b1096bfe2a2d137",
+      "normalization": "Unmodified source bytes; public identity/path review.",
+      "public_sha256": "8ac363d90784d04513ff8b454c1dd0cb20fdd77dec1fdb122b1096bfe2a2d137"
+    },
+    {
+      "gate": "document-state",
+      "public_path": "harness/system-prompt.txt",
+      "artifact": "authored harness system-prompt.txt, checkpoint e602ddb",
+      "kind": "tracked source artifact",
+      "source_commit": "e602ddb1f9db3ad45a2327bf5d678c835077da1a",
+      "source_blob": "e506acb2d776a61f86b900059427e9121b4425d4",
+      "original_sha256": "f6a44e199af7628b269884fe935c57ed81361e2d702ca0d680d0077d36bc9756",
+      "normalization": "Unmodified source bytes; public identity/path review.",
+      "public_sha256": "f6a44e199af7628b269884fe935c57ed81361e2d702ca0d680d0077d36bc9756"
+    },
+    {
+      "gate": "document-state",
+      "public_path": "harness/start.ps1",
+      "artifact": "authored harness start.ps1, checkpoint e602ddb",
+      "kind": "tracked source artifact",
+      "source_commit": "e602ddb1f9db3ad45a2327bf5d678c835077da1a",
+      "source_blob": "ce5a44683f03b74b828fc20268e73c8846e7bffe",
+      "original_sha256": "e750da91f243b6b61cb806a16dc04b8711945841978048ae5b33b3ad927de6d7",
+      "normalization": "Unmodified source bytes; public identity/path review.",
+      "public_sha256": "e750da91f243b6b61cb806a16dc04b8711945841978048ae5b33b3ad927de6d7"
+    },
+    {
+      "gate": "document-state",
+      "public_path": "harness/static/app.js",
+      "artifact": "authored harness static/app.js, checkpoint e602ddb",
+      "kind": "tracked source artifact",
+      "source_commit": "e602ddb1f9db3ad45a2327bf5d678c835077da1a",
+      "source_blob": "4ae2afc4e04d82ab8edb9818c6f9e23f6896e0d3",
+      "original_sha256": "648c42f0c7ba07f8458acd707525263a4304064972cc3fb524643a663c6212e9",
+      "normalization": "Unmodified source bytes; public identity/path review.",
+      "public_sha256": "648c42f0c7ba07f8458acd707525263a4304064972cc3fb524643a663c6212e9"
+    },
+    {
+      "gate": "document-state",
+      "public_path": "harness/static/index.html",
+      "artifact": "authored harness static/index.html, checkpoint e602ddb",
+      "kind": "tracked source artifact",
+      "source_commit": "e602ddb1f9db3ad45a2327bf5d678c835077da1a",
+      "source_blob": "1e18bf67dcfd5bcb4f225079cc694a2fdbc2176a",
+      "original_sha256": "2beb817af526ecf51e856e726d5b9c2dc37c83ad842ce38d046f9ac195f859c2",
+      "normalization": "Unmodified source bytes; public identity/path review.",
+      "public_sha256": "2beb817af526ecf51e856e726d5b9c2dc37c83ad842ce38d046f9ac195f859c2"
+    },
+    {
+      "gate": "document-state",
+      "public_path": "harness/static/style.css",
+      "artifact": "authored harness static/style.css, checkpoint e602ddb",
+      "kind": "tracked source artifact",
+      "source_commit": "e602ddb1f9db3ad45a2327bf5d678c835077da1a",
+      "source_blob": "de53ab61af637bdfb5ca6b158f479105bacf4ced",
+      "original_sha256": "d7fd16a5837ad07f37014f6b5de30bfb7f08c31c98b4a15bd2dde725055c0663",
+      "normalization": "Unmodified source bytes; public identity/path review.",
+      "public_sha256": "d7fd16a5837ad07f37014f6b5de30bfb7f08c31c98b4a15bd2dde725055c0663"
+    },
+    {
+      "gate": "document-state",
+      "public_path": "harness/tests/test_harness.py",
+      "artifact": "authored harness tests/test_harness.py, checkpoint e602ddb",
+      "kind": "tracked source artifact",
+      "source_commit": "e602ddb1f9db3ad45a2327bf5d678c835077da1a",
+      "source_blob": "ad1c312ba3822aab822163e2046c3f37440dcf3e",
+      "original_sha256": "887e0b4883d138afa921d8617295a1eddb8fcec86f1511275e862fb6fca84e7b",
+      "normalization": "Unmodified source bytes; public identity/path review.",
+      "public_sha256": "887e0b4883d138afa921d8617295a1eddb8fcec86f1511275e862fb6fca84e7b"
+    },
+    {
+      "gate": "document-state",
+      "public_path": "harness/tests/browser_timing.js",
+      "artifact": "authored harness tests/browser_timing.js, checkpoint e602ddb",
+      "kind": "tracked source artifact",
+      "source_commit": "e602ddb1f9db3ad45a2327bf5d678c835077da1a",
+      "source_blob": "6cbaa73fe99f3901c1f130c4d4631042d91db51a",
+      "original_sha256": "122a73199a01167feb4aa5e723931cc4c53df8f129bcf7c92514e2cf00f02fc2",
+      "normalization": "Unmodified source bytes; public identity/path review.",
+      "public_sha256": "122a73199a01167feb4aa5e723931cc4c53df8f129bcf7c92514e2cf00f02fc2"
+    },
+    {
+      "gate": "document-state",
+      "public_path": "harness/documents.py",
+      "artifact": "authored harness documents.py, checkpoint e602ddb",
+      "kind": "tracked source artifact",
+      "source_commit": "e602ddb1f9db3ad45a2327bf5d678c835077da1a",
+      "source_blob": "c907ec8f4f147f5f427a6f190d13ec24efaee4db",
+      "original_sha256": "597e022217f08f5fe0535a2c17f869060b8ddb924300c610ea52c4bc896a6568",
+      "normalization": "Unmodified source bytes; public identity/path review.",
+      "public_sha256": "597e022217f08f5fe0535a2c17f869060b8ddb924300c610ea52c4bc896a6568"
     }
   ]
 }
