@@ -1,0 +1,7 @@
+{
+  "RequiredDecodeTokSec": 44,
+  "Accepted": false,
+  "RequiredFreeDeviceMiB": 256,
+  "LongDecodeTokSec": 38.934,
+  "ShortDecodeTokSec": 49.166
+}

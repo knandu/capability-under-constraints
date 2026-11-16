@@ -11,6 +11,7 @@ Artifact digests and explicit normalization are in [evidence-map.json](evidence-
 | 3. Stop kernel tuning after equivalent sustained decode | STOP | 2026-11-15T12:26:46-06:00 | `ac39a5b` | [kernel-stop](../experiments/kernel-stop/README.md) |
 | 4. Close throughput tuning after Tamil quality evaluation | STOP | 2026-11-15T13:34:02-06:00 | `ac1ac9d`, `170988b` | [tamil-quality](../experiments/tamil-quality/README.md) |
 | 5. Reject Gemma 3 12B for the end-to-end Tamil workload | REJECT | 2026-11-15T14:52:19-06:00 | `6aabf7f` | [gemma-model-selection](../experiments/gemma-model-selection/README.md) |
+| 6. Adopt smaller GPU context after measuring the 32K tradeoff | WORKING BUT REJECTED (32K); ADOPT (8K) | 2026-11-15T18:32:17-06:00 | `b2bc3c0`, `fd94b24` | [context-economics](../experiments/context-economics/README.md) |
 
 ## Reading the arc
 

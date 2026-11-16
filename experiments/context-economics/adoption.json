@@ -1,0 +1,12 @@
+{
+  "Initial44TokSecCriterionPassed": false,
+  "RevisedUserAcceptance": "even with slightly slower decode, 38 tok/sec is not that bad",
+  "DefaultContext": 8192,
+  "GPUKVMiB": 768,
+  "ExpertCacheMiB": 2048,
+  "ShortDecodeTokSec": "49.166",
+  "NearFullDecodeTokSec": "38.934",
+  "Original4KWrapperPreserved": true,
+  "ClosedReferencePresetUnchanged": true,
+  "AdoptedAtUtc": "2026-11-16T00:25:13.4220551Z"
+}

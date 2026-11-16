@@ -61,6 +61,18 @@
         "6aabf7fd4ea65ae1a051e4c2d9845b89039e44b6"
       ],
       "timestamp_basis": "Original source checkpoint; not a newly invented experiment time."
+    },
+    {
+      "number": 6,
+      "id": "context-economics",
+      "title": "Adopt smaller GPU context after measuring the 32K tradeoff",
+      "decision": "WORKING BUT REJECTED (32K); ADOPT (8K)",
+      "author_date": "2026-11-15T18:32:17-06:00",
+      "source_commits": [
+        "b2bc3c0a9f43ed466bae65f4de4f3ace789bc21c",
+        "fd94b24c7da174459475b6f1852b02082bfc7c51"
+      ],
+      "timestamp_basis": "Original source checkpoint; not a newly invented experiment time."
     }
   ],
   "artifact_origins": [
@@ -283,6 +295,72 @@
       "original_sha256": "82916bbef425ecc97cdf3238aaf659245cd479d613b0b8fb062ff8db085ad9fa",
       "normalization": "Source for a labeled generated-output excerpt; not a complete redistributed response.",
       "public_sha256": "eeb26011d6dbe6e07b4be46cad471f07ee770f89ff53f059e1449e09edca29fb"
+    },
+    {
+      "gate": "context-economics",
+      "public_path": "experiments/context-economics/cpu-kv.csv",
+      "artifact": "canonical CPU-KV timing and stop metadata",
+      "kind": "tracked source artifact",
+      "source_commit": "b2bc3c0a9f43ed466bae65f4de4f3ace789bc21c",
+      "source_blob": "a3f751d7b215951016cec89a1c97587df2b40bac",
+      "original_sha256": "03b17394fe6f3fc16b7e98a19bfbcb370d9433f25e34e671ad6e9e4050e95846",
+      "normalization": "UTF-8 CSV; retain original row values; omit only fields: (none).",
+      "public_sha256": "9298910c4360dbe6198e1cd888c2f024f0c55a5ecae198066df07eeb02bc173c"
+    },
+    {
+      "gate": "context-economics",
+      "public_path": "experiments/context-economics/cpu-summary.json",
+      "artifact": "CPU-KV summary.json",
+      "kind": "tracked source artifact",
+      "source_commit": "b2bc3c0a9f43ed466bae65f4de4f3ace789bc21c",
+      "source_blob": "59b254c8acba09ee746bc34f7f9a25749ebe4100",
+      "original_sha256": "cff22f0aea25ffef6ac185915adb68ae7972d02019631f857c3d2140565802f8",
+      "normalization": "Retain original compact verdict/marker record.",
+      "public_sha256": "c70d9ee887789efdc3c95da732e725ddf397320614551f4de06d6bac7eb8a3d3"
+    },
+    {
+      "gate": "context-economics",
+      "public_path": "experiments/context-economics/recall.json",
+      "artifact": "CPU-KV long-recall.json",
+      "kind": "tracked source artifact",
+      "source_commit": "b2bc3c0a9f43ed466bae65f4de4f3ace789bc21c",
+      "source_blob": "ff38fa03450f9de7b0d66e4407a47a211503b901",
+      "original_sha256": "a525c243a635befc40895bc8f4bae656b786ab355a6c9151968210c32385c992",
+      "normalization": "Retain original compact verdict/marker record.",
+      "public_sha256": "ecd72e0021e2cc290c4ade9308a7aaa96fbe42e28516796ab6bc874c44c3b475"
+    },
+    {
+      "gate": "context-economics",
+      "public_path": "experiments/context-economics/gpu-kv.csv",
+      "artifact": "GPU 8K original timing records",
+      "kind": "tracked source artifact",
+      "source_commit": "fd94b24c7da174459475b6f1852b02082bfc7c51",
+      "source_blob": "b49a2e127376d799916c2b64f4358d686a960ae2",
+      "original_sha256": "5c2a3bc4662fd451d50d1f6d2bcc4a07edc6d5f10d11469aa6a46aa1594f266f",
+      "normalization": "UTF-8 CSV; retain original row values; omit only fields: (none).",
+      "public_sha256": "d67d4e1faabe22ca9b7b066365e2ef9f86fa3b9e83ca4ad17e176f7186e7e892"
+    },
+    {
+      "gate": "context-economics",
+      "public_path": "experiments/context-economics/initial-acceptance.json",
+      "artifact": "original failed 8K acceptance",
+      "kind": "tracked source artifact",
+      "source_commit": "fd94b24c7da174459475b6f1852b02082bfc7c51",
+      "source_blob": "b97c9b08e733bb11f3103303789f900d6cf4b13e",
+      "original_sha256": "0421ad45d41b25a945d2d393283e8d146884f48982aff7868fd3dd41150e6ff4",
+      "normalization": "Retain original failed threshold result.",
+      "public_sha256": "18de6f79009da4cdb6a72ec8db0d13d0673403a8a2da0b00d9e731b3d7884928"
+    },
+    {
+      "gate": "context-economics",
+      "public_path": "experiments/context-economics/adoption.json",
+      "artifact": "explicit revised 8K acceptance",
+      "kind": "tracked source artifact",
+      "source_commit": "fd94b24c7da174459475b6f1852b02082bfc7c51",
+      "source_blob": "e467080942350bc7d848e6998ce4238425e74dbc",
+      "original_sha256": "cc000c81c571641f491aa4602c3353051cf94080ef02e5f1748c83231f340fe1",
+      "normalization": "Omit service task and filesystem deployment arguments; retain failure/adoption timing.",
+      "public_sha256": "1bc3fe4976c1724260cf4fae30dd98a82e1a5a03bbe3075f094bef7750c579b9"
     }
   ]
 }

@@ -1,0 +1,11 @@
+{
+  "ShortDecodeReductionPercent": 41.69,
+  "ShortWallIncreasePercent": 39.92,
+  "PeakWorkingSetIncreaseMiB": 3072.75,
+  "MatchedShortPromptAndOutput": true,
+  "RuntimeDeltaOnlyContextAndKVPlacement": true,
+  "BaselineMatchesProductionExceptPort": true,
+  "NoLongContextTruncation": true,
+  "RestoreVerified": true,
+  "TerminationMetadata": "Canonical performance.csv derives EOS/TokenCap from native stop_type; initial results.csv queried absent legacy booleans."
+}

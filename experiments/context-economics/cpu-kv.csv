@@ -1,0 +1,6 @@
+Arm,Request,PromptTokens,PrefillTokensTimed,OutputTokens,PrefillTokSec,DecodeTokSec,PrefillSeconds,DecodeSeconds,WallSeconds,HarnessSeconds,EOS,TokenCap,PeakWorkingSetMiB,PeakPrivateMiB,PeakDeviceUsedMiB,MinDeviceFreeMiB,StopReason
+gpu-4k,warmup,660,660,64,159.363,44.021,4.141,1.431,5.57457,5.609,False,True,17475.54,21171.45,5011,956,limit
+gpu-4k,short,660,660,256,166.860,51.470,3.955,4.954,8.911931,8.943,False,True,17479.29,21179.18,5015,952,limit
+cpu-32k,warmup,660,660,64,159.089,28.060,4.149,2.245,6.395804,6.426,False,True,20548.65,23959.51,4717,1250,limit
+cpu-32k,short,660,660,256,166.231,30.011,3.970,8.497,12.469509,12.5,False,True,20552.04,23965.59,4721,1246,limit
+cpu-32k,long,28553,28553,128,58.166,3.642,490.885,34.872,525.787969,525.819,False,True,20649.64,24062.55,4758,1209,limit

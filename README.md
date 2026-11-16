@@ -58,3 +58,13 @@ Mean response wall time was **134.57 s**, versus **46.48 s** for sampled Qwen.
 **REJECT for this workload**, not as a universal model judgment.
 [Model-selection branch](experiments/gemma-model-selection/README.md).
 
+
+### 6. Capacity and responsiveness were different constraints
+
+32K CPU-KV **worked**: a 28,553-token prompt, successful early-marker recall,
+**525.79 s** total, and **3.64 tok/s** decode. It was working but rejected as the
+interactive default. Near-full 8K GPU-KV gave **38.93 tok/s**. That initially
+failed the 44-tok/s acceptance target; the lower speed was then explicitly
+accepted in return for useful context. **ADOPT the smaller GPU-resident context.**
+[Both decisions and original rows](experiments/context-economics/README.md).
+
