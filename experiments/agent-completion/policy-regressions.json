@@ -1,0 +1,1764 @@
+{
+  "first-policy-check": [
+    {
+      "Case": "baseline-identity",
+      "ExitCode": 0,
+      "WallSeconds": 17.297419299999998,
+      "EnvironmentRestored": true,
+      "Budget": {
+        "Input": "7168",
+        "Output": "1024"
+      },
+      "ExactEdit": null,
+      "EventCounts": [
+        {
+          "Name": "session.start",
+          "Count": 1
+        },
+        {
+          "Name": "session.skills_loaded",
+          "Count": 1
+        },
+        {
+          "Name": "session.custom_agents_updated",
+          "Count": 1
+        },
+        {
+          "Name": "session.info",
+          "Count": 1
+        },
+        {
+          "Name": "session.mcp_servers_loaded",
+          "Count": 2
+        },
+        {
+          "Name": "session.tools_updated",
+          "Count": 2
+        },
+        {
+          "Name": "instruction.update",
+          "Count": 2
+        },
+        {
+          "Name": "session.mode_notice_delivered",
+          "Count": 1
+        },
+        {
+          "Name": "user.message",
+          "Count": 2
+        },
+        {
+          "Name": "assistant.turn_start",
+          "Count": 2
+        },
+        {
+          "Name": "model.call_start",
+          "Count": 2
+        },
+        {
+          "Name": "assistant.message_start",
+          "Count": 2
+        },
+        {
+          "Name": "assistant.message_delta",
+          "Count": 74
+        },
+        {
+          "Name": "model.call_finished",
+          "Count": 2
+        },
+        {
+          "Name": "assistant.message",
+          "Count": 2
+        },
+        {
+          "Name": "model.call_final_result",
+          "Count": 2
+        },
+        {
+          "Name": "assistant.turn_end",
+          "Count": 2
+        },
+        {
+          "Name": "assistant.idle",
+          "Count": 2
+        },
+        {
+          "Name": "session.warning",
+          "Count": 1
+        },
+        {
+          "Name": "session.autopilot_stopped",
+          "Count": 1
+        },
+        {
+          "Name": "result",
+          "Count": 1
+        }
+      ],
+      "StopReasons": [
+        "cap_reached"
+      ],
+      "ToolCalls": []
+    },
+    {
+      "Case": "fixed-identity",
+      "ExitCode": 0,
+      "WallSeconds": 19.7423817,
+      "EnvironmentRestored": true,
+      "Budget": {
+        "Input": "7168",
+        "Output": "1024"
+      },
+      "ExactEdit": null,
+      "EventCounts": [
+        {
+          "Name": "session.start",
+          "Count": 1
+        },
+        {
+          "Name": "session.skills_loaded",
+          "Count": 1
+        },
+        {
+          "Name": "session.custom_agents_updated",
+          "Count": 1
+        },
+        {
+          "Name": "session.info",
+          "Count": 1
+        },
+        {
+          "Name": "session.mcp_servers_loaded",
+          "Count": 2
+        },
+        {
+          "Name": "session.tools_updated",
+          "Count": 2
+        },
+        {
+          "Name": "instruction.update",
+          "Count": 2
+        },
+        {
+          "Name": "session.mode_notice_delivered",
+          "Count": 1
+        },
+        {
+          "Name": "user.message",
+          "Count": 2
+        },
+        {
+          "Name": "assistant.turn_start",
+          "Count": 2
+        },
+        {
+          "Name": "model.call_start",
+          "Count": 2
+        },
+        {
+          "Name": "assistant.message_start",
+          "Count": 2
+        },
+        {
+          "Name": "assistant.message_delta",
+          "Count": 74
+        },
+        {
+          "Name": "model.call_finished",
+          "Count": 2
+        },
+        {
+          "Name": "assistant.message",
+          "Count": 2
+        },
+        {
+          "Name": "model.call_final_result",
+          "Count": 2
+        },
+        {
+          "Name": "assistant.turn_end",
+          "Count": 2
+        },
+        {
+          "Name": "assistant.idle",
+          "Count": 2
+        },
+        {
+          "Name": "session.warning",
+          "Count": 1
+        },
+        {
+          "Name": "session.autopilot_stopped",
+          "Count": 1
+        },
+        {
+          "Name": "result",
+          "Count": 1
+        }
+      ],
+      "StopReasons": [
+        "cap_reached"
+      ],
+      "ToolCalls": []
+    },
+    {
+      "Case": "fixed-read-edit",
+      "ExitCode": 0,
+      "WallSeconds": 193.8308849,
+      "EnvironmentRestored": true,
+      "Budget": {
+        "Input": "7168",
+        "Output": "1024"
+      },
+      "ExactEdit": false,
+      "EventCounts": [
+        {
+          "Name": "session.start",
+          "Count": 1
+        },
+        {
+          "Name": "session.skills_loaded",
+          "Count": 1
+        },
+        {
+          "Name": "session.custom_agents_updated",
+          "Count": 1
+        },
+        {
+          "Name": "session.info",
+          "Count": 1
+        },
+        {
+          "Name": "session.mcp_servers_loaded",
+          "Count": 1
+        },
+        {
+          "Name": "session.tools_updated",
+          "Count": 1
+        },
+        {
+          "Name": "instruction.update",
+          "Count": 2
+        },
+        {
+          "Name": "session.mode_notice_delivered",
+          "Count": 1
+        },
+        {
+          "Name": "user.message",
+          "Count": 1
+        },
+        {
+          "Name": "assistant.turn_start",
+          "Count": 7
+        },
+        {
+          "Name": "model.call_start",
+          "Count": 7
+        },
+        {
+          "Name": "assistant.tool_call_delta",
+          "Count": 243
+        },
+        {
+          "Name": "model.call_finished",
+          "Count": 7
+        },
+        {
+          "Name": "assistant.message",
+          "Count": 7
+        },
+        {
+          "Name": "tool.execution_start",
+          "Count": 7
+        },
+        {
+          "Name": "model.call_final_result",
+          "Count": 7
+        },
+        {
+          "Name": "tool.execution_complete",
+          "Count": 7
+        },
+        {
+          "Name": "assistant.turn_end",
+          "Count": 7
+        },
+        {
+          "Name": "session.compaction_start",
+          "Count": 2
+        },
+        {
+          "Name": "session.compaction_summarized",
+          "Count": 2
+        },
+        {
+          "Name": "session.compaction_complete",
+          "Count": 2
+        },
+        {
+          "Name": "session.task_complete",
+          "Count": 1
+        },
+        {
+          "Name": "session.autopilot_stopped",
+          "Count": 1
+        },
+        {
+          "Name": "session.usage_checkpoint",
+          "Count": 1
+        },
+        {
+          "Name": "assistant.idle",
+          "Count": 1
+        },
+        {
+          "Name": "result",
+          "Count": 1
+        }
+      ],
+      "StopReasons": [
+        "task_complete"
+      ],
+      "ToolCalls": [
+        "view",
+        "edit",
+        "view",
+        "edit",
+        "edit",
+        "view",
+        "task_complete"
+      ]
+    },
+    {
+      "Case": "explicit-completion-identity",
+      "ExitCode": 0,
+      "WallSeconds": 17.3966539,
+      "EnvironmentRestored": true,
+      "Budget": {
+        "Input": "7168",
+        "Output": "1024"
+      },
+      "ExactEdit": null,
+      "EventCounts": [
+        {
+          "Name": "session.start",
+          "Count": 1
+        },
+        {
+          "Name": "session.skills_loaded",
+          "Count": 1
+        },
+        {
+          "Name": "session.custom_agents_updated",
+          "Count": 1
+        },
+        {
+          "Name": "session.info",
+          "Count": 1
+        },
+        {
+          "Name": "session.mcp_servers_loaded",
+          "Count": 1
+        },
+        {
+          "Name": "session.tools_updated",
+          "Count": 1
+        },
+        {
+          "Name": "instruction.update",
+          "Count": 2
+        },
+        {
+          "Name": "session.mode_notice_delivered",
+          "Count": 1
+        },
+        {
+          "Name": "user.message",
+          "Count": 1
+        },
+        {
+          "Name": "assistant.turn_start",
+          "Count": 1
+        },
+        {
+          "Name": "model.call_start",
+          "Count": 1
+        },
+        {
+          "Name": "assistant.tool_call_delta",
+          "Count": 43
+        },
+        {
+          "Name": "model.call_finished",
+          "Count": 1
+        },
+        {
+          "Name": "assistant.message",
+          "Count": 1
+        },
+        {
+          "Name": "tool.execution_start",
+          "Count": 1
+        },
+        {
+          "Name": "model.call_final_result",
+          "Count": 1
+        },
+        {
+          "Name": "tool.execution_complete",
+          "Count": 1
+        },
+        {
+          "Name": "session.task_complete",
+          "Count": 1
+        },
+        {
+          "Name": "assistant.turn_end",
+          "Count": 1
+        },
+        {
+          "Name": "session.autopilot_stopped",
+          "Count": 1
+        },
+        {
+          "Name": "assistant.idle",
+          "Count": 1
+        },
+        {
+          "Name": "result",
+          "Count": 1
+        }
+      ],
+      "StopReasons": [
+        "task_complete"
+      ],
+      "ToolCalls": [
+        "task_complete"
+      ]
+    }
+  ],
+  "direct-policy-check": [
+    {
+      "Case": "baseline-identity",
+      "ExitCode": 0,
+      "WallSeconds": 17.4051203,
+      "EnvironmentRestored": true,
+      "Budget": {
+        "Input": "7168",
+        "Output": "1024"
+      },
+      "ExactEdit": null,
+      "EventCounts": [
+        {
+          "Name": "session.start",
+          "Count": 1
+        },
+        {
+          "Name": "session.skills_loaded",
+          "Count": 1
+        },
+        {
+          "Name": "session.custom_agents_updated",
+          "Count": 1
+        },
+        {
+          "Name": "session.info",
+          "Count": 1
+        },
+        {
+          "Name": "session.mcp_servers_loaded",
+          "Count": 2
+        },
+        {
+          "Name": "session.tools_updated",
+          "Count": 2
+        },
+        {
+          "Name": "instruction.update",
+          "Count": 2
+        },
+        {
+          "Name": "session.mode_notice_delivered",
+          "Count": 1
+        },
+        {
+          "Name": "user.message",
+          "Count": 2
+        },
+        {
+          "Name": "assistant.turn_start",
+          "Count": 2
+        },
+        {
+          "Name": "model.call_start",
+          "Count": 2
+        },
+        {
+          "Name": "assistant.message_start",
+          "Count": 2
+        },
+        {
+          "Name": "assistant.message_delta",
+          "Count": 74
+        },
+        {
+          "Name": "model.call_finished",
+          "Count": 2
+        },
+        {
+          "Name": "assistant.message",
+          "Count": 2
+        },
+        {
+          "Name": "model.call_final_result",
+          "Count": 2
+        },
+        {
+          "Name": "assistant.turn_end",
+          "Count": 2
+        },
+        {
+          "Name": "assistant.idle",
+          "Count": 2
+        },
+        {
+          "Name": "session.warning",
+          "Count": 1
+        },
+        {
+          "Name": "session.autopilot_stopped",
+          "Count": 1
+        },
+        {
+          "Name": "result",
+          "Count": 1
+        }
+      ],
+      "StopReasons": [
+        "cap_reached"
+      ],
+      "ToolCalls": []
+    },
+    {
+      "Case": "fixed-identity",
+      "ExitCode": 0,
+      "WallSeconds": 17.2435899,
+      "EnvironmentRestored": true,
+      "Budget": {
+        "Input": "7168",
+        "Output": "1024"
+      },
+      "ExactEdit": null,
+      "EventCounts": [
+        {
+          "Name": "session.start",
+          "Count": 1
+        },
+        {
+          "Name": "session.skills_loaded",
+          "Count": 1
+        },
+        {
+          "Name": "session.custom_agents_updated",
+          "Count": 1
+        },
+        {
+          "Name": "session.info",
+          "Count": 1
+        },
+        {
+          "Name": "session.mcp_servers_loaded",
+          "Count": 1
+        },
+        {
+          "Name": "session.tools_updated",
+          "Count": 1
+        },
+        {
+          "Name": "instruction.update",
+          "Count": 2
+        },
+        {
+          "Name": "session.mode_notice_delivered",
+          "Count": 1
+        },
+        {
+          "Name": "user.message",
+          "Count": 1
+        },
+        {
+          "Name": "assistant.turn_start",
+          "Count": 1
+        },
+        {
+          "Name": "model.call_start",
+          "Count": 1
+        },
+        {
+          "Name": "assistant.tool_call_delta",
+          "Count": 43
+        },
+        {
+          "Name": "model.call_finished",
+          "Count": 1
+        },
+        {
+          "Name": "assistant.message",
+          "Count": 1
+        },
+        {
+          "Name": "tool.execution_start",
+          "Count": 1
+        },
+        {
+          "Name": "model.call_final_result",
+          "Count": 1
+        },
+        {
+          "Name": "tool.execution_complete",
+          "Count": 1
+        },
+        {
+          "Name": "session.task_complete",
+          "Count": 1
+        },
+        {
+          "Name": "assistant.turn_end",
+          "Count": 1
+        },
+        {
+          "Name": "session.autopilot_stopped",
+          "Count": 1
+        },
+        {
+          "Name": "assistant.idle",
+          "Count": 1
+        },
+        {
+          "Name": "result",
+          "Count": 1
+        }
+      ],
+      "StopReasons": [
+        "task_complete"
+      ],
+      "ToolCalls": [
+        "task_complete"
+      ]
+    },
+    {
+      "Case": "fixed-read-edit",
+      "ExitCode": 0,
+      "WallSeconds": 172.517047,
+      "EnvironmentRestored": true,
+      "Budget": {
+        "Input": "7168",
+        "Output": "1024"
+      },
+      "ExactEdit": false,
+      "EventCounts": [
+        {
+          "Name": "session.start",
+          "Count": 1
+        },
+        {
+          "Name": "session.skills_loaded",
+          "Count": 1
+        },
+        {
+          "Name": "session.custom_agents_updated",
+          "Count": 1
+        },
+        {
+          "Name": "session.info",
+          "Count": 1
+        },
+        {
+          "Name": "session.mcp_servers_loaded",
+          "Count": 1
+        },
+        {
+          "Name": "session.tools_updated",
+          "Count": 1
+        },
+        {
+          "Name": "instruction.update",
+          "Count": 2
+        },
+        {
+          "Name": "session.mode_notice_delivered",
+          "Count": 1
+        },
+        {
+          "Name": "user.message",
+          "Count": 1
+        },
+        {
+          "Name": "assistant.turn_start",
+          "Count": 7
+        },
+        {
+          "Name": "model.call_start",
+          "Count": 7
+        },
+        {
+          "Name": "assistant.tool_call_delta",
+          "Count": 223
+        },
+        {
+          "Name": "model.call_finished",
+          "Count": 7
+        },
+        {
+          "Name": "assistant.message",
+          "Count": 7
+        },
+        {
+          "Name": "tool.execution_start",
+          "Count": 7
+        },
+        {
+          "Name": "model.call_final_result",
+          "Count": 7
+        },
+        {
+          "Name": "tool.execution_complete",
+          "Count": 7
+        },
+        {
+          "Name": "assistant.turn_end",
+          "Count": 7
+        },
+        {
+          "Name": "session.compaction_start",
+          "Count": 2
+        },
+        {
+          "Name": "session.compaction_summarized",
+          "Count": 2
+        },
+        {
+          "Name": "session.compaction_complete",
+          "Count": 2
+        },
+        {
+          "Name": "session.task_complete",
+          "Count": 1
+        },
+        {
+          "Name": "session.autopilot_stopped",
+          "Count": 1
+        },
+        {
+          "Name": "session.usage_checkpoint",
+          "Count": 1
+        },
+        {
+          "Name": "assistant.idle",
+          "Count": 1
+        },
+        {
+          "Name": "result",
+          "Count": 1
+        }
+      ],
+      "StopReasons": [
+        "task_complete"
+      ],
+      "ToolCalls": [
+        "view",
+        "edit",
+        "view",
+        "edit",
+        "edit",
+        "view",
+        "task_complete"
+      ]
+    },
+    {
+      "Case": "explicit-completion-identity",
+      "ExitCode": 0,
+      "WallSeconds": 17.6731451,
+      "EnvironmentRestored": true,
+      "Budget": {
+        "Input": "7168",
+        "Output": "1024"
+      },
+      "ExactEdit": null,
+      "EventCounts": [
+        {
+          "Name": "session.start",
+          "Count": 1
+        },
+        {
+          "Name": "session.skills_loaded",
+          "Count": 1
+        },
+        {
+          "Name": "session.custom_agents_updated",
+          "Count": 1
+        },
+        {
+          "Name": "session.info",
+          "Count": 1
+        },
+        {
+          "Name": "session.mcp_servers_loaded",
+          "Count": 1
+        },
+        {
+          "Name": "session.tools_updated",
+          "Count": 1
+        },
+        {
+          "Name": "instruction.update",
+          "Count": 2
+        },
+        {
+          "Name": "session.mode_notice_delivered",
+          "Count": 1
+        },
+        {
+          "Name": "user.message",
+          "Count": 1
+        },
+        {
+          "Name": "assistant.turn_start",
+          "Count": 1
+        },
+        {
+          "Name": "model.call_start",
+          "Count": 1
+        },
+        {
+          "Name": "assistant.tool_call_delta",
+          "Count": 43
+        },
+        {
+          "Name": "model.call_finished",
+          "Count": 1
+        },
+        {
+          "Name": "assistant.message",
+          "Count": 1
+        },
+        {
+          "Name": "tool.execution_start",
+          "Count": 1
+        },
+        {
+          "Name": "model.call_final_result",
+          "Count": 1
+        },
+        {
+          "Name": "tool.execution_complete",
+          "Count": 1
+        },
+        {
+          "Name": "session.task_complete",
+          "Count": 1
+        },
+        {
+          "Name": "assistant.turn_end",
+          "Count": 1
+        },
+        {
+          "Name": "session.autopilot_stopped",
+          "Count": 1
+        },
+        {
+          "Name": "assistant.idle",
+          "Count": 1
+        },
+        {
+          "Name": "result",
+          "Count": 1
+        }
+      ],
+      "StopReasons": [
+        "task_complete"
+      ],
+      "ToolCalls": [
+        "task_complete"
+      ]
+    }
+  ],
+  "bounded-policy-check": [
+    {
+      "Case": "baseline-identity",
+      "ExitCode": 0,
+      "WallSeconds": 17.3112513,
+      "EnvironmentRestored": true,
+      "Budget": {
+        "Input": "7168",
+        "Output": "1024"
+      },
+      "ExactEdit": null,
+      "EventCounts": [
+        {
+          "Name": "session.start",
+          "Count": 1
+        },
+        {
+          "Name": "session.skills_loaded",
+          "Count": 1
+        },
+        {
+          "Name": "session.custom_agents_updated",
+          "Count": 1
+        },
+        {
+          "Name": "session.info",
+          "Count": 1
+        },
+        {
+          "Name": "session.mcp_servers_loaded",
+          "Count": 2
+        },
+        {
+          "Name": "session.tools_updated",
+          "Count": 2
+        },
+        {
+          "Name": "instruction.update",
+          "Count": 2
+        },
+        {
+          "Name": "session.mode_notice_delivered",
+          "Count": 1
+        },
+        {
+          "Name": "user.message",
+          "Count": 2
+        },
+        {
+          "Name": "assistant.turn_start",
+          "Count": 2
+        },
+        {
+          "Name": "model.call_start",
+          "Count": 2
+        },
+        {
+          "Name": "assistant.message_start",
+          "Count": 2
+        },
+        {
+          "Name": "assistant.message_delta",
+          "Count": 74
+        },
+        {
+          "Name": "model.call_finished",
+          "Count": 2
+        },
+        {
+          "Name": "assistant.message",
+          "Count": 2
+        },
+        {
+          "Name": "model.call_final_result",
+          "Count": 2
+        },
+        {
+          "Name": "assistant.turn_end",
+          "Count": 2
+        },
+        {
+          "Name": "assistant.idle",
+          "Count": 2
+        },
+        {
+          "Name": "session.warning",
+          "Count": 1
+        },
+        {
+          "Name": "session.autopilot_stopped",
+          "Count": 1
+        },
+        {
+          "Name": "result",
+          "Count": 1
+        }
+      ],
+      "StopReasons": [
+        "cap_reached"
+      ],
+      "ToolCalls": []
+    },
+    {
+      "Case": "fixed-identity",
+      "ExitCode": 0,
+      "WallSeconds": 20.1784823,
+      "EnvironmentRestored": true,
+      "Budget": {
+        "Input": "7168",
+        "Output": "1024"
+      },
+      "ExactEdit": null,
+      "EventCounts": [
+        {
+          "Name": "session.start",
+          "Count": 1
+        },
+        {
+          "Name": "session.skills_loaded",
+          "Count": 1
+        },
+        {
+          "Name": "session.custom_agents_updated",
+          "Count": 1
+        },
+        {
+          "Name": "session.info",
+          "Count": 1
+        },
+        {
+          "Name": "session.mcp_servers_loaded",
+          "Count": 2
+        },
+        {
+          "Name": "session.tools_updated",
+          "Count": 2
+        },
+        {
+          "Name": "instruction.update",
+          "Count": 2
+        },
+        {
+          "Name": "session.mode_notice_delivered",
+          "Count": 1
+        },
+        {
+          "Name": "user.message",
+          "Count": 2
+        },
+        {
+          "Name": "assistant.turn_start",
+          "Count": 2
+        },
+        {
+          "Name": "model.call_start",
+          "Count": 2
+        },
+        {
+          "Name": "assistant.message_start",
+          "Count": 2
+        },
+        {
+          "Name": "assistant.message_delta",
+          "Count": 74
+        },
+        {
+          "Name": "model.call_finished",
+          "Count": 2
+        },
+        {
+          "Name": "assistant.message",
+          "Count": 2
+        },
+        {
+          "Name": "model.call_final_result",
+          "Count": 2
+        },
+        {
+          "Name": "assistant.turn_end",
+          "Count": 2
+        },
+        {
+          "Name": "assistant.idle",
+          "Count": 2
+        },
+        {
+          "Name": "session.warning",
+          "Count": 1
+        },
+        {
+          "Name": "session.autopilot_stopped",
+          "Count": 1
+        },
+        {
+          "Name": "result",
+          "Count": 1
+        }
+      ],
+      "StopReasons": [
+        "cap_reached"
+      ],
+      "ToolCalls": []
+    },
+    {
+      "Case": "fixed-read-edit",
+      "ExitCode": 0,
+      "WallSeconds": 149.9306406,
+      "EnvironmentRestored": true,
+      "Budget": {
+        "Input": "7168",
+        "Output": "1024"
+      },
+      "ExactEdit": false,
+      "EventCounts": [
+        {
+          "Name": "session.start",
+          "Count": 1
+        },
+        {
+          "Name": "session.skills_loaded",
+          "Count": 1
+        },
+        {
+          "Name": "session.custom_agents_updated",
+          "Count": 1
+        },
+        {
+          "Name": "session.info",
+          "Count": 1
+        },
+        {
+          "Name": "session.mcp_servers_loaded",
+          "Count": 1
+        },
+        {
+          "Name": "session.tools_updated",
+          "Count": 1
+        },
+        {
+          "Name": "instruction.update",
+          "Count": 2
+        },
+        {
+          "Name": "session.mode_notice_delivered",
+          "Count": 1
+        },
+        {
+          "Name": "user.message",
+          "Count": 1
+        },
+        {
+          "Name": "assistant.turn_start",
+          "Count": 7
+        },
+        {
+          "Name": "model.call_start",
+          "Count": 7
+        },
+        {
+          "Name": "assistant.tool_call_delta",
+          "Count": 223
+        },
+        {
+          "Name": "model.call_finished",
+          "Count": 7
+        },
+        {
+          "Name": "assistant.message",
+          "Count": 7
+        },
+        {
+          "Name": "tool.execution_start",
+          "Count": 7
+        },
+        {
+          "Name": "model.call_final_result",
+          "Count": 7
+        },
+        {
+          "Name": "tool.execution_complete",
+          "Count": 7
+        },
+        {
+          "Name": "assistant.turn_end",
+          "Count": 7
+        },
+        {
+          "Name": "session.compaction_start",
+          "Count": 2
+        },
+        {
+          "Name": "session.compaction_summarized",
+          "Count": 2
+        },
+        {
+          "Name": "session.compaction_complete",
+          "Count": 2
+        },
+        {
+          "Name": "session.task_complete",
+          "Count": 1
+        },
+        {
+          "Name": "session.autopilot_stopped",
+          "Count": 1
+        },
+        {
+          "Name": "session.usage_checkpoint",
+          "Count": 1
+        },
+        {
+          "Name": "assistant.idle",
+          "Count": 1
+        },
+        {
+          "Name": "result",
+          "Count": 1
+        }
+      ],
+      "StopReasons": [
+        "task_complete"
+      ],
+      "ToolCalls": [
+        "view",
+        "edit",
+        "view",
+        "edit",
+        "edit",
+        "view",
+        "task_complete"
+      ]
+    },
+    {
+      "Case": "explicit-completion-identity",
+      "ExitCode": 0,
+      "WallSeconds": 17.832596,
+      "EnvironmentRestored": true,
+      "Budget": {
+        "Input": "7168",
+        "Output": "1024"
+      },
+      "ExactEdit": null,
+      "EventCounts": [
+        {
+          "Name": "session.start",
+          "Count": 1
+        },
+        {
+          "Name": "session.skills_loaded",
+          "Count": 1
+        },
+        {
+          "Name": "session.custom_agents_updated",
+          "Count": 1
+        },
+        {
+          "Name": "session.info",
+          "Count": 1
+        },
+        {
+          "Name": "session.mcp_servers_loaded",
+          "Count": 1
+        },
+        {
+          "Name": "session.tools_updated",
+          "Count": 1
+        },
+        {
+          "Name": "instruction.update",
+          "Count": 2
+        },
+        {
+          "Name": "session.mode_notice_delivered",
+          "Count": 1
+        },
+        {
+          "Name": "user.message",
+          "Count": 1
+        },
+        {
+          "Name": "assistant.turn_start",
+          "Count": 1
+        },
+        {
+          "Name": "model.call_start",
+          "Count": 1
+        },
+        {
+          "Name": "assistant.tool_call_delta",
+          "Count": 43
+        },
+        {
+          "Name": "model.call_finished",
+          "Count": 1
+        },
+        {
+          "Name": "assistant.message",
+          "Count": 1
+        },
+        {
+          "Name": "tool.execution_start",
+          "Count": 1
+        },
+        {
+          "Name": "model.call_final_result",
+          "Count": 1
+        },
+        {
+          "Name": "tool.execution_complete",
+          "Count": 1
+        },
+        {
+          "Name": "session.task_complete",
+          "Count": 1
+        },
+        {
+          "Name": "assistant.turn_end",
+          "Count": 1
+        },
+        {
+          "Name": "session.autopilot_stopped",
+          "Count": 1
+        },
+        {
+          "Name": "assistant.idle",
+          "Count": 1
+        },
+        {
+          "Name": "result",
+          "Count": 1
+        }
+      ],
+      "StopReasons": [
+        "task_complete"
+      ],
+      "ToolCalls": [
+        "task_complete"
+      ]
+    }
+  ],
+  "tool-only-check": [
+    {
+      "Case": "baseline-identity",
+      "ExitCode": 0,
+      "WallSeconds": 17.2234758,
+      "EnvironmentRestored": true,
+      "Budget": {
+        "Input": "7168",
+        "Output": "1024"
+      },
+      "ExactEdit": null,
+      "EventCounts": [
+        {
+          "Name": "session.start",
+          "Count": 1
+        },
+        {
+          "Name": "session.skills_loaded",
+          "Count": 1
+        },
+        {
+          "Name": "session.custom_agents_updated",
+          "Count": 1
+        },
+        {
+          "Name": "session.info",
+          "Count": 1
+        },
+        {
+          "Name": "session.mcp_servers_loaded",
+          "Count": 2
+        },
+        {
+          "Name": "session.tools_updated",
+          "Count": 2
+        },
+        {
+          "Name": "instruction.update",
+          "Count": 2
+        },
+        {
+          "Name": "session.mode_notice_delivered",
+          "Count": 1
+        },
+        {
+          "Name": "user.message",
+          "Count": 2
+        },
+        {
+          "Name": "assistant.turn_start",
+          "Count": 2
+        },
+        {
+          "Name": "model.call_start",
+          "Count": 2
+        },
+        {
+          "Name": "assistant.message_start",
+          "Count": 2
+        },
+        {
+          "Name": "assistant.message_delta",
+          "Count": 74
+        },
+        {
+          "Name": "model.call_finished",
+          "Count": 2
+        },
+        {
+          "Name": "assistant.message",
+          "Count": 2
+        },
+        {
+          "Name": "model.call_final_result",
+          "Count": 2
+        },
+        {
+          "Name": "assistant.turn_end",
+          "Count": 2
+        },
+        {
+          "Name": "assistant.idle",
+          "Count": 2
+        },
+        {
+          "Name": "session.warning",
+          "Count": 1
+        },
+        {
+          "Name": "session.autopilot_stopped",
+          "Count": 1
+        },
+        {
+          "Name": "result",
+          "Count": 1
+        }
+      ],
+      "StopReasons": [
+        "cap_reached"
+      ],
+      "ToolCalls": []
+    },
+    {
+      "Case": "fixed-identity",
+      "ExitCode": 0,
+      "WallSeconds": 22.1990996,
+      "EnvironmentRestored": true,
+      "Budget": {
+        "Input": "7168",
+        "Output": "1024"
+      },
+      "ExactEdit": null,
+      "EventCounts": [
+        {
+          "Name": "session.start",
+          "Count": 1
+        },
+        {
+          "Name": "session.skills_loaded",
+          "Count": 1
+        },
+        {
+          "Name": "session.custom_agents_updated",
+          "Count": 1
+        },
+        {
+          "Name": "session.info",
+          "Count": 1
+        },
+        {
+          "Name": "session.mcp_servers_loaded",
+          "Count": 2
+        },
+        {
+          "Name": "session.tools_updated",
+          "Count": 2
+        },
+        {
+          "Name": "instruction.update",
+          "Count": 2
+        },
+        {
+          "Name": "session.mode_notice_delivered",
+          "Count": 1
+        },
+        {
+          "Name": "user.message",
+          "Count": 2
+        },
+        {
+          "Name": "assistant.turn_start",
+          "Count": 2
+        },
+        {
+          "Name": "model.call_start",
+          "Count": 2
+        },
+        {
+          "Name": "assistant.message_start",
+          "Count": 2
+        },
+        {
+          "Name": "assistant.message_delta",
+          "Count": 74
+        },
+        {
+          "Name": "model.call_finished",
+          "Count": 2
+        },
+        {
+          "Name": "assistant.message",
+          "Count": 2
+        },
+        {
+          "Name": "model.call_final_result",
+          "Count": 2
+        },
+        {
+          "Name": "assistant.turn_end",
+          "Count": 2
+        },
+        {
+          "Name": "assistant.idle",
+          "Count": 2
+        },
+        {
+          "Name": "session.warning",
+          "Count": 1
+        },
+        {
+          "Name": "session.autopilot_stopped",
+          "Count": 1
+        },
+        {
+          "Name": "result",
+          "Count": 1
+        }
+      ],
+      "StopReasons": [
+        "cap_reached"
+      ],
+      "ToolCalls": []
+    },
+    {
+      "Case": "fixed-read-edit",
+      "ExitCode": 0,
+      "WallSeconds": 69.22783749999999,
+      "EnvironmentRestored": true,
+      "Budget": {
+        "Input": "7168",
+        "Output": "1024"
+      },
+      "ExactEdit": true,
+      "EventCounts": [
+        {
+          "Name": "session.start",
+          "Count": 1
+        },
+        {
+          "Name": "session.skills_loaded",
+          "Count": 1
+        },
+        {
+          "Name": "session.custom_agents_updated",
+          "Count": 1
+        },
+        {
+          "Name": "session.info",
+          "Count": 1
+        },
+        {
+          "Name": "session.mcp_servers_loaded",
+          "Count": 2
+        },
+        {
+          "Name": "session.tools_updated",
+          "Count": 2
+        },
+        {
+          "Name": "instruction.update",
+          "Count": 2
+        },
+        {
+          "Name": "session.mode_notice_delivered",
+          "Count": 1
+        },
+        {
+          "Name": "user.message",
+          "Count": 2
+        },
+        {
+          "Name": "assistant.turn_start",
+          "Count": 4
+        },
+        {
+          "Name": "model.call_start",
+          "Count": 4
+        },
+        {
+          "Name": "assistant.tool_call_delta",
+          "Count": 113
+        },
+        {
+          "Name": "model.call_finished",
+          "Count": 4
+        },
+        {
+          "Name": "assistant.message",
+          "Count": 4
+        },
+        {
+          "Name": "tool.execution_start",
+          "Count": 3
+        },
+        {
+          "Name": "model.call_final_result",
+          "Count": 4
+        },
+        {
+          "Name": "tool.execution_complete",
+          "Count": 3
+        },
+        {
+          "Name": "assistant.turn_end",
+          "Count": 4
+        },
+        {
+          "Name": "session.compaction_start",
+          "Count": 1
+        },
+        {
+          "Name": "assistant.message_start",
+          "Count": 1
+        },
+        {
+          "Name": "assistant.message_delta",
+          "Count": 19
+        },
+        {
+          "Name": "assistant.idle",
+          "Count": 2
+        },
+        {
+          "Name": "session.compaction_summarized",
+          "Count": 1
+        },
+        {
+          "Name": "session.task_complete",
+          "Count": 1
+        },
+        {
+          "Name": "session.autopilot_stopped",
+          "Count": 1
+        },
+        {
+          "Name": "result",
+          "Count": 1
+        }
+      ],
+      "StopReasons": [
+        "task_complete"
+      ],
+      "ToolCalls": [
+        "view",
+        "edit",
+        "task_complete"
+      ]
+    },
+    {
+      "Case": "explicit-completion-identity",
+      "ExitCode": 0,
+      "WallSeconds": 16.2253051,
+      "EnvironmentRestored": true,
+      "Budget": {
+        "Input": "7168",
+        "Output": "1024"
+      },
+      "ExactEdit": null,
+      "EventCounts": [
+        {
+          "Name": "session.start",
+          "Count": 1
+        },
+        {
+          "Name": "session.skills_loaded",
+          "Count": 1
+        },
+        {
+          "Name": "session.custom_agents_updated",
+          "Count": 1
+        },
+        {
+          "Name": "session.info",
+          "Count": 1
+        },
+        {
+          "Name": "session.mcp_servers_loaded",
+          "Count": 1
+        },
+        {
+          "Name": "session.tools_updated",
+          "Count": 1
+        },
+        {
+          "Name": "instruction.update",
+          "Count": 2
+        },
+        {
+          "Name": "session.mode_notice_delivered",
+          "Count": 1
+        },
+        {
+          "Name": "user.message",
+          "Count": 1
+        },
+        {
+          "Name": "assistant.turn_start",
+          "Count": 1
+        },
+        {
+          "Name": "model.call_start",
+          "Count": 1
+        },
+        {
+          "Name": "assistant.tool_call_delta",
+          "Count": 43
+        },
+        {
+          "Name": "model.call_finished",
+          "Count": 1
+        },
+        {
+          "Name": "assistant.message",
+          "Count": 1
+        },
+        {
+          "Name": "tool.execution_start",
+          "Count": 1
+        },
+        {
+          "Name": "model.call_final_result",
+          "Count": 1
+        },
+        {
+          "Name": "tool.execution_complete",
+          "Count": 1
+        },
+        {
+          "Name": "session.task_complete",
+          "Count": 1
+        },
+        {
+          "Name": "assistant.turn_end",
+          "Count": 1
+        },
+        {
+          "Name": "session.autopilot_stopped",
+          "Count": 1
+        },
+        {
+          "Name": "assistant.idle",
+          "Count": 1
+        },
+        {
+          "Name": "result",
+          "Count": 1
+        }
+      ],
+      "StopReasons": [
+        "task_complete"
+      ],
+      "ToolCalls": [
+        "task_complete"
+      ]
+    }
+  ]
+}

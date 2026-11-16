@@ -68,3 +68,22 @@ failed the 44-tok/s acceptance target; the lower speed was then explicitly
 accepted in return for useful context. **ADOPT the smaller GPU-resident context.**
 [Both decisions and original rows](experiments/context-economics/README.md).
 
+
+## Deliberate workload pivot
+
+The Tamil workflow was largely single-shot. I deliberately changed the question
+to multi-step tool and document work; this was not a natural evolution of the
+same workload. Instructions, schemas, observations, history, and intermediate
+work now competed with the user's material for the same context.
+An affordance can cost both **tokens** and **another decision/action choice**.
+
+## Movement two: what happens when this becomes an agent?
+
+### 7. A successful tool call was not reliable completion
+
+Adding the missing `task_complete` capability let a bounded read/edit task finish.
+An identity question could still repeat until the continuation cap unless
+explicitly directed to complete. Instruction-policy variants caused regressions,
+including an undone edit. **STOP policy tweaking; preserve the boundary.**
+[Focused protocol records](experiments/agent-completion/README.md).
+

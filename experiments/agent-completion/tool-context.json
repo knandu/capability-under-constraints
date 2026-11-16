@@ -1,0 +1,44 @@
+[
+  {
+    "Case": "4k-initial-tiny",
+    "WallSeconds": 42.494339499999995,
+    "InputLimit": 3072,
+    "OutputLimit": 1024,
+    "ExactEdit": true,
+    "AllMCPDisabled": true,
+    "MaximumClientContextTokensBeforeTool": 2634.0,
+    "ReadResultTokens": 12,
+    "ToolCalls": [
+      "view",
+      "edit"
+    ]
+  },
+  {
+    "Case": "4k-minimal-tiny",
+    "WallSeconds": 29.8153273,
+    "InputLimit": 3072,
+    "OutputLimit": 1024,
+    "ExactEdit": true,
+    "AllMCPDisabled": true,
+    "MaximumClientContextTokensBeforeTool": 2636.0,
+    "ReadResultTokens": 12,
+    "ToolCalls": [
+      "view",
+      "edit"
+    ]
+  },
+  {
+    "Case": "8k-minimal-201-lines",
+    "WallSeconds": 45.315747599999995,
+    "InputLimit": 7168,
+    "OutputLimit": 1024,
+    "ExactEdit": true,
+    "AllMCPDisabled": true,
+    "MaximumClientContextTokensBeforeTool": 4036.0,
+    "ReadResultTokens": 1407,
+    "ToolCalls": [
+      "view",
+      "edit"
+    ]
+  }
+]

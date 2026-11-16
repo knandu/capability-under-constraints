@@ -73,6 +73,18 @@
         "fd94b24c7da174459475b6f1852b02082bfc7c51"
       ],
       "timestamp_basis": "Original source checkpoint; not a newly invented experiment time."
+    },
+    {
+      "number": 7,
+      "id": "agent-completion",
+      "title": "Establish agent-completion boundary and mark the workload pivot",
+      "decision": "CONTINUE bounded tools; STOP policy tuning",
+      "author_date": "2026-11-15T19:05:35-06:00",
+      "source_commits": [
+        "fd94b24c7da174459475b6f1852b02082bfc7c51",
+        "de521e04326b05657ad57bd964610faaaf62f530"
+      ],
+      "timestamp_basis": "Original source checkpoint; not a newly invented experiment time."
     }
   ],
   "artifact_origins": [
@@ -361,6 +373,72 @@
       "original_sha256": "cc000c81c571641f491aa4602c3353051cf94080ef02e5f1748c83231f340fe1",
       "normalization": "Omit service task and filesystem deployment arguments; retain failure/adoption timing.",
       "public_sha256": "1bc3fe4976c1724260cf4fae30dd98a82e1a5a03bbe3075f094bef7750c579b9"
+    },
+    {
+      "gate": "agent-completion",
+      "public_path": "experiments/agent-completion/tool-context.json",
+      "artifact": "focused tool/context controls",
+      "kind": "tracked source artifact",
+      "source_commit": "fd94b24c7da174459475b6f1852b02082bfc7c51",
+      "source_blob": "0271137ecb0e0ebe2f584c847f36c7ea797175c4",
+      "original_sha256": "f421ee347f09942326f5a52b9e13d4c40ceb6ff8fcbb184744400081a4e76e1a",
+      "normalization": "Retain numeric outcomes/tool names; omit paths, message bodies, connector names and session hashes.",
+      "public_sha256": "604bb7d97b1491d77f6e7f8a6594e05385c197365690c2411fd1faa3707803f3"
+    },
+    {
+      "gate": "agent-completion",
+      "public_path": "experiments/agent-completion/completion.json",
+      "artifact": "focused completion protocol controls",
+      "kind": "tracked source artifact",
+      "source_commit": "de521e04326b05657ad57bd964610faaaf62f530",
+      "source_blob": "200e8ffa9e07dba9d8d9a666ac98e9fc5de70c9d",
+      "original_sha256": "9cd7ce0964643c22951ce6f1d5f0205e7a802296b0e3f80c84bec2328cccc610",
+      "normalization": "Explicit outcome projection: omit prompts, messages, paths, connector inventory and session hashes.",
+      "public_sha256": "34629cce58604ec09eafc485eeedc259eefb745d3adfbac5a74989f485e31eca"
+    },
+    {
+      "gate": "agent-completion",
+      "public_path": "experiments/agent-completion/policy-regressions.json",
+      "artifact": "first-policy-check focused proof",
+      "kind": "tracked source artifact",
+      "source_commit": "de521e04326b05657ad57bd964610faaaf62f530",
+      "source_blob": "73f16ae4ba2329a861f5cd4b7ac18c5842a61382",
+      "original_sha256": "438adce188cf6b39a676054562ad0c9da4b3c16dfffabc3efe5dc3ba6baad53c",
+      "normalization": "Focused outcomes only; policy variants grouped by original control.",
+      "public_sha256": "9d5ade8364ca8974fc50f813e957bde542178f0353c84a8244f29c217ee2bb50"
+    },
+    {
+      "gate": "agent-completion",
+      "public_path": "experiments/agent-completion/policy-regressions.json",
+      "artifact": "direct-policy-check focused proof",
+      "kind": "tracked source artifact",
+      "source_commit": "de521e04326b05657ad57bd964610faaaf62f530",
+      "source_blob": "f2c238929251db8194e4ab75710a5067e368457f",
+      "original_sha256": "07aec6a81da326968b5b9b6f52030784d920b4f44a99c98b38ee67f1930b6b0d",
+      "normalization": "Focused outcomes only; policy variants grouped by original control.",
+      "public_sha256": "9d5ade8364ca8974fc50f813e957bde542178f0353c84a8244f29c217ee2bb50"
+    },
+    {
+      "gate": "agent-completion",
+      "public_path": "experiments/agent-completion/policy-regressions.json",
+      "artifact": "bounded-policy-check focused proof",
+      "kind": "tracked source artifact",
+      "source_commit": "de521e04326b05657ad57bd964610faaaf62f530",
+      "source_blob": "adcda27f66c57d6ca53220395f1b7a0e953ab3ef",
+      "original_sha256": "e5335692fbfefa1b698a0abdf8f9c516bf81d5d64973674c53742eb8f2040dbd",
+      "normalization": "Focused outcomes only; policy variants grouped by original control.",
+      "public_sha256": "9d5ade8364ca8974fc50f813e957bde542178f0353c84a8244f29c217ee2bb50"
+    },
+    {
+      "gate": "agent-completion",
+      "public_path": "experiments/agent-completion/policy-regressions.json",
+      "artifact": "tool-only-check focused proof",
+      "kind": "tracked source artifact",
+      "source_commit": "de521e04326b05657ad57bd964610faaaf62f530",
+      "source_blob": "6c79bc19b939f3ef1d30049f27ffe5c284161418",
+      "original_sha256": "fedaa00b80388003b357b1a9f53026530b527f02d1bc6c5af6711dda3faa2bd3",
+      "normalization": "Focused outcomes only; policy variants grouped by original control.",
+      "public_sha256": "9d5ade8364ca8974fc50f813e957bde542178f0353c84a8244f29c217ee2bb50"
     }
   ]
 }
