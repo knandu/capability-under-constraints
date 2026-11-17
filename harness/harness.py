@@ -199,10 +199,14 @@ def main():
     parser.add_argument("--port", type=int, default=8765)
     parser.add_argument("--base-url", help="Default localhost model API base URL.")
     parser.add_argument("--model", help="Default model identifier.")
+    parser.add_argument("--context", type=int, help="Default session context token budget.")
+    parser.add_argument("--max-input", type=int, help="Default maximum input tokens, including prompt and tools.")
+    parser.add_argument("--max-output", type=int, help="Default maximum generated tokens per model call.")
     parser.add_argument("--api-key-env", help="Optional environment variable containing the model API key; never exported.")
     args = parser.parse_args()
     key = os.environ[args.api_key_env] if args.api_key_env else ""
-    overrides = {name: getattr(args, name) for name in ("base_url", "model") if getattr(args, name) is not None}
+    overrides = {name: getattr(args, name) for name in
+                 ("base_url", "model", "context", "max_input", "max_output") if getattr(args, name) is not None}
     with HarnessServer(("127.0.0.1", args.port), key, overrides) as server:
         print(f"Model harness: http://127.0.0.1:{server.server_port}", flush=True)
         try:

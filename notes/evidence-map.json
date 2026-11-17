@@ -116,6 +116,18 @@
         "e602ddb1f9db3ad45a2327bf5d678c835077da1a"
       ],
       "timestamp_basis": "Original source checkpoint; not a newly invented experiment time."
+    },
+    {
+      "number": 10,
+      "id": "qwen36-performance",
+      "title": "Adopt Qwen3.6 for performance; leave quality unqualified",
+      "decision": "ADOPT FOR PERFORMANCE; QUALITY UNQUALIFIED",
+      "author_date": "2026-11-16T23:16:47-06:00",
+      "source_commits": [
+        "0e3e590b7aa30fac92c04288dc3ee29c74c364f5",
+        "40bb069f6dc9e9ca2f9e6469cb423f1a98955a8c"
+      ],
+      "timestamp_basis": "Original source checkpoint; not a newly invented experiment time."
     }
   ],
   "artifact_origins": [
@@ -723,6 +735,138 @@
       "original_sha256": "597e022217f08f5fe0535a2c17f869060b8ddb924300c610ea52c4bc896a6568",
       "normalization": "Unmodified source bytes; public identity/path review.",
       "public_sha256": "597e022217f08f5fe0535a2c17f869060b8ddb924300c610ea52c4bc896a6568"
+    },
+    {
+      "gate": "qwen36-performance",
+      "public_path": "experiments/qwen36-performance/performance-comparison.json",
+      "artifact": "original matched performance comparison",
+      "kind": "tracked source artifact",
+      "source_commit": "0e3e590b7aa30fac92c04288dc3ee29c74c364f5",
+      "source_blob": "d0318d1272b0887562d2799d5302de0e7b083f81",
+      "original_sha256": "ef438991ae73ab2629469fcb6c28a0b05afabee1164022eadad9bb6b1a3f7f39",
+      "normalization": "Retain all performance values and controls; omit only candidate service identities and endpoint.",
+      "public_sha256": "38ab0e0d1222f412a8ee9ed13bd9cadd8e3bb16f65e0600518523c695bdaf29a"
+    },
+    {
+      "gate": "qwen36-performance",
+      "public_path": "experiments/qwen36-performance/model-provenance.json",
+      "artifact": "verified public model revision and digest",
+      "kind": "tracked source artifact",
+      "source_commit": "0e3e590b7aa30fac92c04288dc3ee29c74c364f5",
+      "source_blob": "03b27dd4f579d9f8c9f9a6f2d5da8cbf4547a100",
+      "original_sha256": "f9aa5ed52b9d886ed9f0c5a7b309b1c31117ea24d64a1a9c6d0dcdcbaa3e6899",
+      "normalization": "Omit local model filesystem path; retain exact public URI/revision/digest/size.",
+      "public_sha256": "6d4b8fc8f62c1fad1f02cd72eed9af23eabf467fea9deea60c532e61f33024c3"
+    },
+    {
+      "gate": "qwen36-performance",
+      "public_path": "experiments/qwen36-performance/adoption.json",
+      "artifact": "final selected model and harness budgets",
+      "kind": "tracked source artifact",
+      "source_commit": "40bb069f6dc9e9ca2f9e6469cb423f1a98955a8c",
+      "source_blob": "0f374c9ffbc99a8aa5c28ea5ed6e1f7bd79f3853",
+      "original_sha256": "d76c5df83d295bf0e7e5342f4ec07cad96e68df96b1d7ead6a52642b4fd35946",
+      "normalization": "Omit operational task names and endpoint; retain actual switch timestamp and budgets.",
+      "public_sha256": "9bfd58091cbba8c06fe3468ce3cf73a2c827acb560ba15e33ce5030f0e741637"
+    },
+    {
+      "gate": "qwen36-performance",
+      "public_path": "experiments/qwen36-performance/profiles/baseline-isl512/profile_export_aiperf.json",
+      "artifact": "original AIPerf aggregate baseline input 512",
+      "kind": "local raw experiment artifact",
+      "source_commit": null,
+      "source_blob": null,
+      "original_sha256": "363d649d7779ab5b09d671588b5b775e7ae077a5767e1b68b7a89bf7eff8fd58",
+      "normalization": "Retain original aggregate metric objects/counts/times/version; omit client/run/telemetry metadata.",
+      "public_sha256": "047fd1a7ed682379ee2b3e1af2e158b1af23006bbd31bc42f75e88947b7ef6a3"
+    },
+    {
+      "gate": "qwen36-performance",
+      "public_path": "experiments/qwen36-performance/profiles/baseline-isl4096/profile_export_aiperf.json",
+      "artifact": "original AIPerf aggregate baseline input 4096",
+      "kind": "local raw experiment artifact",
+      "source_commit": null,
+      "source_blob": null,
+      "original_sha256": "9e869a4a96e785cbf9b946dd3e275ada4b15916807f2a375e41c66198d202f63",
+      "normalization": "Retain original aggregate metric objects/counts/times/version; omit client/run/telemetry metadata.",
+      "public_sha256": "e3111c0b04be578af0f3cb9e466c445675e4d54290eac62419fc4dbd7a6a81a2"
+    },
+    {
+      "gate": "qwen36-performance",
+      "public_path": "experiments/qwen36-performance/profiles/baseline-isl16384/profile_export_aiperf.json",
+      "artifact": "original AIPerf aggregate baseline input 16384",
+      "kind": "local raw experiment artifact",
+      "source_commit": null,
+      "source_blob": null,
+      "original_sha256": "dd633fedf7b655df8a236657c657cf7be5eb283b6d835132ddc0e658c80c9406",
+      "normalization": "Retain original aggregate metric objects/counts/times/version; omit client/run/telemetry metadata.",
+      "public_sha256": "c653b05aabd61d7508c06f5d71d629eba57cc0f8bdbe4e5e2978643a7ae56313"
+    },
+    {
+      "gate": "qwen36-performance",
+      "public_path": "experiments/qwen36-performance/profiles/candidate-isl512/profile_export_aiperf.json",
+      "artifact": "original AIPerf aggregate candidate input 512",
+      "kind": "local raw experiment artifact",
+      "source_commit": null,
+      "source_blob": null,
+      "original_sha256": "116936c48a7da6e7a357f440847377a8a7326174ca7744e7f44596bd46ff7790",
+      "normalization": "Retain original aggregate metric objects/counts/times/version; omit client/run/telemetry metadata.",
+      "public_sha256": "0c620e6fef70a015ce2899fbe2d00e9bbdecb04cc5b0efe205698a475dfd60c4"
+    },
+    {
+      "gate": "qwen36-performance",
+      "public_path": "experiments/qwen36-performance/profiles/candidate-isl4096/profile_export_aiperf.json",
+      "artifact": "original AIPerf aggregate candidate input 4096",
+      "kind": "local raw experiment artifact",
+      "source_commit": null,
+      "source_blob": null,
+      "original_sha256": "6d7613e79ced5566b36c95bfb0e9dda7917170e41baf837564635c1fcbd4d22c",
+      "normalization": "Retain original aggregate metric objects/counts/times/version; omit client/run/telemetry metadata.",
+      "public_sha256": "ab4f9f6ec600a7e69b68c5d6d978fcdc78880922d106f9fa9b3a872cf119248a"
+    },
+    {
+      "gate": "qwen36-performance",
+      "public_path": "experiments/qwen36-performance/profiles/candidate-isl16384/profile_export_aiperf.json",
+      "artifact": "original AIPerf aggregate candidate input 16384",
+      "kind": "local raw experiment artifact",
+      "source_commit": null,
+      "source_blob": null,
+      "original_sha256": "fc28c5fb57b57712b653be16fadf632c730ce1f2547ad691d1d74e6c51174cf1",
+      "normalization": "Retain original aggregate metric objects/counts/times/version; omit client/run/telemetry metadata.",
+      "public_sha256": "cf2a0faf5e4d02fde4f7af8e506b1b24693871aa284d93698dd6bb735b257f74"
+    },
+    {
+      "gate": "qwen36-performance",
+      "public_path": "experiments/qwen36-performance/benchmark-requirements.txt",
+      "artifact": "original AIPerf version pin",
+      "kind": "tracked source artifact",
+      "source_commit": "0e3e590b7aa30fac92c04288dc3ee29c74c364f5",
+      "source_blob": "350f93e037cfb20f0a5da8f818c8e6a28b9f3ad4",
+      "original_sha256": "712ad384f778b8f395833dc2b6b980bc66a73dc75993f4224feda6b31eab3152",
+      "normalization": "Unmodified source bytes; public identity/path review.",
+      "public_sha256": "712ad384f778b8f395833dc2b6b980bc66a73dc75993f4224feda6b31eab3152"
+    },
+    {
+      "gate": "qwen36-performance",
+      "public_path": "harness/harness.py",
+      "artifact": "authored harness harness.py, checkpoint 40bb069",
+      "kind": "tracked source artifact",
+      "source_commit": "40bb069f6dc9e9ca2f9e6469cb423f1a98955a8c",
+      "source_blob": "8a81a914a465995637a52d9b636d70d1a94d1356",
+      "original_sha256": "2eede03c2d0ffd20b7b224c6ecf8ee8a0162aa03a22afd90007feade267f055b",
+      "normalization": "Unmodified source bytes; public identity/path review.",
+      "public_sha256": "2eede03c2d0ffd20b7b224c6ecf8ee8a0162aa03a22afd90007feade267f055b"
+    },
+    {
+      "gate": "qwen36-performance",
+      "public_path": "harness/tests/test_harness.py",
+      "artifact": "authored harness tests/test_harness.py, checkpoint 40bb069",
+      "kind": "tracked source artifact",
+      "source_commit": "40bb069f6dc9e9ca2f9e6469cb423f1a98955a8c",
+      "source_blob": "08925a1e50dc63362865bb65ebd33a63e44517b2",
+      "original_sha256": "a095521f978b7fe2ee271d0c99ce4e9dbc110584a490597b0089148b951290ef",
+      "normalization": "Unmodified source bytes; public identity/path review.",
+      "public_sha256": "a095521f978b7fe2ee271d0c99ce4e9dbc110584a490597b0089148b951290ef"
     }
   ]
 }

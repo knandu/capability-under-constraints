@@ -1,0 +1,141 @@
+{
+  "context": 20480,
+  "kv_k": "q8_0",
+  "kv_v": "q8_0",
+  "thinking": "off",
+  "concurrency": 1,
+  "same_host_client": true,
+  "workload": "AIPerf seeded synthetic prompts, equal requested token lengths per tokenizer, not identical text.",
+  "generation": "256 tokens, ignore_eos=true, temperature=0, seed=1234; not a quality evaluation.",
+  "native_candidate": {
+    "status": "ready",
+    "model": "qwen3.6-35b-a3b-ud-q4-k-m",
+    "context": 20480,
+    "kv_k": "q8_0",
+    "kv_v": "q8_0",
+    "thinking": "off",
+    "expert_cache_mib": 2048,
+    "expert_cpu_miss_share": 0.95,
+    "threads": 8,
+    "batch": 512,
+    "microbatch": 128,
+    "vision_projector_loaded": false,
+    "allocation": [
+      "0.00.502.893 I print_info: model params          = 34.66 B",
+      "0.01.872.839 I load_tensors:        CUDA0 model buffer size =  1921.34 MiB",
+      "0.01.872.840 I load_tensors:    CUDA_Host model buffer size = 19177.31 MiB",
+      "0.05.353.203 I llama_context:  CUDA_Host  output buffer size =     0.95 MiB",
+      "0.05.360.469 I llama_kv_cache:      CUDA0 KV buffer size =   212.50 MiB",
+      "0.05.360.476 I llama_kv_cache: size =  212.50 MiB ( 20480 cells,  10 layers,  1/1 seqs), K (q8_0):  106.25 MiB, V (q8_0):  106.25 MiB",
+      "0.05.361.184 I init_rotation:      CUDA0 rotation buffer size =     2.66 MiB",
+      "0.05.364.108 I llama_memory_recurrent:      CUDA0 RS buffer size =    62.81 MiB",
+      "0.05.364.116 I llama_memory_recurrent: size =   62.81 MiB (     1 cells,  40 layers,  1 seqs  0 rs_seq), R (f32):    2.81 MiB, S (f32):   60.00 MiB, P (f32):    0.00 MiB",
+      "0.05.604.381 I sched_reserve:      CUDA0 compute buffer size =    68.00 MiB",
+      "0.05.604.385 I sched_reserve:  CUDA_Host compute buffer size =    21.13 MiB"
+    ],
+    "gpu": [
+      "5710, 257"
+    ],
+    "ready": "2026-11-16T22:41:44.8976837-06:00"
+  },
+  "rows": [
+    {
+      "case": "baseline",
+      "requested_isl": 512,
+      "actual_isl_min": 524.0,
+      "actual_isl_max": 524.0,
+      "output_tokens": 256,
+      "requests": 3,
+      "median_ttft_seconds": 3.2435419,
+      "median_prefill_tokens_per_second": 161.55179003545476,
+      "median_decode_tokens_per_second": 43.2880789570486,
+      "median_request_seconds": 9.1343092,
+      "aiperf_version": "0.13.0"
+    },
+    {
+      "case": "baseline",
+      "requested_isl": 4096,
+      "actual_isl_min": 4108.0,
+      "actual_isl_max": 4108.0,
+      "output_tokens": 256,
+      "requests": 3,
+      "median_ttft_seconds": 29.9200779,
+      "median_prefill_tokens_per_second": 137.29910776736313,
+      "median_decode_tokens_per_second": 36.237986539023304,
+      "median_request_seconds": 36.9568927,
+      "aiperf_version": "0.13.0"
+    },
+    {
+      "case": "baseline",
+      "requested_isl": 16384,
+      "actual_isl_min": 16396.0,
+      "actual_isl_max": 16396.0,
+      "output_tokens": 256,
+      "requests": 3,
+      "median_ttft_seconds": 193.95474489999998,
+      "median_prefill_tokens_per_second": 84.53518375357879,
+      "median_decode_tokens_per_second": 22.583564569107846,
+      "median_request_seconds": 205.2461422,
+      "aiperf_version": "0.13.0"
+    },
+    {
+      "case": "candidate",
+      "requested_isl": 512,
+      "actual_isl_min": 524.0,
+      "actual_isl_max": 525.0,
+      "output_tokens": 256,
+      "requests": 3,
+      "median_ttft_seconds": 2.5463259,
+      "median_prefill_tokens_per_second": 205.78669839551958,
+      "median_decode_tokens_per_second": 43.15200814385004,
+      "median_request_seconds": 8.4556685,
+      "aiperf_version": "0.13.0"
+    },
+    {
+      "case": "candidate",
+      "requested_isl": 4096,
+      "actual_isl_min": 4108.0,
+      "actual_isl_max": 4109.0,
+      "output_tokens": 256,
+      "requests": 3,
+      "median_ttft_seconds": 20.5170875,
+      "median_prefill_tokens_per_second": 200.2233504146239,
+      "median_decode_tokens_per_second": 42.18018421922527,
+      "median_request_seconds": 26.562580299999997,
+      "aiperf_version": "0.13.0"
+    },
+    {
+      "case": "candidate",
+      "requested_isl": 16384,
+      "actual_isl_min": 16396.0,
+      "actual_isl_max": 16397.0,
+      "output_tokens": 256,
+      "requests": 3,
+      "median_ttft_seconds": 98.6083664,
+      "median_prefill_tokens_per_second": 166.27392379152118,
+      "median_decode_tokens_per_second": 36.501785667354845,
+      "median_request_seconds": 105.59835129999999,
+      "aiperf_version": "0.13.0"
+    }
+  ],
+  "comparisons": [
+    {
+      "requested_isl": 512,
+      "candidate_decode_ratio": 0.9968566215808844,
+      "candidate_ttft_ratio": 0.7850448609897717,
+      "candidate_prefill_ratio": 1.273812554787272
+    },
+    {
+      "requested_isl": 4096,
+      "candidate_decode_ratio": 1.163977037570866,
+      "candidate_ttft_ratio": 0.6857297487183347,
+      "candidate_prefill_ratio": 1.4583004483457995
+    },
+    {
+      "requested_isl": 16384,
+      "candidate_decode_ratio": 1.6162986828609773,
+      "candidate_ttft_ratio": 0.5084091469421947,
+      "candidate_prefill_ratio": 1.9669197653395056
+    }
+  ]
+}

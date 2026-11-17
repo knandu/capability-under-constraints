@@ -16,7 +16,7 @@ from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from engine import Capture, Session, configuration, defaults, validate_history
-from harness import HarnessServer
+from harness import HarnessServer, main
 from tools import SCHEMAS, ToolError, bound_result, dumps, execute
 from transport import ModelError, Transport
 from documents import DocumentWorkflow, align_chunk, validate_document
@@ -810,26 +810,41 @@ class HarnessTests(unittest.TestCase):
             self.assertIn(b'<meta charset="utf-8">', response.read())
             connection.close()
 
+    def test_startup_cli_forwards_model_and_token_budgets(self):
+        with patch("sys.argv", ["harness.py", "--base-url", "http://127.0.0.1:18082/v1",
+                              "--model", "qwen3.6-35b-a3b-ud-q4-k-m", "--context", "20480",
+                              "--max-input", "16000", "--max-output", "4000"]), \
+             patch("harness.HarnessServer") as server:
+            main()
+            self.assertEqual(server.call_args.args[2], {
+                "base_url": "http://127.0.0.1:18082/v1", "model": "qwen3.6-35b-a3b-ud-q4-k-m",
+                "context": 20480, "max_input": 16000, "max_output": 4000})
+
     def test_startup_model_defaults_apply_to_ui_and_new_sessions(self):
         with serving(FakeModel([{"role": "assistant", "content": "ready"}])) as model, \
              serving(HarnessServer(("127.0.0.1", 0), default_overrides={
-                 "base_url": model.url, "model": "deployment-model"})) as app:
+                 "base_url": model.url, "model": "deployment-model",
+                 "context": 20480, "max_input": 16000, "max_output": 4000})) as app:
             connection = http.client.HTTPConnection("127.0.0.1", app.server_port, timeout=10)
             connection.request("GET", "/api/defaults")
             value = json.loads(connection.getresponse().read())
             self.assertEqual(value["base_url"], model.url)
             self.assertEqual(value["model"], "deployment-model")
+            self.assertEqual((value["context"], value["max_input"], value["max_output"]), (20480, 16000, 4000))
             connection.request("POST", "/api/sessions", dumps({"config": {
                 "working_root": str(self.root), "tools": []}}).encode("utf-8"),
                 {"Content-Type": "application/json"})
             created = json.loads(connection.getresponse().read())
             self.assertEqual(created["config"]["base_url"], model.url)
             self.assertEqual(created["config"]["model"], "deployment-model")
+            self.assertEqual((created["config"]["context"], created["config"]["max_input"],
+                              created["config"]["max_output"]), (20480, 16000, 4000))
             connection.request("POST", f"/api/sessions/{created['id']}/run",
                 dumps({"prompt": "hello"}).encode("utf-8"), {"Content-Type": "application/json"})
             stream = connection.getresponse().read()
             self.assertIn(b"run_finished", stream)
             self.assertEqual(model.requests[0]["model"], "deployment-model")
+            self.assertEqual(model.requests[0]["max_tokens"], 4000)
             connection.close()
 
 

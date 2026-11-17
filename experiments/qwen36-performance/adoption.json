@@ -1,0 +1,11 @@
+{
+  "model": "qwen3.6-35b-a3b-ud-q4-k-m",
+  "context": 20480,
+  "thinking": "off",
+  "kv_v": "q8_0",
+  "kv_k": "q8_0",
+  "switched": "2026-11-16T23:14:25.2295067-06:00",
+  "max_output": 4000,
+  "max_input": 16000,
+  "status": "active"
+}

@@ -15,6 +15,7 @@ Artifact digests and explicit normalization are in [evidence-map.json](evidence-
 | 7. Establish agent-completion boundary and mark the workload pivot | CONTINUE bounded tools; STOP policy tuning | 2026-11-15T19:05:35-06:00 | `fd94b24`, `de521e0` | [agent-completion](../experiments/agent-completion/README.md) |
 | 8. Introduce the minimal observable agent instrument | CONTINUE | 2026-11-16T00:29:57-06:00 | `35702cf`, `a78bd78`, `0b8cbcd`, `b5ca678`, `01b8a84`, `138fb1e` | [observable-harness](../harness/README.md) |
 | 9. Externalize document-workflow state and bounded recovery | ADOPT | 2026-11-16T17:49:14-06:00 | `9de324f`, `58229fd`, `0024349`, `6f0b345`, `e602ddb` | [document-state](../document-workflow/README.md) |
+| 10. Adopt Qwen3.6 for performance; leave quality unqualified | ADOPT FOR PERFORMANCE; QUALITY UNQUALIFIED | 2026-11-16T23:16:47-06:00 | `0e3e590`, `40bb069` | [qwen36-performance](../experiments/qwen36-performance/README.md) |
 
 ## Reading the arc
 

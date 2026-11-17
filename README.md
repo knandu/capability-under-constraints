@@ -103,3 +103,44 @@ Incomplete output is detected; bounded recovery can change the next attempt
 without committing a truncated note as success. Source notes survive a failed
 merge. **Byte coverage is not semantic fidelity.**
 
+
+### 10. A newer model shifted the performance boundary again
+
+Matched Q4/Q8-attention-KV qualification, concurrency one, 256 output tokens:
+
+| Requested input | Qwen3 decode tok/s | Qwen3.6 decode tok/s | TTFT old -> new |
+|---|---:|---:|---:|
+| 512 | 43.29 | 43.15 | 3.24 -> 2.55 s |
+| 4,096 | 36.24 | 42.18 | 29.92 -> 20.52 s |
+| 16,384 | 22.58 | 36.50 | 193.95 -> 98.61 s |
+
+The final selected harness budget was **20,480 context / 16,000 input / 4,000
+output**, with Q8 K/V attention cache. Separate recurrent state remained FP32;
+this is not an all-INT8-state configuration.
+**ADOPT Qwen3.6 for performance; quality unqualified.**
+[Original AIPerf aggregate records, method, and model pin](experiments/qwen36-performance/README.md).
+
+## Reading and reproducing the record
+
+Start with the [decision/evidence map](notes/investigation-map.md), then the
+experiment directories. [Limitations](notes/limitations.md) distinguish measured
+results from untested questions. [Implementation notes](notes/implementation-notes.md)
+compress repaired plumbing without treating it as experimental success.
+
+From the repository root, offline checks need Python 3.11+:
+
+```powershell
+python -B tools\validate_evidence.py
+python -B -m unittest discover -s harness\tests -p test_harness.py
+```
+
+These inspect records and exercise synthetic regression fixtures; they do not
+run a new model benchmark. The harness requires an already-running compatible
+local model endpoint. No weights, runtime binaries, private captures, or deployment
+environment are distributed. See [third-party boundaries](THIRD_PARTY.md).
+
+This is an engineering notebook, **not** a llama.cpp fork, production deployment
+recommendation, comprehensive model ranking, optimal-configuration tutorial, or
+general agent framework. Faster decode did not establish usefulness; checkpointed
+work did not establish understanding; the last performance adoption did not
+resolve the earlier quality failures.
