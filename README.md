@@ -19,11 +19,43 @@ mistaking successful compilation or a short burst for useful inference.
 [Baseline protocol](experiments/baseline/README.md).
 
 
-### 2. Expert locality was the useful performance lever
+### 2. The performance win emerged progressively
 
-The original controlled configuration decoded at **24.16 tok/s**. A 2 GiB expert
-cache reached **43.95 tok/s**, versus **32.28 tok/s** for the repeated Ollama
-reference. Placement mattered more than the next kernel specialization.
+The useful configuration did not come from simply moving more of the model onto
+the GPU. An all-CPU baseline was already competitive with the first controlled
+CPU/GPU placement, at 23.73 versus 24.16 tok/s.
+
+The retained measurements show the optimization developing in steps
+(medians of three runs):
+
+| Configuration | Sustained decode |
+|---|---:|
+| All CPU | 23.73 tok/s |
+| Original controlled placement | 24.16 tok/s |
+| Matched controlled placement | 27.37 tok/s |
+| Experts of six layers on GPU (42 expert layers on CPU) | 31.32 tok/s |
+| 1 GiB expert cache | 39.10 tok/s |
+| 2 GiB expert cache | **43.95 tok/s** |
+
+"Controlled placement" separated expert placement from the rest of the model so
+that locality could be varied deliberately rather than treating GPU offload as a
+single layer-count knob.
+
+The final configuration was not "pin the experts to the GPU." It used **2 GiB of
+VRAM as an expert cache**, configured so that 95% of cache misses were served by
+the CPU. Statically placing six layers' experts on the GPU was measurably slower.
+
+That distinction matters. The result is evidence that **expert reuse and locality
+can make a small amount of VRAM disproportionately useful**. It is not evidence
+that the model, or even its full expert set, fit on the GPU. Placement mattered
+more than the next kernel specialization. For reference, the repeated Ollama run
+measured **32.28 tok/s**.
+
+The investigation also planned ordinary 4/6/8/9-layer GPU splits, but the raw
+measured rows for those earliest runs were not retained. I therefore don't
+reconstruct performance numbers for them here.
+
+**Decision: ADOPT the 2 GiB expert-cache configuration.**
 [Original measurement rows and controls](experiments/expert-locality/README.md).
 
 
