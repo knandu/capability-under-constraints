@@ -53,6 +53,6 @@ Offline regression checks:
 python -B -m unittest discover -s harness\tests -p test_harness.py
 ```
 
-Fixtures use synthetic model/tool responses. Browser checks may skip if their
-local browser prerequisite is unavailable. Passing these checks is not a live
+Fixtures use synthetic model/tool responses. The browser DOM check uses a headless
+Chromium-based browser from `CHROMIUM_BROWSER` or `PATH` and skips if none is found. Passing these checks is not a live
 model quality qualification.
