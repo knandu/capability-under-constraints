@@ -1,8 +1,8 @@
 # Curation and publication audit
 
 Prepared November 18, 2026. Ten historical decision gates are followed by one
-explicitly editorial closure and a prompt-overhead evidence correction, not
-additional inference experiments.
+explicitly editorial closure, a prompt-overhead evidence correction, and later
+publication-preparation edits, not additional inference experiments.
 
 ## Historical log
 
@@ -29,6 +29,29 @@ timestamp explanation. Its author/committer times are actual November 18 curatio
 times. Its hash cannot appear inside its own committed report; the final handoff
 includes the complete log, and `git log --reverse --format=fuller` exposes it.
 
+## Later editorial commits
+
+All are November 18, 2026, with identical author and committer times; none is
+backdated, and none adds an inference experiment or changes a measurement.
+
+| Commit | Time | Change |
+|---|---|---|
+| 1b14701 | 10:23:05 | Editorial closure: this report, native build records, timestamp explanation |
+| d773b75 | 12:33:11 | Restore measured CLI prompt overhead and author interpretation |
+| 7588372 | 12:36:07 | Clarify the context-budget motivation for an observable harness |
+| e0daad8 | 13:17:10 | Optional browser DOM check selects a Chromium-based browser from `CHROMIUM_BROWSER` or `PATH` |
+| 96485c6 | 13:20:10 | Document that browser selection in the harness README |
+| dc90422 | 13:30:29 | Clarify the no-remote statement below; temporarily restore the pinned test bytes |
+| ab49bb0 | 13:32:36 | Re-apply the browser selection and record it in the artifact-origin map |
+| a04a4eb | 13:45:13 | Show the retained expert-locality progression in the README |
+| 303d5be | 13:46:19 | Define controlled placement and matched settings for that progression |
+| 47ec4cc | 13:53:58 | Remove a repetition; qualify the Tamil-workload decode rate as a different workload |
+| 5199fcb | 14:05:18 | Make the browser-selection normalization note vendor-neutral |
+
+`dc90422` and `ab49bb0` cancel for the two harness files: the browser selection
+was briefly reverted to match the pinned digest, then kept with an updated digest.
+The commit that adds this section cannot list its own hash.
+
 ## Validation scope
 
 The three harness snapshots were checked before their respective commits:
@@ -37,6 +60,11 @@ passed 37 tests, including the synthetic browser DOM case; the symlink-escape
 case skipped because this Windows account cannot create symlinks. No privilege
 change was attempted. This is a declared validation limitation, not a passed
 symlink-isolation claim.
+
+After the publication-preparation browser change, the suite runs 38 tests: 37
+pass and the browser DOM case skips when no Chromium-based browser is configured.
+Pointing it explicitly at the previously used browser timed out after 30 seconds
+in this environment; the original implementation showed the same timeout.
 
 `tools/validate_evidence.py` independently recomputes retained locality medians,
 kernel means, Tamil coverage counts, Gemma wall-time aggregates, context acceptance
