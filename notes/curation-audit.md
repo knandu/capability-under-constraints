@@ -139,7 +139,8 @@ retained arithmetic and provenance; it does not replay the excluded private inpu
 ## Follow-up: post-publication reproduction controls
 
 Command lines and the wrapper-parameter mapping were mistakenly pruned during
-publication-readiness preparation, leaving wrapper parameter names unmapped. The [stage audit](reproduction-audit.md) corrects that gap across all
+publication-readiness preparation, leaving wrapper parameter names unmapped.
+The [stage audit](reproduction-audit.md) corrects that gap across all
 ten gates. Saved native/AIPerf commands retain argument order and non-path values;
 selected API fields, original synthetic test inputs and historical defaults are
 retained with provenance. The source-default extraction is not passed off as a
@@ -154,6 +155,6 @@ Remaining replay boundaries are explicit: excluded private input/context and
 external templates; no recovered literal 20K-Q8 baseline server launch vector;
 tokenizer repository identifiers without exact snapshot revisions in the command
 records. The older 4K launch is not mislabeled as that later runtime.
-This recovery did not run inference, rebuild, administer the remote machine,
-rewrite historical commits or push. It is an additive patch for the already
-published notebook.
+This recovery did not run inference, rebuild, access the measurement machine or
+rewrite historical commits. It is an additive commit on the already published
+notebook.

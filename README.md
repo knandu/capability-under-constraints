@@ -49,7 +49,8 @@ and Flash Attention settings as the matched CPU and ordinary-split cases.
 
 The final configuration was not "pin the experts to the GPU." It used **2 GiB of
 VRAM as an expert cache**, configured so that, once the cache was full, 95% of
-cache misses were computed by the CPU from host-resident experts. The CPU remained an important execution tier. Statically placing six
+cache misses were computed by the CPU from host-resident experts. The CPU
+remained an important execution tier. Statically placing six
 layers' experts on the GPU was measurably slower.
 
 That distinction matters. The result is evidence that **expert reuse and locality

@@ -6,12 +6,12 @@ the decision gates or report new experiments.
 
 Command lines and experiment controls were mistakenly pruned during
 publication-readiness preparation, so the distillation retained outcomes better
-than executable controls. That was a real gap: wrapper parameter names did not tell a reader what
-llama.cpp actually received. The recovered `commands.json` files now retain
-argument order and non-path values from saved commands. Named placeholders
-replace model/input/template paths; build labels identify the corresponding
-executable. These are command records, not claims that excluded inputs have
-become available.
+than executable controls. That was a real gap: wrapper parameter names did not
+tell a reader what llama.cpp actually received. The recovered `commands.json`
+files now retain argument order and non-path values from saved commands. Named
+placeholders replace model/input/template paths; build labels identify the
+corresponding executable. These are command records, not claims that excluded
+inputs have become available.
 
 For the central native performance result, start with the
 [complete flag mapping, build command and selected invocation](../experiments/expert-locality/REPRODUCE.md).
@@ -169,4 +169,4 @@ remain excluded. Quality and semantic-fidelity limitations remain unchanged.
 
 `python -B tools\validate_evidence.py` checks the retained controls against their
 case counts, artifacts and measurements without inference. This follow-up did
-not rerun benchmarks, retune parameters, access the remote machine, or push.
+not rerun benchmarks, retune parameters or access the measurement machine.

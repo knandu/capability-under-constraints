@@ -32,7 +32,8 @@ inference experiment or a rewrite of the ten historical gates.
 
 Command lines and experiment controls were mistakenly pruned during
 publication-readiness preparation. A post-publication reproduction audit restores
-the original native/AIPerf argument vectors, API controls, synthetic test recipes and historical harness defaults.
+the original native/AIPerf argument vectors, API controls, synthetic test
+recipes and historical harness defaults.
 It maps the wrapper parameters to the pinned upstream flags and explicitly
 distinguishes captured commands from recovered build recipes and unrecovered
 literal launch details. This is another current-dated editorial addition, not
