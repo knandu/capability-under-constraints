@@ -865,8 +865,8 @@
       "source_commit": "40bb069f6dc9e9ca2f9e6469cb423f1a98955a8c",
       "source_blob": "08925a1e50dc63362865bb65ebd33a63e44517b2",
       "original_sha256": "a095521f978b7fe2ee271d0c99ce4e9dbc110584a490597b0089148b951290ef",
-      "normalization": "Unmodified source bytes; public identity/path review.",
-      "public_sha256": "a095521f978b7fe2ee271d0c99ce4e9dbc110584a490597b0089148b951290ef"
+      "normalization": "Source bytes plus a November 18 publication-prep change: the optional browser DOM check selects a Chromium-based browser from CHROMIUM_BROWSER or PATH instead of a fixed Microsoft Edge install path.",
+      "public_sha256": "2c05afbae71d035cc5787489081ce8207f06fbe20d8d3bdb4d7e9de970fc876d"
     },
     {
       "gate": "publication-audit",
