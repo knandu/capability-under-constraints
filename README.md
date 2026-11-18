@@ -23,8 +23,7 @@ mistaking successful compilation or a short burst for useful inference.
 
 The useful configuration did not come from simply moving more of the model onto
 the GPU. An all-CPU baseline was already competitive with the first controlled
-CPU/GPU placement, at 23.73 versus 24.16 tok/s. Simply involving the GPU was
-therefore not the important result.
+CPU/GPU placement, at 23.73 versus 24.16 tok/s.
 
 The retained measurements show the optimization developing in steps
 (medians of three runs):
@@ -75,8 +74,12 @@ That was not a useful improvement. **STOP; retain stock SM75.**
 ### 4. Fast tokens did not deliver the requested Tamil package
 
 At roughly **49 tok/s**, Qwen still duplicated alternatives, omitted source
-material, and weakly differentiated rewrites. Sampling improved coverage without
-reliably producing three complete, distinct alternatives.
+material, and weakly differentiated rewrites. That figure is the same selected
+expert-cache runtime on a different workload (about 660-token conversation
+prompts, 4K context, natural stopping up to 3,036 tokens), not a further
+optimization; it is not directly comparable with the 43.95-tok/s locality
+benchmark (84-token prompt, 1,024 fixed tokens, 2,048 context). Sampling improved
+coverage without reliably producing three complete, distinct alternatives.
 **STOP further runtime tuning of the original checkpoint for this workload.**
 [Quality observations and selected output excerpts](experiments/tamil-quality/README.md).
 
