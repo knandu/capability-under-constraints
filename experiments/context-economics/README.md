@@ -24,3 +24,9 @@ The historical 8K choice used a 2,048 MiB expert cache and 768 MiB GPU KV.
 It was a useful operating tradeoff, not a hardware limit or permanent universal
 default. The later Qwen3.6 gate makes a separate 20K choice under a different
 architecture/cache configuration.
+
+`commands.json` retains the four actual server argument vectors; `protocol.json`
+retains request controls, warmup/output budgets and the synthetic long-input
+recipe. The 32K test omitted `ignore_eos`; the later 8K test explicitly enabled
+it. Both comparisons ran once in fixed order, not as repeated statistical trials.
+[Cross-stage audit and guard-threshold differences](../../notes/reproduction-audit.md).

@@ -27,3 +27,9 @@ in the later control records; supply your own compatible Windows/CUDA environmen
 and model file. Neither binaries nor downloaded dependencies are archived here.
 This notebook preserves enough configuration to interpret and repeat the original
 comparison, not a universal installer or a promise of identical timings.
+
+The [CPU build recipe](cpu-build-recipe.json) is recovered from frozen build
+source, not a newly captured historical build log.
+[Native commands and wrapper-to-flag mapping](../expert-locality/REPRODUCE.md)
+and the [stage audit](../../notes/reproduction-audit.md) distinguish the available
+target evidence from the missing earliest raw directory.

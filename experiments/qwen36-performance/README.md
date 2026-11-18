@@ -24,6 +24,12 @@ objects, completion/error/cache checks, actual input lengths, and version.
 Operational client configuration, run identity, and telemetry metadata are
 omitted. `performance-comparison.json` preserves the original derived table with
 only candidate operational metadata removed.
+`commands.json` restores all six actual AIPerf argument vectors and the saved
+candidate server launch; only filesystem paths become placeholders.
+`client-environment.json` retains selected original public package versions.
+The [stage audit](../../notes/reproduction-audit.md) explicitly identifies the
+unrecovered literal 20K-Q8 baseline launch vector and unpinned tokenizer revisions;
+it does not relabel an older 4K launch as the matched benchmark runtime.
 `candidate-ready.json` retains allocation lines and frozen runtime controls.
 `model-provenance.json` pins the exact public model file, revision, size, and hash.
 

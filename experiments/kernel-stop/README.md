@@ -18,6 +18,11 @@ settings, build timestamps, and CMake arguments. Only source, build, and toolkit
 directory arguments are replaced by explicit placeholders; variant flags remain
 unchanged. These records were added at the final curation audit, not a new run.
 
+`commands.json` now retains the original shared placement/measurement argument
+vectors. Select the corresponding built executable; MMQ was a build selection,
+not an omitted magic runtime flag.
+[Build and selected-run instructions](../expert-locality/REPRODUCE.md).
+
 The relevant comparison is sustained decode with the already-selected expert
 cache, not an isolated microkernel or prefill speedup. The small differences did
 not justify another tuning branch. This is a useful null result, not a hidden

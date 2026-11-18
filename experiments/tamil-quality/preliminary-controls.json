@@ -1,0 +1,14 @@
+{
+  "ModelSHA256": "E9183B5C18A0CF736578C1E3D1CBD4B7E98E3AD3BE6176B68C20F156D54A07AC",
+  "PromptSHA256": "BD794A936CAE21141A012ECE5E4F4624AA590A4D866199BC3882AE0DD6D59ECA",
+  "Instructions": [
+    "Give 3 different options to reword this",
+    "Reword this in Tamil in 3 different ways",
+    "Give three distinct Tamil rewordings of this passage"
+  ],
+  "Tokens": 3036,
+  "Context": 4096,
+  "Thinking": false,
+  "PrefixCache": "Fresh native process per request; no session/prompt-cache flags",
+  "Runtime": "Unmodified optimized cache/CPU/GPU settings; natural EOS stopping and single-turn chat"
+}

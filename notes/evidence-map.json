@@ -933,6 +933,732 @@
       "original_sha256": "12b99f7420ecb6efe25e8026c8920c47bc4b7d9478ef35e3fe4f2b9ea33a8777",
       "normalization": "Extract only the historical token measurements and scope from authored documentation; exclude unrelated documentation.",
       "public_sha256": "a45ade54976283ab57c63c6a65fdd5863fb5fd9bc6ed4ffb2b47b740fca5f7ca"
+    },
+    {
+      "gate": "reproduction-controls",
+      "public_path": "experiments/expert-locality/benchmark-input.json",
+      "artifact": "original measured synthetic input",
+      "kind": "local raw experiment artifact",
+      "source_commit": null,
+      "source_blob": null,
+      "original_sha256": "97fb0675ac69bc1f871671b3c80b50dd7692c471074e15743e2bebe1dc0642b5",
+      "normalization": "Serialize the original UTF-8 bytes as JSON text, preserving CRLF through escaped characters; retain measured digest and token count.",
+      "public_sha256": "f75fafcccef57b5294ac0f6acfcc2797e4879f62feccdf51fcc8c58bf88385f5"
+    },
+    {
+      "gate": "reproduction-controls",
+      "public_path": "experiments/expert-locality/commands.json",
+      "artifact": "controlled-baseline",
+      "kind": "local raw experiment artifact",
+      "source_commit": null,
+      "source_blob": null,
+      "original_sha256": "cdd96ee0126d665cb99c4190f61234113560edc0a8e8cd87c4c79e752f0a3a0f",
+      "normalization": "Retain argument order and non-path values; replace only executable, model, input and external-template paths with named placeholders.",
+      "public_sha256": "5d02b9558fb478f6760d64b5ac8d4acdf255bb158d4a287bf3eeef3590e0f107"
+    },
+    {
+      "gate": "reproduction-controls",
+      "public_path": "experiments/expert-locality/commands.json",
+      "artifact": "controlled-matched",
+      "kind": "local raw experiment artifact",
+      "source_commit": null,
+      "source_blob": null,
+      "original_sha256": "818f96674f2d450abf39cd8ef9f95ff975c306754ea0ce25f3c14bb62eb9fb42",
+      "normalization": "Retain argument order and non-path values; replace only executable, model, input and external-template paths with named placeholders.",
+      "public_sha256": "5d02b9558fb478f6760d64b5ac8d4acdf255bb158d4a287bf3eeef3590e0f107"
+    },
+    {
+      "gate": "reproduction-controls",
+      "public_path": "experiments/expert-locality/commands.json",
+      "artifact": "controlled-matched-no-host-no-repack",
+      "kind": "local raw experiment artifact",
+      "source_commit": null,
+      "source_blob": null,
+      "original_sha256": "5307d76117ffbadd90c12dcb84341f00baf53409c574ccf1e560e5900df718db",
+      "normalization": "Retain argument order and non-path values; replace only executable, model, input and external-template paths with named placeholders.",
+      "public_sha256": "5d02b9558fb478f6760d64b5ac8d4acdf255bb158d4a287bf3eeef3590e0f107"
+    },
+    {
+      "gate": "reproduction-controls",
+      "public_path": "experiments/expert-locality/commands.json",
+      "artifact": "controlled-matched-no-op-offload",
+      "kind": "local raw experiment artifact",
+      "source_commit": null,
+      "source_blob": null,
+      "original_sha256": "8f2748684199cbe51ae875f15dfee718fd44ca28670729b6a9429e73b19ada52",
+      "normalization": "Retain argument order and non-path values; replace only executable, model, input and external-template paths with named placeholders.",
+      "public_sha256": "5d02b9558fb478f6760d64b5ac8d4acdf255bb158d4a287bf3eeef3590e0f107"
+    },
+    {
+      "gate": "reproduction-controls",
+      "public_path": "experiments/expert-locality/commands.json",
+      "artifact": "controlled-pascal-mmq-no-op-offload",
+      "kind": "local raw experiment artifact",
+      "source_commit": null,
+      "source_blob": null,
+      "original_sha256": "8a14ea8355b1cab1d8b15ea6133333bc7d5d51011a8b2232d94b783eed74b673",
+      "normalization": "Retain argument order and non-path values; replace only executable, model, input and external-template paths with named placeholders.",
+      "public_sha256": "5d02b9558fb478f6760d64b5ac8d4acdf255bb158d4a287bf3eeef3590e0f107"
+    },
+    {
+      "gate": "reproduction-controls",
+      "public_path": "experiments/expert-locality/commands.json",
+      "artifact": "cpu-baseline",
+      "kind": "local raw experiment artifact",
+      "source_commit": null,
+      "source_blob": null,
+      "original_sha256": "bc49c0a650be9a6b57434bd5848759761c1acb0df50299b1288eb9d3f6d2da99",
+      "normalization": "Retain argument order and non-path values; replace only executable, model, input and external-template paths with named placeholders.",
+      "public_sha256": "5d02b9558fb478f6760d64b5ac8d4acdf255bb158d4a287bf3eeef3590e0f107"
+    },
+    {
+      "gate": "reproduction-controls",
+      "public_path": "experiments/expert-locality/commands.json",
+      "artifact": "controlled-cache1024-share95",
+      "kind": "local raw experiment artifact",
+      "source_commit": null,
+      "source_blob": null,
+      "original_sha256": "aa2bb393d077e04500d5c8055b50a23fb95df8018429c84a1cfbf99ca7ef9390",
+      "normalization": "Retain argument order and non-path values; replace only executable, model, input and external-template paths with named placeholders.",
+      "public_sha256": "5d02b9558fb478f6760d64b5ac8d4acdf255bb158d4a287bf3eeef3590e0f107"
+    },
+    {
+      "gate": "reproduction-controls",
+      "public_path": "experiments/expert-locality/commands.json",
+      "artifact": "controlled-cache2048-share95",
+      "kind": "local raw experiment artifact",
+      "source_commit": null,
+      "source_blob": null,
+      "original_sha256": "7d22acd58672cc808486a2f91ed03bc0a7f645821fd30c48b1f50be92643aa45",
+      "normalization": "Retain argument order and non-path values; replace only executable, model, input and external-template paths with named placeholders.",
+      "public_sha256": "5d02b9558fb478f6760d64b5ac8d4acdf255bb158d4a287bf3eeef3590e0f107"
+    },
+    {
+      "gate": "reproduction-controls",
+      "public_path": "experiments/expert-locality/commands.json",
+      "artifact": "controlled-cache2048-share95-ub128",
+      "kind": "local raw experiment artifact",
+      "source_commit": null,
+      "source_blob": null,
+      "original_sha256": "5ae71095272b1662978778d7137fb6ed442f4055b39807ed9a5bfa17eac14012",
+      "normalization": "Retain argument order and non-path values; replace only executable, model, input and external-template paths with named placeholders.",
+      "public_sha256": "5d02b9558fb478f6760d64b5ac8d4acdf255bb158d4a287bf3eeef3590e0f107"
+    },
+    {
+      "gate": "reproduction-controls",
+      "public_path": "experiments/expert-locality/commands.json",
+      "artifact": "controlled-experts6-ub128",
+      "kind": "local raw experiment artifact",
+      "source_commit": null,
+      "source_blob": null,
+      "original_sha256": "648b92d8fb208199ee9fdb8ad26e40d3560af043efeec88ab629285217b7f6a6",
+      "normalization": "Retain argument order and non-path values; replace only executable, model, input and external-template paths with named placeholders.",
+      "public_sha256": "5d02b9558fb478f6760d64b5ac8d4acdf255bb158d4a287bf3eeef3590e0f107"
+    },
+    {
+      "gate": "reproduction-controls",
+      "public_path": "experiments/expert-locality/commands.json",
+      "artifact": "selected-placement",
+      "kind": "local raw experiment artifact",
+      "source_commit": null,
+      "source_blob": null,
+      "original_sha256": "b425ae3448e671b84fc0143f9a731563ed7f8c67c7df05f298fb3d9ab93af2b8",
+      "normalization": "Retain argument order and non-path values; replace only executable, model, input and external-template paths with named placeholders.",
+      "public_sha256": "5d02b9558fb478f6760d64b5ac8d4acdf255bb158d4a287bf3eeef3590e0f107"
+    },
+    {
+      "gate": "reproduction-controls",
+      "public_path": "experiments/expert-locality/ollama-requests.json",
+      "artifact": "Ollama locality reference request 1",
+      "kind": "local raw experiment artifact",
+      "source_commit": null,
+      "source_blob": null,
+      "original_sha256": "6c79d45f9464b0b69cd66a0967e684ff6e604b8c99241c13972cc73d73e88e20",
+      "normalization": "Retain all API fields except the separately retained synthetic input text; record the digest of the submitted normalized string.",
+      "public_sha256": "ad5bb16d3174176cb12e900795c2cdd7fbd637049ad72459cb7e971cabef9fe5"
+    },
+    {
+      "gate": "reproduction-controls",
+      "public_path": "experiments/expert-locality/ollama-requests.json",
+      "artifact": "Ollama locality reference request 2",
+      "kind": "local raw experiment artifact",
+      "source_commit": null,
+      "source_blob": null,
+      "original_sha256": "6c79d45f9464b0b69cd66a0967e684ff6e604b8c99241c13972cc73d73e88e20",
+      "normalization": "Retain all API fields except the separately retained synthetic input text; record the digest of the submitted normalized string.",
+      "public_sha256": "ad5bb16d3174176cb12e900795c2cdd7fbd637049ad72459cb7e971cabef9fe5"
+    },
+    {
+      "gate": "reproduction-controls",
+      "public_path": "experiments/expert-locality/ollama-requests.json",
+      "artifact": "Ollama locality reference request 3",
+      "kind": "local raw experiment artifact",
+      "source_commit": null,
+      "source_blob": null,
+      "original_sha256": "6c79d45f9464b0b69cd66a0967e684ff6e604b8c99241c13972cc73d73e88e20",
+      "normalization": "Retain all API fields except the separately retained synthetic input text; record the digest of the submitted normalized string.",
+      "public_sha256": "ad5bb16d3174176cb12e900795c2cdd7fbd637049ad72459cb7e971cabef9fe5"
+    },
+    {
+      "gate": "reproduction-controls",
+      "public_path": "experiments/kernel-stop/commands.json",
+      "artifact": "closing kernel shared command controls",
+      "kind": "tracked source artifact",
+      "source_commit": "40bb069f6dc9e9ca2f9e6469cb423f1a98955a8c",
+      "source_blob": "9484accb54e16f9a426d82d88c710d15f696807e",
+      "original_sha256": "1a1d94b78ac01eb1a3d7c079314b775c97d7cd7928cd94f1527a6ecaa9a77e92",
+      "normalization": "Extract the two complete argument vectors and CPU backend feature line; normalize only model/prompt paths.",
+      "public_sha256": "015f20f4dd84e8e37d370bcfbd1d54ff377952f19a74ee8975ec4266b43fe474"
+    },
+    {
+      "gate": "reproduction-controls",
+      "public_path": "experiments/baseline/cpu-build-recipe.json",
+      "artifact": "frozen CPU build recipe",
+      "kind": "tracked source artifact",
+      "source_commit": "40bb069f6dc9e9ca2f9e6469cb423f1a98955a8c",
+      "source_blob": "7da51a6ea1ed8f22e58ca57e9b1d831b3f2338a9",
+      "original_sha256": "a1af4f974431461b2b10664040b2bbe09c84ac098c84d5601e63b82447aace52",
+      "normalization": "Extract the shared configure options and CPU-only branch; preserve explicit build targets and default parallelism; substitute only source/build directories.",
+      "public_sha256": "47cd9b02e91a8abc1ff17302feabcdb7b15f9e45183cad60f3b919980d55a74b"
+    },
+    {
+      "gate": "reproduction-controls",
+      "public_path": "experiments/tamil-quality/preliminary-controls.json",
+      "artifact": "preliminary three-request characterization plan",
+      "kind": "tracked source artifact",
+      "source_commit": "40bb069f6dc9e9ca2f9e6469cb423f1a98955a8c",
+      "source_blob": "9cd524856b512d34e0acbe67c015469eaedae1d3",
+      "original_sha256": "bccd198b2d80e6901ede78f935d04c13399bf630832566f74529f447cf6327df",
+      "normalization": "Retain the complete path-free historical plan; normalize JSON formatting only.",
+      "public_sha256": "9988407224b6ced8e77edf3b78872d05f4fcf54c36b0a6fec936f667b3725d2d"
+    },
+    {
+      "gate": "reproduction-controls",
+      "public_path": "experiments/tamil-quality/preliminary-results.csv",
+      "artifact": "preliminary three-request characterization results",
+      "kind": "tracked source artifact",
+      "source_commit": "40bb069f6dc9e9ca2f9e6469cb423f1a98955a8c",
+      "source_blob": "ad60356863f725954b00f4f247b17a0972179442",
+      "original_sha256": "8d2fa80ff3314d29c55f8e40da871264f3a8e82a6c936b690e1a4043aaf5e2b5",
+      "normalization": "UTF-8 CSV; retain all original rows and fields; normalize CSV encoding and line endings.",
+      "public_sha256": "eba60f96376d2bab6e81405575b38b5ce55d336195f8a6aad52fb01d2011d38c"
+    },
+    {
+      "gate": "reproduction-controls",
+      "public_path": "experiments/tamil-quality/commands.json",
+      "artifact": "preliminary-p1",
+      "kind": "local raw experiment artifact",
+      "source_commit": null,
+      "source_blob": null,
+      "original_sha256": "3b80d6f347c70ba9208346be986ab9ed2c59e8412a56165d0c69a73326e3259e",
+      "normalization": "Retain argument order and non-path values; replace only executable, model, input and external-template paths with named placeholders.",
+      "public_sha256": "c0042b0d9561a8f1df23b88743d5423ec73435d90e5098b3f67feb9b1f8b7df5"
+    },
+    {
+      "gate": "reproduction-controls",
+      "public_path": "experiments/tamil-quality/commands.json",
+      "artifact": "preliminary-p2",
+      "kind": "local raw experiment artifact",
+      "source_commit": null,
+      "source_blob": null,
+      "original_sha256": "ed5bdf98a1d60c69bed63e45a84be056cc448426db9bc9c71b56edecafe44647",
+      "normalization": "Retain argument order and non-path values; replace only executable, model, input and external-template paths with named placeholders.",
+      "public_sha256": "c0042b0d9561a8f1df23b88743d5423ec73435d90e5098b3f67feb9b1f8b7df5"
+    },
+    {
+      "gate": "reproduction-controls",
+      "public_path": "experiments/tamil-quality/commands.json",
+      "artifact": "preliminary-p3",
+      "kind": "local raw experiment artifact",
+      "source_commit": null,
+      "source_blob": null,
+      "original_sha256": "c6b951dc47b40ec2426c7c97752b0876dffe4fa11a4f329fccd288206e6e5792",
+      "normalization": "Retain argument order and non-path values; replace only executable, model, input and external-template paths with named placeholders.",
+      "public_sha256": "c0042b0d9561a8f1df23b88743d5423ec73435d90e5098b3f67feb9b1f8b7df5"
+    },
+    {
+      "gate": "reproduction-controls",
+      "public_path": "experiments/tamil-quality/commands.json",
+      "artifact": "A-p1-measurement",
+      "kind": "local raw experiment artifact",
+      "source_commit": null,
+      "source_blob": null,
+      "original_sha256": "47c5e7029547a60da476147b2c09735c01d2ee729e4bbabc5f3c34d447469340",
+      "normalization": "Retain argument order and non-path values; replace only executable, model, input and external-template paths with named placeholders.",
+      "public_sha256": "c0042b0d9561a8f1df23b88743d5423ec73435d90e5098b3f67feb9b1f8b7df5"
+    },
+    {
+      "gate": "reproduction-controls",
+      "public_path": "experiments/tamil-quality/commands.json",
+      "artifact": "A-p1-placement",
+      "kind": "local raw experiment artifact",
+      "source_commit": null,
+      "source_blob": null,
+      "original_sha256": "f4b1914dd9b2ca47a62e1f3e250b29a47ba8d1b82441044fd2234a64ce4746a3",
+      "normalization": "Retain argument order and non-path values; replace only executable, model, input and external-template paths with named placeholders.",
+      "public_sha256": "c0042b0d9561a8f1df23b88743d5423ec73435d90e5098b3f67feb9b1f8b7df5"
+    },
+    {
+      "gate": "reproduction-controls",
+      "public_path": "experiments/tamil-quality/commands.json",
+      "artifact": "A-p2-measurement",
+      "kind": "local raw experiment artifact",
+      "source_commit": null,
+      "source_blob": null,
+      "original_sha256": "bd3b3a5e9551c18804ff7fba199a8a620a2b56401ea17cf96089c1fc1740b851",
+      "normalization": "Retain argument order and non-path values; replace only executable, model, input and external-template paths with named placeholders.",
+      "public_sha256": "c0042b0d9561a8f1df23b88743d5423ec73435d90e5098b3f67feb9b1f8b7df5"
+    },
+    {
+      "gate": "reproduction-controls",
+      "public_path": "experiments/tamil-quality/commands.json",
+      "artifact": "A-p2-placement",
+      "kind": "local raw experiment artifact",
+      "source_commit": null,
+      "source_blob": null,
+      "original_sha256": "bcd698769bf36125d9d03b28723e44953fc39e172704ee17e315d9283171bf84",
+      "normalization": "Retain argument order and non-path values; replace only executable, model, input and external-template paths with named placeholders.",
+      "public_sha256": "c0042b0d9561a8f1df23b88743d5423ec73435d90e5098b3f67feb9b1f8b7df5"
+    },
+    {
+      "gate": "reproduction-controls",
+      "public_path": "experiments/tamil-quality/commands.json",
+      "artifact": "A-p3-measurement",
+      "kind": "local raw experiment artifact",
+      "source_commit": null,
+      "source_blob": null,
+      "original_sha256": "d94e1f570bfee1b510d94ff955f6247453d3cae6a9e2298f61c8cd404550174e",
+      "normalization": "Retain argument order and non-path values; replace only executable, model, input and external-template paths with named placeholders.",
+      "public_sha256": "c0042b0d9561a8f1df23b88743d5423ec73435d90e5098b3f67feb9b1f8b7df5"
+    },
+    {
+      "gate": "reproduction-controls",
+      "public_path": "experiments/tamil-quality/commands.json",
+      "artifact": "A-p3-placement",
+      "kind": "local raw experiment artifact",
+      "source_commit": null,
+      "source_blob": null,
+      "original_sha256": "22815c356d12f18d3f1d2fea14829b4f03e49a1855ae5b72ec4b2ceb2897e22e",
+      "normalization": "Retain argument order and non-path values; replace only executable, model, input and external-template paths with named placeholders.",
+      "public_sha256": "c0042b0d9561a8f1df23b88743d5423ec73435d90e5098b3f67feb9b1f8b7df5"
+    },
+    {
+      "gate": "reproduction-controls",
+      "public_path": "experiments/tamil-quality/commands.json",
+      "artifact": "B-p1-measurement",
+      "kind": "local raw experiment artifact",
+      "source_commit": null,
+      "source_blob": null,
+      "original_sha256": "a91ab66747d274037ec0fc7bf6b585d04225d5b381088924ec81741e77393350",
+      "normalization": "Retain argument order and non-path values; replace only executable, model, input and external-template paths with named placeholders.",
+      "public_sha256": "c0042b0d9561a8f1df23b88743d5423ec73435d90e5098b3f67feb9b1f8b7df5"
+    },
+    {
+      "gate": "reproduction-controls",
+      "public_path": "experiments/tamil-quality/commands.json",
+      "artifact": "B-p1-placement",
+      "kind": "local raw experiment artifact",
+      "source_commit": null,
+      "source_blob": null,
+      "original_sha256": "6c134e7c4a7c1c37dbe06282a9c23da082e7b770188697f9ee327b4887912fa9",
+      "normalization": "Retain argument order and non-path values; replace only executable, model, input and external-template paths with named placeholders.",
+      "public_sha256": "c0042b0d9561a8f1df23b88743d5423ec73435d90e5098b3f67feb9b1f8b7df5"
+    },
+    {
+      "gate": "reproduction-controls",
+      "public_path": "experiments/tamil-quality/commands.json",
+      "artifact": "B-p2-measurement",
+      "kind": "local raw experiment artifact",
+      "source_commit": null,
+      "source_blob": null,
+      "original_sha256": "32753c49c7a905c3f76019a16227183b0ec9b77711352435dbccf9fba474a32c",
+      "normalization": "Retain argument order and non-path values; replace only executable, model, input and external-template paths with named placeholders.",
+      "public_sha256": "c0042b0d9561a8f1df23b88743d5423ec73435d90e5098b3f67feb9b1f8b7df5"
+    },
+    {
+      "gate": "reproduction-controls",
+      "public_path": "experiments/tamil-quality/commands.json",
+      "artifact": "B-p2-placement",
+      "kind": "local raw experiment artifact",
+      "source_commit": null,
+      "source_blob": null,
+      "original_sha256": "34e85caeca66914690f601c1487499b3e00532bda3ed9b007957bfe8e9bba753",
+      "normalization": "Retain argument order and non-path values; replace only executable, model, input and external-template paths with named placeholders.",
+      "public_sha256": "c0042b0d9561a8f1df23b88743d5423ec73435d90e5098b3f67feb9b1f8b7df5"
+    },
+    {
+      "gate": "reproduction-controls",
+      "public_path": "experiments/tamil-quality/commands.json",
+      "artifact": "B-p3-measurement",
+      "kind": "local raw experiment artifact",
+      "source_commit": null,
+      "source_blob": null,
+      "original_sha256": "4bbf001e9c1982b1ca07cd72371d8389149e9c4614f4201686f9fb44d26b5634",
+      "normalization": "Retain argument order and non-path values; replace only executable, model, input and external-template paths with named placeholders.",
+      "public_sha256": "c0042b0d9561a8f1df23b88743d5423ec73435d90e5098b3f67feb9b1f8b7df5"
+    },
+    {
+      "gate": "reproduction-controls",
+      "public_path": "experiments/tamil-quality/commands.json",
+      "artifact": "B-p3-placement",
+      "kind": "local raw experiment artifact",
+      "source_commit": null,
+      "source_blob": null,
+      "original_sha256": "2cac51835dbd6a31db37f5d2cc4a26bcc99804be829d88185129788221f06f22",
+      "normalization": "Retain argument order and non-path values; replace only executable, model, input and external-template paths with named placeholders.",
+      "public_sha256": "c0042b0d9561a8f1df23b88743d5423ec73435d90e5098b3f67feb9b1f8b7df5"
+    },
+    {
+      "gate": "reproduction-controls",
+      "public_path": "experiments/tamil-quality/ollama-requests.json",
+      "artifact": "Tamil Ollama arm C request 1",
+      "kind": "tracked source artifact",
+      "source_commit": "40bb069f6dc9e9ca2f9e6469cb423f1a98955a8c",
+      "source_blob": "9a6a462df3a0a4da7ab37830800bc97ac644269f",
+      "original_sha256": "cb69fdd66964a4e43631d1850aa55283f6a1f9f2b83cf8508f74bed302ffb502",
+      "normalization": "Retain every API request field except the excluded source-workload prompt; retain its submitted-string digest.",
+      "public_sha256": "90e1b8c0cc23188f54d5ce0362a03ac8181c18e472736556af7b044d7d1a7a6a"
+    },
+    {
+      "gate": "reproduction-controls",
+      "public_path": "experiments/tamil-quality/ollama-requests.json",
+      "artifact": "Tamil Ollama arm C request 2",
+      "kind": "tracked source artifact",
+      "source_commit": "40bb069f6dc9e9ca2f9e6469cb423f1a98955a8c",
+      "source_blob": "a487b85f5a796b5b85831bdfcb95789be38613e6",
+      "original_sha256": "283f1982cd11ced2ac47b9b0c6860a09db464884d0a8fbc8d5006b3517474427",
+      "normalization": "Retain every API request field except the excluded source-workload prompt; retain its submitted-string digest.",
+      "public_sha256": "90e1b8c0cc23188f54d5ce0362a03ac8181c18e472736556af7b044d7d1a7a6a"
+    },
+    {
+      "gate": "reproduction-controls",
+      "public_path": "experiments/tamil-quality/ollama-requests.json",
+      "artifact": "Tamil Ollama arm C request 3",
+      "kind": "tracked source artifact",
+      "source_commit": "40bb069f6dc9e9ca2f9e6469cb423f1a98955a8c",
+      "source_blob": "a3c075e2c0b9ef3c8d75fe329edc6b10fa85a5d7",
+      "original_sha256": "340a514b0f008235b17b7a7f7b2d4d2a7a15ce101d0f6dda8db34de215584f3d",
+      "normalization": "Retain every API request field except the excluded source-workload prompt; retain its submitted-string digest.",
+      "public_sha256": "90e1b8c0cc23188f54d5ce0362a03ac8181c18e472736556af7b044d7d1a7a6a"
+    },
+    {
+      "gate": "reproduction-controls",
+      "public_path": "experiments/gemma-model-selection/commands.json",
+      "artifact": "qualification-cpu-measurement",
+      "kind": "local raw experiment artifact",
+      "source_commit": null,
+      "source_blob": null,
+      "original_sha256": "8cea048112d361d18d119f537f4fd235311fe8efe2b3a3ebd19e03b3111b8bf6",
+      "normalization": "Retain argument order and non-path values; replace only executable, model, input and external-template paths with named placeholders.",
+      "public_sha256": "1b15418f539336bea8c160e98bfc7db5ce8f0d56c35029a0bc8c1285602743d8"
+    },
+    {
+      "gate": "reproduction-controls",
+      "public_path": "experiments/gemma-model-selection/commands.json",
+      "artifact": "qualification-gpu24-placement-failed",
+      "kind": "local raw experiment artifact",
+      "source_commit": null,
+      "source_blob": null,
+      "original_sha256": "45ff8c3d6a305181e18721a94a3fe7feda53a4d1041b4338c676d2890ef0e49b",
+      "normalization": "Retain argument order and non-path values; replace only executable, model, input and external-template paths with named placeholders.",
+      "public_sha256": "1b15418f539336bea8c160e98bfc7db5ce8f0d56c35029a0bc8c1285602743d8"
+    },
+    {
+      "gate": "reproduction-controls",
+      "public_path": "experiments/gemma-model-selection/commands.json",
+      "artifact": "qualification-gpu16-measurement",
+      "kind": "local raw experiment artifact",
+      "source_commit": null,
+      "source_blob": null,
+      "original_sha256": "b5c72ed67d0903e1dda61bb9cbe76140dedce0d9126bc9a0296bc2568b048919",
+      "normalization": "Retain argument order and non-path values; replace only executable, model, input and external-template paths with named placeholders.",
+      "public_sha256": "1b15418f539336bea8c160e98bfc7db5ce8f0d56c35029a0bc8c1285602743d8"
+    },
+    {
+      "gate": "reproduction-controls",
+      "public_path": "experiments/gemma-model-selection/commands.json",
+      "artifact": "quality-p1-measurement",
+      "kind": "local raw experiment artifact",
+      "source_commit": null,
+      "source_blob": null,
+      "original_sha256": "0da1528d01b6d03916680f2aa02e93eb1cd012cfdf88df7639b52962202ad44c",
+      "normalization": "Retain argument order and non-path values; replace only executable, model, input and external-template paths with named placeholders.",
+      "public_sha256": "1b15418f539336bea8c160e98bfc7db5ce8f0d56c35029a0bc8c1285602743d8"
+    },
+    {
+      "gate": "reproduction-controls",
+      "public_path": "experiments/gemma-model-selection/commands.json",
+      "artifact": "quality-p1-placement",
+      "kind": "local raw experiment artifact",
+      "source_commit": null,
+      "source_blob": null,
+      "original_sha256": "3c27f440d1331e8d5dab614d5128813a5e027122e9958928a4c76690ba2f9a18",
+      "normalization": "Retain argument order and non-path values; replace only executable, model, input and external-template paths with named placeholders.",
+      "public_sha256": "1b15418f539336bea8c160e98bfc7db5ce8f0d56c35029a0bc8c1285602743d8"
+    },
+    {
+      "gate": "reproduction-controls",
+      "public_path": "experiments/gemma-model-selection/commands.json",
+      "artifact": "quality-p2-measurement",
+      "kind": "local raw experiment artifact",
+      "source_commit": null,
+      "source_blob": null,
+      "original_sha256": "537a9e5ecd65224a6fe87866dc6cabea133299556f379b0b6c910bcbdccb1b35",
+      "normalization": "Retain argument order and non-path values; replace only executable, model, input and external-template paths with named placeholders.",
+      "public_sha256": "1b15418f539336bea8c160e98bfc7db5ce8f0d56c35029a0bc8c1285602743d8"
+    },
+    {
+      "gate": "reproduction-controls",
+      "public_path": "experiments/gemma-model-selection/commands.json",
+      "artifact": "quality-p2-placement",
+      "kind": "local raw experiment artifact",
+      "source_commit": null,
+      "source_blob": null,
+      "original_sha256": "7c6e26fa409447367e46eb7875c15d80714ab6e84c94d5324757b3d27eb9daea",
+      "normalization": "Retain argument order and non-path values; replace only executable, model, input and external-template paths with named placeholders.",
+      "public_sha256": "1b15418f539336bea8c160e98bfc7db5ce8f0d56c35029a0bc8c1285602743d8"
+    },
+    {
+      "gate": "reproduction-controls",
+      "public_path": "experiments/gemma-model-selection/commands.json",
+      "artifact": "quality-p3-measurement",
+      "kind": "local raw experiment artifact",
+      "source_commit": null,
+      "source_blob": null,
+      "original_sha256": "312c97b3f36c8eafa30ffc188aad3782bfad083ba99c0d64137e14390dcfeb01",
+      "normalization": "Retain argument order and non-path values; replace only executable, model, input and external-template paths with named placeholders.",
+      "public_sha256": "1b15418f539336bea8c160e98bfc7db5ce8f0d56c35029a0bc8c1285602743d8"
+    },
+    {
+      "gate": "reproduction-controls",
+      "public_path": "experiments/gemma-model-selection/commands.json",
+      "artifact": "quality-p3-placement",
+      "kind": "local raw experiment artifact",
+      "source_commit": null,
+      "source_blob": null,
+      "original_sha256": "14e3aa58c5e38cb3807d82a158c83e8e7a6b7cb78fad967ff61d465662e90422",
+      "normalization": "Retain argument order and non-path values; replace only executable, model, input and external-template paths with named placeholders.",
+      "public_sha256": "1b15418f539336bea8c160e98bfc7db5ce8f0d56c35029a0bc8c1285602743d8"
+    },
+    {
+      "gate": "reproduction-controls",
+      "public_path": "experiments/context-economics/commands.json",
+      "artifact": "cpu-kv-gpu-4k",
+      "kind": "tracked source artifact",
+      "source_commit": "40bb069f6dc9e9ca2f9e6469cb423f1a98955a8c",
+      "source_blob": "83830d13566569c21d8626a4bc8e0dae8c26cfa8",
+      "original_sha256": "71f4e81f5af8644e7d6e5d1012d5362da07a2c0055a2b4781dc3c92a9369db61",
+      "normalization": "Retain argument order and non-path values; replace only executable, model, input and external-template paths with named placeholders.",
+      "public_sha256": "ce9033806de953d2e116c120f4bbcce6d86c578161bff32e46a3569979d738f6"
+    },
+    {
+      "gate": "reproduction-controls",
+      "public_path": "experiments/context-economics/commands.json",
+      "artifact": "cpu-kv-cpu-32k",
+      "kind": "tracked source artifact",
+      "source_commit": "40bb069f6dc9e9ca2f9e6469cb423f1a98955a8c",
+      "source_blob": "357b92c862e8a3fb22899e1ebcb24825a07a4a0e",
+      "original_sha256": "0b9be485b24c30b3369662536fa27419a4282fea8c61a0c9f3d33ec2c7739df7",
+      "normalization": "Retain argument order and non-path values; replace only executable, model, input and external-template paths with named placeholders.",
+      "public_sha256": "ce9033806de953d2e116c120f4bbcce6d86c578161bff32e46a3569979d738f6"
+    },
+    {
+      "gate": "reproduction-controls",
+      "public_path": "experiments/context-economics/commands.json",
+      "artifact": "gpu-kv-gpu-4k",
+      "kind": "tracked source artifact",
+      "source_commit": "40bb069f6dc9e9ca2f9e6469cb423f1a98955a8c",
+      "source_blob": "83830d13566569c21d8626a4bc8e0dae8c26cfa8",
+      "original_sha256": "71f4e81f5af8644e7d6e5d1012d5362da07a2c0055a2b4781dc3c92a9369db61",
+      "normalization": "Retain argument order and non-path values; replace only executable, model, input and external-template paths with named placeholders.",
+      "public_sha256": "ce9033806de953d2e116c120f4bbcce6d86c578161bff32e46a3569979d738f6"
+    },
+    {
+      "gate": "reproduction-controls",
+      "public_path": "experiments/context-economics/commands.json",
+      "artifact": "gpu-kv-gpu-8k",
+      "kind": "tracked source artifact",
+      "source_commit": "40bb069f6dc9e9ca2f9e6469cb423f1a98955a8c",
+      "source_blob": "7a4bf7caac3ba6c389e56184d4c756eb5f0d95b5",
+      "original_sha256": "543867b8a05005fd0e924070de00d58d34726eddc20d61761384bc3be34801bb",
+      "normalization": "Retain argument order and non-path values; replace only executable, model, input and external-template paths with named placeholders.",
+      "public_sha256": "ce9033806de953d2e116c120f4bbcce6d86c578161bff32e46a3569979d738f6"
+    },
+    {
+      "gate": "reproduction-controls",
+      "public_path": "experiments/context-economics/protocol.json",
+      "artifact": "cpu-kv frozen plan",
+      "kind": "tracked source artifact",
+      "source_commit": "40bb069f6dc9e9ca2f9e6469cb423f1a98955a8c",
+      "source_blob": "c91278e46d08720d4369c57150d1ef924ad8786c",
+      "original_sha256": "e8f7f2c1d07b6cbc8e546d11b92585ed93377691c7065dc4d53ab2738fbf109d",
+      "normalization": "Keep workload, repetition, sampling, termination and acceptance controls; omit deployment metadata.",
+      "public_sha256": "227fd14031d03fcdd86b6f5b1d7128fdac0191df88cdecf18de751a17b838ba1"
+    },
+    {
+      "gate": "reproduction-controls",
+      "public_path": "experiments/context-economics/protocol.json",
+      "artifact": "cpu-kv exact short request controls",
+      "kind": "tracked source artifact",
+      "source_commit": "40bb069f6dc9e9ca2f9e6469cb423f1a98955a8c",
+      "source_blob": "cad625c4eda69de503ce64d1e853147592156807",
+      "original_sha256": "ccab2e0d9fe9336283d832073da0cf0e3d3f4c0885a3966c23f31d1a68e4612e",
+      "normalization": "Omit only the private workload prompt string; retain every other native request field.",
+      "public_sha256": "227fd14031d03fcdd86b6f5b1d7128fdac0191df88cdecf18de751a17b838ba1"
+    },
+    {
+      "gate": "reproduction-controls",
+      "public_path": "experiments/context-economics/protocol.json",
+      "artifact": "cpu-kv synthetic long-input construction",
+      "kind": "tracked source artifact",
+      "source_commit": "40bb069f6dc9e9ca2f9e6469cb423f1a98955a8c",
+      "source_blob": "c55671f00660a1225a58878e3b5710fa9d10a0fe",
+      "original_sha256": "c5fa0f9dc165a889c5015499a8fd1a59603aea69344fa2af027cf7d3cd194f5a",
+      "normalization": "Extract only the authored inert-record recipe, validation marker, and framing instructions; omit administration and private short workload.",
+      "public_sha256": "227fd14031d03fcdd86b6f5b1d7128fdac0191df88cdecf18de751a17b838ba1"
+    },
+    {
+      "gate": "reproduction-controls",
+      "public_path": "experiments/context-economics/protocol.json",
+      "artifact": "gpu-kv frozen plan",
+      "kind": "tracked source artifact",
+      "source_commit": "40bb069f6dc9e9ca2f9e6469cb423f1a98955a8c",
+      "source_blob": "0408af098a6d425ddf4d56472f230538cab0f12f",
+      "original_sha256": "2358a198add765513af07b93571b08b8c969329332477bcb36605c917631a4a1",
+      "normalization": "Keep workload, repetition, sampling, termination and acceptance controls; omit deployment metadata.",
+      "public_sha256": "227fd14031d03fcdd86b6f5b1d7128fdac0191df88cdecf18de751a17b838ba1"
+    },
+    {
+      "gate": "reproduction-controls",
+      "public_path": "experiments/context-economics/protocol.json",
+      "artifact": "gpu-kv exact short request controls",
+      "kind": "tracked source artifact",
+      "source_commit": "40bb069f6dc9e9ca2f9e6469cb423f1a98955a8c",
+      "source_blob": "3e993425f053b7e3d9811cc81f8f9011d64743da",
+      "original_sha256": "54c388850f9089e4c84f93a6c37f75ed6c894b4b812a3bcb37a7254a7b8b5c0a",
+      "normalization": "Omit only the private workload prompt string; retain every other native request field.",
+      "public_sha256": "227fd14031d03fcdd86b6f5b1d7128fdac0191df88cdecf18de751a17b838ba1"
+    },
+    {
+      "gate": "reproduction-controls",
+      "public_path": "experiments/context-economics/protocol.json",
+      "artifact": "gpu-kv synthetic long-input construction",
+      "kind": "tracked source artifact",
+      "source_commit": "40bb069f6dc9e9ca2f9e6469cb423f1a98955a8c",
+      "source_blob": "b2e723348fcee4d46d2b91d0a90af58085ca0840",
+      "original_sha256": "149dcd5a6ea67de83df426a29d4ec9057ba76b30830e72bb90a2251000dd3fa8",
+      "normalization": "Extract only the authored inert-record recipe, validation marker, and framing instructions; omit administration and private short workload.",
+      "public_sha256": "227fd14031d03fcdd86b6f5b1d7128fdac0191df88cdecf18de751a17b838ba1"
+    },
+    {
+      "gate": "reproduction-controls",
+      "public_path": "experiments/qwen36-performance/commands.json",
+      "artifact": "candidate-server",
+      "kind": "local raw experiment artifact",
+      "source_commit": null,
+      "source_blob": null,
+      "original_sha256": "9b8628b93afe5ac001ee8b29660bfe3234830d123aa663c3b4a75b1cad0ec1af",
+      "normalization": "Retain argument order and non-path values; replace only executable, model, input and external-template paths with named placeholders.",
+      "public_sha256": "bdaaffc640ab95d5f304be159a3e325df7b56caf056dfa273da1ef00683bcb1d"
+    },
+    {
+      "gate": "reproduction-controls",
+      "public_path": "experiments/qwen36-performance/commands.json",
+      "artifact": "baseline-isl512 complete benchmark invocation",
+      "kind": "local raw experiment artifact",
+      "source_commit": null,
+      "source_blob": null,
+      "original_sha256": "9bf5fa56a11d44d516ba97cbf86bde57c8e21aa09639829389aa74e40b951f23",
+      "normalization": "Retain every AIPerf argument and frozen control; replace only executable/artifact directory paths.",
+      "public_sha256": "bdaaffc640ab95d5f304be159a3e325df7b56caf056dfa273da1ef00683bcb1d"
+    },
+    {
+      "gate": "reproduction-controls",
+      "public_path": "experiments/qwen36-performance/commands.json",
+      "artifact": "baseline-isl4096 complete benchmark invocation",
+      "kind": "local raw experiment artifact",
+      "source_commit": null,
+      "source_blob": null,
+      "original_sha256": "f58ff3c8299718446b367bace25dc28abff9b6d83cb91bd49d5f52dcdab4fda1",
+      "normalization": "Retain every AIPerf argument and frozen control; replace only executable/artifact directory paths.",
+      "public_sha256": "bdaaffc640ab95d5f304be159a3e325df7b56caf056dfa273da1ef00683bcb1d"
+    },
+    {
+      "gate": "reproduction-controls",
+      "public_path": "experiments/qwen36-performance/commands.json",
+      "artifact": "baseline-isl16384 complete benchmark invocation",
+      "kind": "local raw experiment artifact",
+      "source_commit": null,
+      "source_blob": null,
+      "original_sha256": "c4a7c9d167d1da29ef3376d64509e511561fd19cd6693d8b72781ae686254fc1",
+      "normalization": "Retain every AIPerf argument and frozen control; replace only executable/artifact directory paths.",
+      "public_sha256": "bdaaffc640ab95d5f304be159a3e325df7b56caf056dfa273da1ef00683bcb1d"
+    },
+    {
+      "gate": "reproduction-controls",
+      "public_path": "experiments/qwen36-performance/commands.json",
+      "artifact": "candidate-isl512 complete benchmark invocation",
+      "kind": "local raw experiment artifact",
+      "source_commit": null,
+      "source_blob": null,
+      "original_sha256": "fe93cf38e9a67351cbd461e75eebd0337d3a1600dc2fd898da835ed502fb2f03",
+      "normalization": "Retain every AIPerf argument and frozen control; replace only executable/artifact directory paths.",
+      "public_sha256": "bdaaffc640ab95d5f304be159a3e325df7b56caf056dfa273da1ef00683bcb1d"
+    },
+    {
+      "gate": "reproduction-controls",
+      "public_path": "experiments/qwen36-performance/commands.json",
+      "artifact": "candidate-isl4096 complete benchmark invocation",
+      "kind": "local raw experiment artifact",
+      "source_commit": null,
+      "source_blob": null,
+      "original_sha256": "f9396ebe2a39b7d37de516b0c95c7f06b2f9947f54f97033494be849690135cf",
+      "normalization": "Retain every AIPerf argument and frozen control; replace only executable/artifact directory paths.",
+      "public_sha256": "bdaaffc640ab95d5f304be159a3e325df7b56caf056dfa273da1ef00683bcb1d"
+    },
+    {
+      "gate": "reproduction-controls",
+      "public_path": "experiments/qwen36-performance/commands.json",
+      "artifact": "candidate-isl16384 complete benchmark invocation",
+      "kind": "local raw experiment artifact",
+      "source_commit": null,
+      "source_blob": null,
+      "original_sha256": "73defbefb0a79d1edb3950b39a37f52e497e271e1061298b8f70a4f06002b108",
+      "normalization": "Retain every AIPerf argument and frozen control; replace only executable/artifact directory paths.",
+      "public_sha256": "bdaaffc640ab95d5f304be159a3e325df7b56caf056dfa273da1ef00683bcb1d"
+    },
+    {
+      "gate": "reproduction-controls",
+      "public_path": "experiments/qwen36-performance/baseline-allocation.json",
+      "artifact": "matched baseline startup allocations",
+      "kind": "local raw experiment artifact",
+      "source_commit": null,
+      "source_blob": null,
+      "original_sha256": "4448d5d50096767dc9b5bb5662bec62dfbdcc8e9ec65167126df4a687eb6a2c3",
+      "normalization": "Retain the complete compact allocation-line record, dropping only file encoding/BOM; identify context and K/V precision explicitly confirmed by its allocation line.",
+      "public_sha256": "5ddc86ca52577ed01b6596f7300ccd9b0378f5848fb90fc74ef1b6d36677201a"
+    },
+    {
+      "gate": "reproduction-controls",
+      "public_path": "experiments/qwen36-performance/client-environment.json",
+      "artifact": "historical benchmark client package versions",
+      "kind": "local raw experiment artifact",
+      "source_commit": null,
+      "source_blob": null,
+      "original_sha256": "5093b3d0a18efd3ed5c1bff4b0b0695eba2124ebb113a9dcfe851c0f9227b953",
+      "normalization": "Whitelist public benchmark, tokenizer, dataset and transport package/version lines; exclude all other environment information.",
+      "public_sha256": "7edaa67cd41b0df943108315d6a476f133cb477c1bb9a8254a1198c484057661"
+    },
+    {
+      "gate": "reproduction-controls",
+      "public_path": "experiments/agent-completion/experiment-controls.json",
+      "artifact": "focused autopilot experiment runner",
+      "kind": "tracked source artifact",
+      "source_commit": "40bb069f6dc9e9ca2f9e6469cb423f1a98955a8c",
+      "source_blob": "a10444a5bac93df13d08df28c3d3f46a69df75f9",
+      "original_sha256": "c243ed5e17499ccb007da0250707091e2e3d6bf61cc4bae55a434a3c16518c75",
+      "normalization": "Extract first-party synthetic work requests, fixture construction, cap and budget controls; replace only the fixture path and omit global/private CLI context and administration.",
+      "public_sha256": "1c2fdc6cf786ada531beaf29e11ca195a46ffbfc5ecfc2eaa5aad7cff2c228a5"
     }
   ],
   "curation": {
@@ -952,6 +1678,42 @@
       ],
       "author_assertion_date": "2026-11-18",
       "timestamp_basis": "Actual editorial correction date; no new inference and no rewritten historical commits."
+    },
+    {
+      "id": "reproduction-controls",
+      "date": "2026-11-18",
+      "purpose": "Recover actual stage commands, request protocols, historical defaults and synthetic benchmark input; make reproduction boundaries explicit.",
+      "timestamp_basis": "Actual editorial audit date; no new model run or rewritten historical gate.",
+      "upstream_flag_verification": {
+        "repository": "https://github.com/ggml-org/llama.cpp",
+        "commit": "cf9a9957dae4801dde95d174ec1ac1b4cac84bf8",
+        "checked_date": "2026-11-18",
+        "method": "Public exact-revision raw file bytes matched the local pinned Git blobs; no inference.",
+        "files": [
+          {
+            "path": "docs/moe-cache.md",
+            "sha256": "a3e8a88499d9055595894855a0754429196db2abe41e199656791a98790a28b8",
+            "bytes": 2342
+          },
+          {
+            "path": "common/arg.cpp",
+            "sha256": "aed16cbdf75fce408cd671f0a827aa4bfacc780a550577f1b69a4ce2c4099c99",
+            "bytes": 227135
+          },
+          {
+            "path": "src/llama-moe-cache.cpp",
+            "sha256": "9c1debf8bdb0858887c0fa71781a6881f268f857e5873c8cbf1207d22472a790",
+            "bytes": 42517
+          }
+        ]
+      },
+      "derived_artifacts": [
+        {
+          "public_path": "harness/historical-controls.json",
+          "public_sha256": "db8819e7f999ea9796fa40b77d61afbdaf2cab48fe3d9bd866815d55b6397354",
+          "method": "Literal-default AST extraction from the three retained curated implementation snapshots named inside the artifact."
+        }
+      ]
     }
   ]
 }

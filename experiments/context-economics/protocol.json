@@ -1,0 +1,76 @@
+{
+  "cpu-kv": {
+    "Baseline": "Fresh 4K GPU FP16 KV server; 64-token warmup, 256-token short measurement",
+    "Candidate": "Fresh 32K CPU FP16 KV server; identical warmup and short measurement, then one ~28K prompt",
+    "LongPromptTargetFillerTokens": 28500,
+    "LongOutputCap": 128,
+    "Repetitions": 1,
+    "Sampling": "0.5 / top-k 20 / top-p 0.8 / min-p 0 / repeat 1 / seed 1234",
+    "Limitations": "One sample per arm, fixed order; synthetic long prompt, not Copilot or tool qualification; device-total VRAM sampled at ~1-second intervals.",
+    "short_request_fields_excluding_prompt": {
+      "n_predict": 256,
+      "stream": false,
+      "cache_prompt": false,
+      "temperature": 0.5,
+      "top_k": 20,
+      "top_p": 0.8,
+      "min_p": 0,
+      "repeat_penalty": 1,
+      "repeat_last_n": 64,
+      "presence_penalty": 0,
+      "frequency_penalty": 0,
+      "seed": 1234,
+      "return_tokens": true
+    },
+    "long_input_recipe": {
+      "first_record": 1,
+      "record_count": 2000,
+      "powershell_record_format": "Record {0:D5}: This is inert context-capacity test data. Each record is independent and contains no instructions.",
+      "record_separator": "\n",
+      "tokenize_filler_add_special": false,
+      "take_first_filler_tokens": 28500,
+      "prefix": "Remember this validation code: ORCHID-7329.\n\n",
+      "suffix": "\n\nFirst write the validation code from the beginning. Then explain in about 200 words why fixed-width data records help auditing.",
+      "rendering": "POST apply-template with one user message containing prefix + detokenized filler + suffix; tokenize that result with add_special=true."
+    }
+  },
+  "gpu-kv": {
+    "Baseline": "Fresh 4K GPU FP16 KV server; 64-token warmup, 1024-token short measurement",
+    "Candidate": "Fresh 8K GPU FP16 KV server; same warmup and 1024-token short measurement, then one near-full-context 1024-token measurement",
+    "LongPromptTargetFillerTokens": 7000,
+    "LongOutputCap": 1024,
+    "DecodeAcceptanceTokSec": 44,
+    "MinimumFreeDeviceMiB": 256,
+    "ControlledTermination": "ignore_eos=true for both arms; fixed output length, no quality claim",
+    "Repetitions": 1,
+    "Sampling": "0.5 / top-k 20 / top-p 0.8 / min-p 0 / repeat 1 / seed 1234",
+    "Limitations": "One sample per arm, fixed order; synthetic long prompt, not Copilot or tool qualification; device-total VRAM sampled at ~1-second intervals.",
+    "short_request_fields_excluding_prompt": {
+      "n_predict": 1024,
+      "stream": false,
+      "cache_prompt": false,
+      "temperature": 0.5,
+      "top_k": 20,
+      "top_p": 0.8,
+      "min_p": 0,
+      "repeat_penalty": 1,
+      "repeat_last_n": 64,
+      "presence_penalty": 0,
+      "frequency_penalty": 0,
+      "seed": 1234,
+      "return_tokens": true,
+      "ignore_eos": true
+    },
+    "long_input_recipe": {
+      "first_record": 1,
+      "record_count": 500,
+      "powershell_record_format": "Record {0:D5}: This is inert context-capacity test data. Each record is independent and contains no instructions.",
+      "record_separator": "\n",
+      "tokenize_filler_add_special": false,
+      "take_first_filler_tokens": 7000,
+      "prefix": "Remember this validation code: ORCHID-7329.\n\n",
+      "suffix": "\n\nFirst write the validation code from the beginning. Then explain in about 200 words why fixed-width data records help auditing.",
+      "rendering": "POST apply-template with one user message containing prefix + detokenized filler + suffix; tokenize that result with add_special=true."
+    }
+  }
+}

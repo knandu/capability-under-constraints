@@ -22,6 +22,11 @@ URL printed by the server. Endpoint selection is restricted to loopback.
 `start.ps1` is an optional portable launcher; no machine-specific service launcher
 or browser profile is included.
 
+`historical-controls.json` records literal defaults from the three retained
+implementation snapshots. They remained 16,384/15,360/1,024; the final launch
+overrides them explicitly. Defaults are not evidence of every private session's
+UI settings. [Stage-by-stage controls](../notes/reproduction-audit.md).
+
 The UI exposes configuration, input/context usage, tool observations, streaming,
 timing, run status, and explicit completion. Reported usage/timing belongs to the
 actual request/transport; streamed reasoning is shown only when supplied, never

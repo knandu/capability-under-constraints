@@ -1,0 +1,9 @@
+{
+  "record_type": "authored synthetic raw-completion benchmark input",
+  "sha256": "97fb0675ac69bc1f871671b3c80b50dd7692c471074e15743e2bebe1dc0642b5",
+  "encoding": "utf-8",
+  "bytes": 479,
+  "text": "<|im_start|>system\r\nYou are a precise technical assistant. Answer directly without hidden reasoning.\r\n<|im_end|>\r\n<|im_start|>user\r\nExplain how a mixture-of-experts language model differs from a dense language model. Discuss active parameters, memory bandwidth, expert routing, and the tradeoff between CPU and GPU placement. Use concrete examples and distinguish model storage from compute per generated token. /no_think\r\n<|im_end|>\r\n<|im_start|>assistant\r\n<think>\r\n\r\n</think>\r\n",
+  "observed_prompt_tokens": 84,
+  "scope": "Not a private CLI capture, Tamil corpus, or model-supplied template."
+}

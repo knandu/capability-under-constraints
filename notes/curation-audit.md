@@ -1,8 +1,9 @@
 # Curation and publication audit
 
 Prepared November 18, 2026. Ten historical decision gates are followed by one
-explicitly editorial closure, a prompt-overhead evidence correction, and later
-publication-preparation edits, not additional inference experiments.
+explicitly editorial closure, a prompt-overhead evidence correction, later
+publication-preparation edits, and a reproduction-controls restoration, not
+additional inference experiments.
 
 ## Historical log
 
@@ -47,10 +48,17 @@ backdated, and none adds an inference experiment or changes a measurement.
 | 303d5be | 13:46:19 | Define controlled placement and matched settings for that progression |
 | 47ec4cc | 13:53:58 | Remove a repetition; qualify the Tamil-workload decode rate as a different workload |
 | 5199fcb | 14:05:18 | Make the browser-selection normalization note vendor-neutral |
+| d664a38 | 14:09:12 | Record these later commits in this audit |
 
 `dc90422` and `ab49bb0` cancel for the two harness files: the browser selection
 was briefly reverted to match the pinned digest, then kept with an updated digest.
-The commit that adds this section cannot list its own hash.
+
+The following commit restores command lines and experiment controls that were
+mistakenly pruned during publication-readiness preparation (see
+[Follow-up: post-publication reproduction controls](#follow-up-post-publication-reproduction-controls)).
+It was authored at 14:53:15 as a patch against `7588372` and applied on top
+of the commits above; its committer time is the application time. A commit
+cannot list its own hash.
 
 ## Validation scope
 
@@ -127,3 +135,25 @@ original digests, and an explicitly attributed author assertion. No private
 capture body or prompt content was read or redistributed in this follow-up,
 and no tokenizer/inference endpoint was called. Offline validation checks the
 retained arithmetic and provenance; it does not replay the excluded private input.
+
+## Follow-up: post-publication reproduction controls
+
+Command lines and the wrapper-parameter mapping were mistakenly pruned during
+publication-readiness preparation, leaving wrapper parameter names unmapped. The [stage audit](reproduction-audit.md) corrects that gap across all
+ten gates. Saved native/AIPerf commands retain argument order and non-path values;
+selected API fields, original synthetic test inputs and historical defaults are
+retained with provenance. The source-default extraction is not passed off as a
+record of private UI-session settings.
+
+The official exact-revision cache documentation, argument parser and implementation
+were retrieved and matched byte-for-byte to the pinned upstream Git blobs.
+Both cache flags were upstream features. No local runtime patch is needed to
+explain the selected configuration.
+
+Remaining replay boundaries are explicit: excluded private input/context and
+external templates; no recovered literal 20K-Q8 baseline server launch vector;
+tokenizer repository identifiers without exact snapshot revisions in the command
+records. The older 4K launch is not mislabeled as that later runtime.
+This recovery did not run inference, rebuild, administer the remote machine,
+rewrite historical commits or push. It is an additive patch for the already
+published notebook.

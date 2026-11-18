@@ -9,6 +9,12 @@ Ollama reference. Thinking was off. The native arms used 4K context, a 3,036-tok
 ceiling, natural stopping, and the same selected expert-cache runtime.
 `controls.json` retains sampling parameters and original prompt/model digests.
 
+`preliminary-controls.json` and `preliminary-results.csv` preserve the preceding
+three-request characterization separately from the nine-response A/B/C study.
+`commands.json` retains actual preliminary and A/B native argument vectors;
+`ollama-requests.json` retains the C request fields with only prompt bodies
+excluded. [Stage audit and replay boundaries](../../notes/reproduction-audit.md).
+
 `results.csv` and `summary.csv` retain token counts and timing. `quality.csv`
 retains case-level judgments rather than a fabricated single language score.
 `structural-audit.csv` is a narrow background-marker check, not a fluency judge.

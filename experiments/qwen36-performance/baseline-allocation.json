@@ -1,0 +1,18 @@
+{
+  "record_type": "Original compact baseline startup-allocation evidence, not a reconstructed launch command.",
+  "model": "qwen3-30b-a3b-q4-k-m",
+  "context": 20480,
+  "kv_k": "q8_0",
+  "kv_v": "q8_0",
+  "allocation": [
+    "0.00.316.275 I print_info: model params          = 30.53 B",
+    "0.01.295.969 I load_tensors:        CUDA0 model buffer size =   847.23 MiB",
+    "0.01.295.970 I load_tensors:    CUDA_Host model buffer size = 16906.92 MiB",
+    "0.04.315.572 I llama_context:  CUDA_Host  output buffer size =     0.58 MiB",
+    "0.04.346.799 I llama_kv_cache:      CUDA0 KV buffer size =  1020.00 MiB",
+    "0.04.346.805 I llama_kv_cache: size = 1020.00 MiB ( 20480 cells,  48 layers,  1/1 seqs), K (q8_0):  510.00 MiB, V (q8_0):  510.00 MiB",
+    "0.04.348.328 I init_rotation:      CUDA0 rotation buffer size =     3.75 MiB",
+    "0.04.456.119 I sched_reserve:      CUDA0 compute buffer size =    53.00 MiB",
+    "0.04.456.127 I sched_reserve:  CUDA_Host compute buffer size =    21.00 MiB"
+  ]
+}

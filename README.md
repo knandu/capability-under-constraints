@@ -8,6 +8,9 @@ It preserves the measurements, failed hypotheses, and stopping decisions.
 The commit history follows decision gates, not the literal development sequence;
 [provenance](PROVENANCE.md) explains the reconstruction and timestamps.
 
+[Stage-by-stage reproduction audit](notes/reproduction-audit.md) records actual
+commands, experiment counts, parameter changes, and explicit replay boundaries.
+
 
 ## Movement one: what can this machine actually do?
 
@@ -45,8 +48,8 @@ expert cache. "Matched" runs used the same thread-affinity, microbatch, loading,
 and Flash Attention settings as the matched CPU and ordinary-split cases.
 
 The final configuration was not "pin the experts to the GPU." It used **2 GiB of
-VRAM as an expert cache**, configured so that 95% of cache misses were served by
-the CPU. The CPU remained an important execution tier. Statically placing six
+VRAM as an expert cache**, configured so that, once the cache was full, 95% of
+cache misses were computed by the CPU from host-resident experts. The CPU remained an important execution tier. Statically placing six
 layers' experts on the GPU was measurably slower.
 
 That distinction matters. The result is evidence that **expert reuse and locality

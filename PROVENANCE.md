@@ -30,6 +30,15 @@ alongside the numeric decomposition, including framing and ancillary messages.
 The correction's author and committer dates are actual curation dates, not a new
 inference experiment or a rewrite of the ten historical gates.
 
+Command lines and experiment controls were mistakenly pruned during
+publication-readiness preparation. A post-publication reproduction audit restores
+the original native/AIPerf argument vectors, API controls, synthetic test recipes and historical harness defaults.
+It maps the wrapper parameters to the pinned upstream flags and explicitly
+distinguishes captured commands from recovered build recipes and unrecovered
+literal launch details. This is another current-dated editorial addition, not
+a new experiment or a change to the reconstructed historical commits.
+[Stage audit](notes/reproduction-audit.md).
+
 The baseline gate uses the November 14 protocol checkpoint, before target
 qualification. Later target results enter at the locality gate. Locality and the
 closing kernel comparison share a November 15 source checkpoint and therefore
@@ -57,8 +66,12 @@ Source-relative or absolute private filesystem paths are not published.
 
 Focused completion records retain tool names, event counts, stop reasons,
 timing, and exact-edit outcomes, not private session streams or model messages.
-Short generated-output excerpts illustrate quality findings; full source corpus
-and prompts are not redistributed. Their original digests remain in the record.
+Short generated-output excerpts illustrate quality findings; the full Tamil
+source corpus, private CLI context and real document/checkpoints are not
+redistributed. Their original digests remain in the record. The reproduction
+follow-up does include authored synthetic benchmark input, controlled CLI work
+requests/fixture recipes, and inert context-filler construction. These small
+controlled inputs are distinct from the excluded corpus and message captures.
 
 The harness enters in its pre-document source state, then receives the document
 workflow, then startup-budget options. Its README and launcher are curated for

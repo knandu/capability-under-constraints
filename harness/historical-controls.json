@@ -1,0 +1,86 @@
+{
+  "record_type": "Offline extraction of literal configuration defaults from the three retained curated implementation snapshots.",
+  "snapshots": [
+    {
+      "gate": "observable-harness",
+      "curated_snapshot": "54fa60a",
+      "source_defaults": {
+        "context": 16384,
+        "max_input": 15360,
+        "max_output": 1024,
+        "explicit_completion": false,
+        "max_iterations": 12,
+        "max_seconds": 120,
+        "repeat_limit": 3,
+        "temperature": 0.6,
+        "top_p": 0.95,
+        "seed": null,
+        "reduction": "truncate-oldest",
+        "recent_groups": 2,
+        "summary_tokens": 512,
+        "read_bytes": 1048576,
+        "scan_files": 20000,
+        "scan_depth": 12
+      }
+    },
+    {
+      "gate": "document-state",
+      "curated_snapshot": "d1a0f7f",
+      "source_defaults": {
+        "context": 16384,
+        "max_input": 15360,
+        "max_output": 1024,
+        "explicit_completion": false,
+        "max_iterations": 12,
+        "max_seconds": 120,
+        "repeat_limit": 3,
+        "temperature": 0.6,
+        "top_p": 0.95,
+        "seed": null,
+        "reduction": "truncate-oldest",
+        "recent_groups": 2,
+        "summary_tokens": 512,
+        "read_bytes": 1048576,
+        "scan_files": 20000,
+        "scan_depth": 12,
+        "workflow": "chat",
+        "document_chunk_bytes": 12288,
+        "document_fan_in": 8,
+        "server_progress": false
+      }
+    },
+    {
+      "gate": "qwen36-performance",
+      "curated_snapshot": "f467b4d",
+      "source_defaults": {
+        "context": 16384,
+        "max_input": 15360,
+        "max_output": 1024,
+        "explicit_completion": false,
+        "max_iterations": 12,
+        "max_seconds": 120,
+        "repeat_limit": 3,
+        "temperature": 0.6,
+        "top_p": 0.95,
+        "seed": null,
+        "reduction": "truncate-oldest",
+        "recent_groups": 2,
+        "summary_tokens": 512,
+        "read_bytes": 1048576,
+        "scan_files": 20000,
+        "scan_depth": 12,
+        "workflow": "chat",
+        "document_chunk_bytes": 12288,
+        "document_fan_in": 8,
+        "server_progress": false
+      }
+    }
+  ],
+  "selected_final_launch_overrides": {
+    "context": 20480,
+    "max_input": 16000,
+    "max_output": 4000,
+    "model": "qwen3.6-35b-a3b-ud-q4-k-m"
+  },
+  "boundary": "Defaults are not proof of the settings used in every live UI session. Private saved-session/checkpoint settings are not redistributed. The source defaults remained 16384/15360/1024; only the final launch explicitly overrides them."
+}

@@ -23,6 +23,12 @@ did not outweigh total latency and unreliable delivery of the requested package.
 breached the free-VRAM guard; that was **not an OOM**. A 16-layer placement was
 selected. Long placement logs and copied model templates are intentionally absent.
 
+`commands.json` retains the actual CPU/GPU16 qualification commands, the aborted
+GPU24 placement command, all three quality measurement/preflight pairs, model
+digest and short synthetic qualification input. It makes the dense-layer
+placement and sampling policy explicit.
+[Cross-stage controls and exclusions](../../notes/reproduction-audit.md).
+
 This closes one model-selection branch for a particular workload and machine.
 It does not establish that Gemma is generally worse, nor that more kernel work
 would repair the observed quality failures.

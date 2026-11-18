@@ -51,7 +51,142 @@ def validate_prompt_costs(cli, harness):
           harness["empty_history_rendered_tokens"], "Historical minimal-harness decomposition")
 
 
+def option(arguments, flag):
+    check(arguments.count(flag) == 1, f"Expected exactly one {flag}.")
+    index = arguments.index(flag) + 1
+    check(index < len(arguments), f"Missing value for {flag}.")
+    return arguments[index]
+
+
+def validate_reproduction_controls():
+    locality = "experiments/expert-locality/"
+    catalog = load_json(locality + "commands.json")["commands"]
+    measured = {item["id"]: item for item in catalog if item["stage"] == "measurement"}
+    check(len(measured) == len(catalog) - 1, "Duplicate locality command identity.")
+    rows = load_csv(locality + "exploration.csv") + load_csv(locality + "finalists.csv")
+    check(set(measured) == {row["Experiment"] for row in rows},
+          "Locality command catalog does not cover the measured campaigns.")
+    matrix = load_json(locality + "controls.json")["Matrix"]
+    for name, item in measured.items():
+        matching = [row for row in rows if row["Experiment"] == name]
+        check(sorted(int(row["Repeat"]) for row in matching) == item["repeats"],
+              f"Repetition mismatch: {name}")
+        argv, controls = item["arguments"], matrix[name]
+        for flag, value in (("-c", 2048), ("-t", 8), ("-tb", 8), ("-b", 512),
+                            ("-ub", controls.get("MicroBatch", 128))):
+            equal(option(argv, flag), value, name + " " + flag)
+        check(all(int(row["Tokens"]) == int(option(argv, "-n")) for row in matching),
+              f"Output-cap mismatch: {name}")
+        cache = controls.get("MoeCacheMiB", 0)
+        check(("--moe-cache-mib" in argv) == (cache > 0), f"Cache enable mismatch: {name}")
+        if cache:
+            equal(option(argv, "--moe-cache-mib"), cache, name + " cache")
+            equal(option(argv, "--moe-cache-cpu-share"), controls.get("MoeCacheCpuShare", 0),
+                  name + " CPU miss share")
+        for field, flag in (("NoAffinity", "--cpu-mask"), ("NoHost", "--no-host"),
+                            ("NoRepack", "--no-repack")):
+            expected = not controls.get(field, False) if field == "NoAffinity" else controls.get(field, False)
+            check((flag in argv) == expected, f"{field} mismatch: {name}")
+        expected = controls.get("NoOpOffload", False) or controls["Case"] == "CPU"
+        check(("--no-op-offload" in argv) == expected, f"Operation offload mismatch: {name}")
+
+    fixture = load_json(locality + "benchmark-input.json")
+    data = fixture["text"].encode(fixture["encoding"])
+    check(len(data) == fixture["bytes"] and hashlib.sha256(data).hexdigest() == fixture["sha256"],
+          "Synthetic benchmark input bytes changed.")
+    check(all(int(row["PromptTokens"]) == fixture["observed_prompt_tokens"] for row in rows),
+          "Synthetic benchmark prompt count does not match the retained runs.")
+    selected = measured["controlled-cache2048-share95-ub128"]["arguments"]
+    kernel = load_json("experiments/kernel-stop/commands.json")["commands"]
+    check(next(item["arguments"] for item in kernel if item["id"] == "measurement") == selected,
+          "Kernel comparison no longer uses the selected measurement profile.")
+
+    quality = "experiments/tamil-quality/"
+    preliminary = load_csv(quality + "preliminary-results.csv")
+    controls = load_json(quality + "controls.json")
+    check(len(preliminary) == len(controls["Prompts"]), "Preliminary workload count changed.")
+    for row, prompt in zip(preliminary, controls["Prompts"]):
+        check(row["PromptSHA256"].lower() == prompt["SHA256"].lower(),
+              "Preliminary/main workload identity differs.")
+    commands = {item["id"]: item for item in load_json(quality + "commands.json")["commands"]}
+    native = [row for row in load_csv(quality + "results.csv") if row["Arm"] in ("A", "B")]
+    for row in native:
+        id_ = f"{row['Arm']}-p{row['Prompt']}-measurement"
+        argv = commands[id_]["arguments"]
+        equal(option(argv, "-c"), controls["NativeRuntime"]["Context"], id_ + " context")
+        equal(option(argv, "-n"), controls["NativeRuntime"]["Tokens"], id_ + " cap")
+        equal(option(argv, "--temp"), controls["Arms"][row["Arm"]]["Temperature"], id_ + " temperature")
+        check("--no-context-shift" in argv and "--ignore-eos" not in argv,
+              "Natural-stop quality measurement became forced-length.")
+    ollama = load_json(quality + "ollama-requests.json")["requests"]
+    check(len(ollama) == len(controls["Prompts"]), "Missing Ollama quality request.")
+    for request, prompt in zip(ollama, controls["Prompts"]):
+        check(request["submitted_prompt_sha256"] == prompt["SHA256"].lower(),
+              "Native/Ollama quality workload differs.")
+
+    gemma = "experiments/gemma-model-selection/"
+    commands = {item["id"]: item for item in load_json(gemma + "commands.json")["commands"]}
+    for row in load_csv(gemma + "qualification.csv"):
+        argv = commands[f"qualification-{row['Case']}-measurement"]["arguments"]
+        for flag, field in (("-ngl", "GPULayers"), ("-t", "CPUThreads"), ("-c", "Context"),
+                            ("-b", "Batch"), ("-ub", "Microbatch"), ("-n", "TokenCap")):
+            equal(option(argv, flag), row[field], row["Case"] + " " + flag)
+        check("--moe-cache-mib" not in argv, "Dense Gemma qualification gained an expert cache.")
+    argv = commands["qualification-gpu24-placement-failed"]["arguments"]
+    equal(option(argv, "-n"), 0, "Failed GPU24 attempt must remain a placement-only record")
+    equal(option(argv, "-ngl"), 24, "Failed GPU24 placement")
+
+    context = "experiments/context-economics/"
+    protocol = load_json(context + "protocol.json")
+    for item in load_json(context + "commands.json")["commands"]:
+        argv = item["arguments"]
+        equal(option(argv, "-c"), {"gpu-4k": 4096, "cpu-32k": 32768, "gpu-8k": 8192}[item["arm"]],
+              item["id"] + " context")
+        check(("--no-kv-offload" in argv) == (item["arm"] == "cpu-32k"),
+              "Context-study KV placement changed.")
+    check("ignore_eos" not in protocol["cpu-kv"]["short_request_fields_excluding_prompt"]
+          and protocol["gpu-kv"]["short_request_fields_excluding_prompt"]["ignore_eos"] is True,
+          "Distinct context-study EOS policies were lost.")
+
+    performance = "experiments/qwen36-performance/"
+    commands = {item["id"]: item for item in load_json(performance + "commands.json")["commands"]}
+    comparison = load_json(performance + "performance-comparison.json")
+    check(set(commands) == {"candidate-server"} | {
+        f"{row['case']}-isl{row['requested_isl']}" for row in comparison["rows"]},
+        "AIPerf command catalog does not match the six retained cases.")
+    for row in comparison["rows"]:
+        item = commands[f"{row['case']}-isl{row['requested_isl']}"]
+        argv = item["arguments"]
+        for flag, value in (("--isl", row["requested_isl"]), ("--osl", item["output_tokens"]),
+                            ("--request-count", item["measured_requests"]),
+                            ("--warmup-request-count", item["warmup_requests"]),
+                            ("--concurrency", item["concurrency"])):
+            equal(option(argv, flag), value, item["id"] + " " + flag)
+        check(set(argv[argv.index("--extra-inputs") + 1:]) == {
+            "ignore_eos:true", "temperature:0", "seed:1234", "cache_prompt:false"},
+            "AIPerf request controls changed.")
+    argv = commands["candidate-server"]["arguments"]
+    budget = load_json(performance + "adoption.json")
+    equal(option(argv, "-c"), budget["context"], "Candidate server/adoption context")
+    check(option(argv, "--cache-type-k") == option(argv, "--cache-type-v") == "q8_0",
+          "Candidate attention KV precision changed.")
+    ready = load_json(performance + "candidate-ready.json")
+    for flag, field in (("-t", "threads"), ("-b", "batch"), ("-ub", "microbatch"),
+                        ("--moe-cache-mib", "expert_cache_mib"),
+                        ("--moe-cache-cpu-share", "expert_cpu_miss_share")):
+        equal(option(argv, flag), ready[field], "Candidate " + field)
+    baseline = load_json(performance + "baseline-allocation.json")
+    check(any("20480 cells" in line and "K (q8_0)" in line and "V (q8_0)" in line
+              for line in baseline["allocation"]), "Missing actual baseline Q8/20K allocation evidence.")
+
+    cli = load_json("experiments/agent-completion/experiment-controls.json")
+    for case in load_json("experiments/agent-completion/completion.json"):
+        equal(case["Budget"]["Input"], cli["provider_input_limit"], "Focused CLI input budget")
+        equal(case["Budget"]["Output"], cli["provider_output_limit"], "Focused CLI output budget")
+
+
 def main():
+    validate_reproduction_controls()
     locality = "experiments/expert-locality/"
     initial = load_csv(locality + "exploration.csv")
     finalists = load_csv(locality + "finalists.csv")
@@ -138,11 +273,16 @@ def main():
     check(budget["max_input"] + budget["max_output"] <= budget["context"],
           "Selected startup budget exceeds context.")
 
-    origins = load_json("notes/evidence-map.json")["artifact_origins"]
+    manifest = load_json("notes/evidence-map.json")
+    origins = manifest["artifact_origins"]
     latest = {record["public_path"]: record for record in origins}
     for path, record in latest.items():
         actual = hashlib.sha256((ROOT / path).read_bytes()).hexdigest()
         check(actual == record["public_sha256"], f"Normalized artifact changed: {path}")
+    for followup in manifest.get("curation_followups", []):
+        for record in followup.get("derived_artifacts", []):
+            actual = hashlib.sha256((ROOT / record["public_path"]).read_bytes()).hexdigest()
+            check(actual == record["public_sha256"], f"Derived artifact changed: {record['public_path']}")
     print("Retained aggregates, acceptance boundaries, AIPerf profiles, budgets, and artifact digests agree.")
 
 

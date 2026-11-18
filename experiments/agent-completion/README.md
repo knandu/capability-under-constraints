@@ -78,3 +78,9 @@ local artifact; it does not invent an additional historical experiment.
 Private session streams, model-message bodies, connector inventories, personal
 configuration, and operational paths are not included. These compact outcome
 records are projections of focused experiment proofs, not public session captures.
+
+`experiment-controls.json` adds the authored synthetic test requests, 201-line
+fixture construction, continuation cap and budgets recovered from the frozen
+runner. This is separate from the excluded surrounding CLI context.
+[The stage audit](../../notes/reproduction-audit.md) distinguishes those controlled
+probes from a self-contained replay of the historical CLI.

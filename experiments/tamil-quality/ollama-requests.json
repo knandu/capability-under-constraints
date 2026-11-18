@@ -1,0 +1,45 @@
+{
+  "route": "/api/generate",
+  "requests": [
+    {
+      "id": "C-p1",
+      "request_fields_excluding_prompt": {
+        "model": "qwen3:30b-a3b-q4_K_M",
+        "stream": false,
+        "think": false,
+        "options": {
+          "num_predict": 3036,
+          "num_ctx": 4096
+        }
+      },
+      "submitted_prompt_sha256": "490360cac9607520fd52506eee7b7f024dc050f2bdb7ecc8c454427896157471"
+    },
+    {
+      "id": "C-p2",
+      "request_fields_excluding_prompt": {
+        "model": "qwen3:30b-a3b-q4_K_M",
+        "stream": false,
+        "think": false,
+        "options": {
+          "num_predict": 3036,
+          "num_ctx": 4096
+        }
+      },
+      "submitted_prompt_sha256": "dbe3315a7c2c9817983f13c0247e6c0710a651bcea0c8bc2e87970d8b69ece82"
+    },
+    {
+      "id": "C-p3",
+      "request_fields_excluding_prompt": {
+        "model": "qwen3:30b-a3b-q4_K_M",
+        "stream": false,
+        "think": false,
+        "options": {
+          "num_predict": 3036,
+          "num_ctx": 4096
+        }
+      },
+      "submitted_prompt_sha256": "bef1a0b9e0a8a39af53205f0b1cc3732f429efd96032d5fb9b053f370b63c6e7"
+    }
+  ],
+  "boundary": "Sampling values in controls.json arm C are effective installed defaults, not request overrides. The model was unloaded between requests."
+}

@@ -1,0 +1,47 @@
+{
+  "record_type": "Historical focused CLI probe controls recovered from the frozen authored runner, not current CLI usage guidance.",
+  "native_model": "Qwen3-30B-A3B Q4_K_M",
+  "native_context": 8192,
+  "provider_input_limit": 7168,
+  "provider_output_limit": 1024,
+  "autopilot": true,
+  "max_autopilot_continues": 1,
+  "fixed_available_tools": [
+    "view",
+    "edit",
+    "task_complete"
+  ],
+  "fixture": {
+    "encoding": "utf-8 without BOM",
+    "newline": "\n",
+    "trailing_newline": true,
+    "first_line": "keep=BIRCH-6284",
+    "following_records": 200,
+    "record_format": "entry_{index:03d}=value_{index:03d}",
+    "special_record": 150,
+    "before": "entry_150=pending",
+    "after": "entry_150=ready",
+    "assertion": "Exact whole-file equality to the original with only the target text replaced."
+  },
+  "cases": [
+    {
+      "id": "baseline-identity",
+      "controlled_prompt": "What model are you?",
+      "change": "Remove task_complete and the custom completion agent from launch arguments."
+    },
+    {
+      "id": "fixed-identity",
+      "controlled_prompt": "What model are you?",
+      "change": "Enable task_complete and the custom completion agent."
+    },
+    {
+      "id": "fixed-read-edit",
+      "controlled_prompt": "Use view to read <fixture-path>. Then use edit to change only entry_150=pending to entry_150=ready, preserving every other character. In your final answer quote the keep value you read."
+    },
+    {
+      "id": "explicit-completion-identity",
+      "controlled_prompt": "What model are you? Respond using task_complete with your answer in its summary. Do not send a separate text response."
+    }
+  ],
+  "boundary": "Synthetic work requests and fixture recipe are public; original CLI system messages, plugin/MCP inventories, custom-agent/policy bodies and session streams are not. The historical CLI version is not established by the retained proof. This is not a self-contained replay of the historical CLI configuration."
+}

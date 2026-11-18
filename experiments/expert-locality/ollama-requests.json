@@ -1,0 +1,74 @@
+{
+  "route": "/api/generate",
+  "requests": [
+    {
+      "repeat": 1,
+      "request_fields_excluding_prompt": {
+        "model": "qwen3:30b-a3b-q4_K_M",
+        "raw": true,
+        "stream": false,
+        "options": {
+          "num_ctx": 2048,
+          "num_predict": 1024,
+          "num_batch": 512,
+          "num_thread": 8,
+          "temperature": 0,
+          "seed": 1234,
+          "top_k": 1,
+          "top_p": 1,
+          "min_p": 0,
+          "repeat_penalty": 1,
+          "stop": []
+        }
+      },
+      "submitted_prompt_sha256": "2155a2af86ea7a3f52f497cdf9dc2c6972bfdb3ab179efc5ba5428d8eb53fb8e"
+    },
+    {
+      "repeat": 2,
+      "request_fields_excluding_prompt": {
+        "model": "qwen3:30b-a3b-q4_K_M",
+        "raw": true,
+        "stream": false,
+        "options": {
+          "num_ctx": 2048,
+          "num_predict": 1024,
+          "num_batch": 512,
+          "num_thread": 8,
+          "temperature": 0,
+          "seed": 1234,
+          "top_k": 1,
+          "top_p": 1,
+          "min_p": 0,
+          "repeat_penalty": 1,
+          "stop": []
+        }
+      },
+      "submitted_prompt_sha256": "2155a2af86ea7a3f52f497cdf9dc2c6972bfdb3ab179efc5ba5428d8eb53fb8e"
+    },
+    {
+      "repeat": 3,
+      "request_fields_excluding_prompt": {
+        "model": "qwen3:30b-a3b-q4_K_M",
+        "raw": true,
+        "stream": false,
+        "options": {
+          "num_ctx": 2048,
+          "num_predict": 1024,
+          "num_batch": 512,
+          "num_thread": 8,
+          "temperature": 0,
+          "seed": 1234,
+          "top_k": 1,
+          "top_p": 1,
+          "min_p": 0,
+          "repeat_penalty": 1,
+          "stop": []
+        }
+      },
+      "submitted_prompt_sha256": "2155a2af86ea7a3f52f497cdf9dc2c6972bfdb3ab179efc5ba5428d8eb53fb8e"
+    }
+  ],
+  "input_preparation": "Decode benchmark-input.json text; convert CRLF to LF and remove one final LF, matching the native Windows completion file reader.",
+  "warmup": "Separate one-output-token raw request before measurement; not the native --warmup operation.",
+  "boundary": "Default backend placement, microbatch and Flash Attention; no equivalent native ignore-EOS or strict-affinity control."
+}

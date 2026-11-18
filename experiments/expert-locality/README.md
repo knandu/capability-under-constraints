@@ -20,6 +20,11 @@ Flash Attention auto, loading mode none, no strict CPU affinity, and
 `--no-op-offload`. `controls.json` retains the original frozen plan's public
 parameters and selected matrix. The model was Qwen3-30B-A3B Q4_K_M.
 
+[Reproduce the selected command and map every wrapper parameter](REPRODUCE.md).
+`commands.json` retains all ten measured native profiles, and
+`ollama-requests.json` retains the reference API controls. The 24.16 -> 43.95
+comparison includes other profile changes, not only the cache switch.
+
 The mechanism is reuse/locality under a small VRAM budget, not evidence that the
 whole model fits on the GPU. Sampled device VRAM is not process-specific peak
 telemetry. Ollama used its native API/default placement and lacked equivalent
