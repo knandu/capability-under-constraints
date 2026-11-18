@@ -57,7 +57,7 @@ handoff rather than relying only on a scan of HEAD.
 Source HEAD remained `40bb069f6dc9e9ca2f9e6469cb423f1a98955a8c`; working-tree
 status remained clean. SHA-256 checks matched for 494 tracked/nonignored files,
 four Git metadata files, and ten selected ignored raw-evidence artifacts.
-The new repository has its own Git directory, no object alternates, and no remote.
+At curation, the new repository had its own Git directory, no object alternates, and no remote.
 No global identity configuration was changed.
 
 ## Exclusions, TODOs, and readiness

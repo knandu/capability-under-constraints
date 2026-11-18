@@ -5,7 +5,6 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 import json
 import os
 from pathlib import Path
-import shutil
 import socket
 import subprocess
 import sys
@@ -155,11 +154,9 @@ class HarnessTests(unittest.TestCase):
         return execute(name, args, configuration(self.config), lambda: None)
 
     def test_browser_conversation_timestamps_durations_and_import(self):
-        candidates = [os.environ.get("CHROMIUM_BROWSER", "")] + [shutil.which(name) or "" for name in
-                                                                 ("chromium", "chromium-browser", "google-chrome", "chrome")]
-        browser = next((Path(c) for c in candidates if c and Path(c).is_file()), None)
-        if browser is None:
-            self.skipTest("No headless Chromium-based browser is available for the optional DOM check.")
+        edge = Path(os.environ.get("PROGRAMFILES(X86)", "")) / "Microsoft" / "Edge" / "Application" / "msedge.exe"
+        if not edge.is_file():
+            self.skipTest("Microsoft Edge is unavailable for the optional DOM check.")
         static = Path(__file__).resolve().parents[1] / "static"
         page = (static / "index.html").read_bytes().replace(
             b'<script src="/app.js" defer></script>',
@@ -186,7 +183,7 @@ class HarnessTests(unittest.TestCase):
             output, errors = self.root / "browser-dom.html", self.root / "browser-errors.txt"
             # Browser children can inherit pipes after the main process exits.
             with output.open("wb") as stdout, errors.open("wb") as stderr:
-                result = subprocess.run([str(browser), "--headless=new", "--disable-gpu",
+                result = subprocess.run([str(edge), "--headless=new", "--disable-gpu",
                     "--no-first-run", "--no-default-browser-check", "--disable-background-networking",
                     f"--user-data-dir={self.root / 'browser-profile'}", "--virtual-time-budget=3000",
                     "--dump-dom", f"http://127.0.0.1:{server.server_port}/"],
