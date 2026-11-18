@@ -1,5 +1,11 @@
 # Investigation and evidence map
 
+November 18 curation correction: the agent-completion evidence now also retains
+the November 15 controlled CLI prompt aggregate (4,509 non-work tokens) and the
+separate November 16 documented minimal-harness count (958). The author's
+system/tool-overhead interpretation and the numeric decomposition are explicit.
+These are recovered historical records, not new experiments or universal costs.
+
 Author timestamps identify original checkpoints; committer timestamps identify curation.
 A shared author timestamp for locality/kernel gates reflects their bundled source commit.
 Artifact digests and explicit normalization are in [evidence-map.json](evidence-map.json).

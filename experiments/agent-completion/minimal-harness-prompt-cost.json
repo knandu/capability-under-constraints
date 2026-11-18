@@ -1,0 +1,44 @@
+{
+  "record_type": "Historical measurements documented in the source README; not a recovered raw-run aggregate",
+  "evidence_date": "2026-11-16",
+  "measurement_introduced_at_source_commit": "01b8a84967a4b75fe1e9db02f1da565010bd6dcf",
+  "model": "Qwen3-30B-A3B",
+  "configuration": "Before cursor schemas and revised brevity guidance; not current prompt costs.",
+  "empty_history_rendered_tokens": 958,
+  "system_and_guidance_tokens": 411,
+  "combined_schemas_tokens": 336,
+  "template_boundary_delta_tokens": 211,
+  "base_system_without_enabled_tool_guidance_tokens": 350,
+  "standalone_schema_tokens": {
+    "view": 69,
+    "grep": 70,
+    "glob": 65,
+    "edit": 84,
+    "task_complete": 46
+  },
+  "tool_subsets": [
+    {
+      "tools": [
+        "view"
+      ],
+      "rendered_tokens": 546
+    },
+    {
+      "tools": [
+        "view",
+        "grep"
+      ],
+      "rendered_tokens": 654
+    },
+    {
+      "tools": [
+        "view",
+        "grep",
+        "glob"
+      ],
+      "rendered_tokens": 755
+    }
+  ],
+  "method": "/apply-template plus /tokenize; standalone schema counts are not additive marginal costs.",
+  "scope": "A separate minimal-harness configuration, not a matched comparison with the controlled CLI."
+}

@@ -77,6 +77,14 @@ same workload. Instructions, schemas, observations, history, and intermediate
 work now competed with the user's material for the same context.
 An affordance can cost both **tokens** and **another decision/action choice**.
 
+That cost was measured. One controlled CLI request used **4,557 prompt tokens**
+for a **48-token work request**: **4,509 tokens of system/tool scaffolding**
+(29.36% of its 15,360-token input budget). This is the author's system-prompt
+and tool-description overhead observation; the recorded total also includes
+ancillary messages and chat framing. It describes that CLI configuration, not
+a universal constant or the later minimal harness.
+[Measurement and decomposition](experiments/agent-completion/README.md#measured-system-and-tool-scaffolding).
+
 ## Movement two: what happens when this becomes an agent?
 
 ### 7. A successful tool call was not reliable completion

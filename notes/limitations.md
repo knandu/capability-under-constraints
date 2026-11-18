@@ -28,7 +28,11 @@ The original stopping point is preserved; curation did not start new experiments
 - Focused tool/completion controls are not broad agent evaluation. A reported
   completed task can still have an incorrect or reverted edit.
 - Context overhead depends on instructions, schemas, tool observations, history,
-  tokenizer, and harness version. No unsupported exact fixed footprint is claimed.
+  tokenizer, and harness version. The controlled CLI record supports 4,509
+  non-work scaffolding tokens for that configuration; the author's system/tool
+  overhead characterization is retained. The separate historical 958-token
+  minimal-harness measurement is documented, not a matched comparison or a
+  measurement of current costs. Neither is a universal fixed footprint.
 - Byte coverage and checkpoint integrity do not establish semantic fidelity.
   Summarization remains lossy; no broad factual-retention evaluation was performed.
 - Qwen3.6 was adopted for measured performance, not qualified as superior for

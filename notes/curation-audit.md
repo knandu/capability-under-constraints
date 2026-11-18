@@ -1,7 +1,8 @@
 # Curation and publication audit
 
 Prepared November 18, 2026. Ten historical decision gates are followed by one
-explicitly editorial closure, not an eleventh inference experiment.
+explicitly editorial closure and a prompt-overhead evidence correction, not
+additional inference experiments.
 
 ## Historical log
 
@@ -73,11 +74,28 @@ verified public-project convention, with third-party boundaries documented.
 There are no unresolved URL or license-selection TODOs.
 
 The earliest baseline raw directory was unavailable; the subsequent original
-locality archive supplies all three control repetitions. An unsupported exact
-fixed context-footprint number is omitted. Semantic document fidelity and
+locality archive supplies all three control repetitions. The initial curation
+incorrectly treated the ~4.5K context-overhead figure as unsupported; the follow-up
+below corrects that evidence-search error. Semantic document fidelity and
 Qwen3.6 language/coding/general-agent quality remain unqualified; no results
 were invented to fill those boundaries.
 
 **Ready as a bounded public engineering notebook**, not as a deployment or
 general-quality recommendation. Nothing was published, no remote was created,
 and nothing was pushed.
+
+## Follow-up: restore measured prompt overhead
+
+The initial curation missed the ignored controlled-prompt aggregate. It was
+incorrect to treat the ~4.5K figure as lacking evidence. The recovered aggregate
+records 4,557 server prompt tokens matching native-tokenized rendered input,
+minus a 48-token work request: **4,509 non-work scaffolding tokens**. The author
+identifies this as system prompt + tool description overhead. The retained
+decomposition makes clear that ancillary messages and framing are included.
+
+The scan also recovered the separately documented historical minimal-harness
+cost of 958 rendered tokens. Both records are now retained with scope, method,
+original digests, and an explicitly attributed author assertion. No private
+capture body or prompt content was read or redistributed in this follow-up,
+and no tokenizer/inference endpoint was called. Offline validation checks the
+retained arithmetic and provenance; it does not replay the excluded private input.

@@ -30,6 +30,27 @@ def equal(actual, expected, label):
           f"{label}: {actual} != {expected}")
 
 
+def validate_prompt_costs(cli, harness):
+    check(cli["rendered_matches_native"], "Original prompt/native agreement flag is false.")
+    equal(cli["native_prompt_tokens"], cli["rendered_prompt_tokens"], "Rendered/native prompt agreement")
+    equal(cli["rendered_prompt_tokens"] - cli["controlled_work_request_tokens"],
+          cli["all_overhead_excluding_work_request_tokens"], "CLI non-work scaffolding")
+    equal(cli["message_content_tokens_sum"] + cli["tools_and_chat_framing_residual_tokens"],
+          cli["rendered_prompt_tokens"], "CLI content/framing decomposition")
+    equal(cli["system_message_tokens"] + cli["other_message_content_excluding_work_request_tokens"]
+          + cli["tools_and_chat_framing_residual_tokens"],
+          cli["all_overhead_excluding_work_request_tokens"], "CLI scaffolding decomposition")
+    equal(cli["rendered_prompt_tokens"] - cli["no_tools_rendered_tokens"],
+          cli["tool_injection_marginal_tokens"], "Marginal tool injection")
+    equal(cli["input_budget"] - cli["all_overhead_excluding_work_request_tokens"],
+          cli["remaining_input_after_overhead"], "Remaining CLI work budget")
+    equal(round(100 * cli["all_overhead_excluding_work_request_tokens"] / cli["input_budget"], 2),
+          cli["overhead_percent_of_input_budget"], "CLI overhead percentage")
+    equal(harness["system_and_guidance_tokens"] + harness["combined_schemas_tokens"]
+          + harness["template_boundary_delta_tokens"],
+          harness["empty_history_rendered_tokens"], "Historical minimal-harness decomposition")
+
+
 def main():
     locality = "experiments/expert-locality/"
     initial = load_csv(locality + "exploration.csv")
@@ -80,6 +101,11 @@ def main():
     check(not acceptance["Accepted"] and not adoption["Initial44TokSecCriterionPassed"],
           "Original failed 8K threshold was lost.")
     equal(acceptance["LongDecodeTokSec"], adoption["NearFullDecodeTokSec"], "8K adoption")
+
+    validate_prompt_costs(
+        load_json("experiments/agent-completion/prompt-overhead.json"),
+        load_json("experiments/agent-completion/minimal-harness-prompt-cost.json"),
+    )
 
     qwen = "experiments/qwen36-performance/"
     comparison = load_json(qwen + "performance-comparison.json")

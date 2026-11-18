@@ -1,0 +1,76 @@
+{
+  "record_type": "Numeric projection of original controlled CLI aggregate",
+  "evidence_date": "2026-11-15",
+  "transaction_count": 1,
+  "mode": "Real --yolo --autopilot; fixed synthetic prompt; no extra deny rules",
+  "native_prompt_tokens": 4557,
+  "rendered_prompt_tokens": 4557,
+  "rendered_matches_native": true,
+  "system_message_tokens": 2925,
+  "message_content_tokens_sum": 3068,
+  "tools_and_chat_framing_residual_tokens": 1489,
+  "tool_injection_marginal_tokens": 1467,
+  "builtin_tool_guidance_tokens": 803,
+  "no_tools_rendered_tokens": 3090,
+  "controlled_work_request_tokens": 48,
+  "all_overhead_excluding_work_request_tokens": 4509,
+  "tokens_before_work_request_in_rendered_order": 4500,
+  "input_budget": 15360,
+  "reserved_output": 1024,
+  "remaining_input_after_overhead": 10851,
+  "overhead_percent_of_input_budget": 29.36,
+  "message_roles": [
+    "system",
+    "user",
+    "user"
+  ],
+  "tools": [
+    {
+      "name": "view",
+      "description_tokens": 66,
+      "rendered_marginal_tokens": 228
+    },
+    {
+      "name": "edit",
+      "description_tokens": 116,
+      "rendered_marginal_tokens": 244
+    },
+    {
+      "name": "web_fetch",
+      "description_tokens": 32,
+      "rendered_marginal_tokens": 198
+    },
+    {
+      "name": "task_complete",
+      "description_tokens": 77,
+      "rendered_marginal_tokens": 143
+    },
+    {
+      "name": "grep",
+      "description_tokens": 10,
+      "rendered_marginal_tokens": 426
+    },
+    {
+      "name": "glob",
+      "description_tokens": 7,
+      "rendered_marginal_tokens": 151
+    }
+  ],
+  "other_message_content_excluding_work_request_tokens": 95,
+  "method": {
+    "rendering": "Original request rendered through /apply-template and counted through /tokenize.",
+    "native_cross_check": "Original analyzer rejects any mismatch against server usage.prompt_tokens.",
+    "work_count": "Standalone native-tokenizer count of the uniquely identified synthetic work text.",
+    "non_work_cost": "Full rendered prompt tokens minus standalone controlled work-text tokens.",
+    "tool_injection": "Full rendering minus a rendering with tools, tool_choice and parallel_tool_calls removed.",
+    "limits": "Component and individual marginal counts are not generally additive. This is one CLI configuration, not a universal fixed cost.",
+    "privacy": "Paths, request/capture identities, section labels, schemas and all prompt/message bodies are omitted."
+  },
+  "author_assertion": {
+    "author": "knandu",
+    "date": "2026-11-18",
+    "statement": "this is the system prompt + tool description overhead",
+    "interpretation": "Effective system/tool scaffolding for the tested CLI configuration, including associated framing and ancillary messages."
+  },
+  "followup_validation": "Offline arithmetic/provenance checks only; original captured input was not opened or replayed."
+}

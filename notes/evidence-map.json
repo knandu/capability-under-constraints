@@ -900,6 +900,39 @@
       "original_sha256": "0429f6c0f66425af21e36b78c7ecfbca00b831f166cb78cdccd74521c036e323",
       "normalization": "Replace only -S, -B, CUDA toolset and toolkit-root directory arguments with explicit placeholders.",
       "public_sha256": "71d65915b4ce0b39a276d8067672cd988a1913a71fb74180947a9817b70e0545"
+    },
+    {
+      "gate": "prompt-overhead-correction",
+      "public_path": "experiments/agent-completion/prompt-overhead.json",
+      "artifact": "controlled CLI prompt-size aggregate",
+      "kind": "local raw experiment artifact",
+      "source_commit": null,
+      "source_blob": null,
+      "original_sha256": "627f5676d0e9aabcd5357ad98ebde99777ab2cc58f7c3aec41be68a8024b8c52",
+      "normalization": "Explicit numeric/public-tool-name projection; omit capture paths, identities, private labels, schemas and message bodies; add labeled author assertion and method.",
+      "public_sha256": "19918a5ebca74b932ee3e90f5b53427d01d77a4dfcc857ce395e2624be1cd6bc"
+    },
+    {
+      "gate": "prompt-overhead-correction",
+      "public_path": "experiments/agent-completion/prompt-overhead.json",
+      "artifact": "controlled prompt-count analysis method",
+      "kind": "local raw experiment artifact",
+      "source_commit": null,
+      "source_blob": null,
+      "original_sha256": "959c15876f6db37e58d063ca964b02a997982aca5ed3956314356b2fbfb682b5",
+      "normalization": "Method described, not executable analysis code or private capture paths; no analysis script was executed.",
+      "public_sha256": "19918a5ebca74b932ee3e90f5b53427d01d77a4dfcc857ce395e2624be1cd6bc"
+    },
+    {
+      "gate": "prompt-overhead-correction",
+      "public_path": "experiments/agent-completion/minimal-harness-prompt-cost.json",
+      "artifact": "documented historical minimal-harness prompt costs",
+      "kind": "tracked source artifact",
+      "source_commit": "40bb069f6dc9e9ca2f9e6469cb423f1a98955a8c",
+      "source_blob": "d585a354773908d89ac094ddc1cedd9e4fc2e2c4",
+      "original_sha256": "12b99f7420ecb6efe25e8026c8920c47bc4b7d9478ef35e3fe4f2b9ea33a8777",
+      "normalization": "Extract only the historical token measurements and scope from authored documentation; exclude unrelated documentation.",
+      "public_sha256": "a45ade54976283ab57c63c6a65fdd5863fb5fd9bc6ed4ffb2b47b740fca5f7ca"
     }
   ],
   "curation": {
@@ -907,5 +940,18 @@
     "date": "2026-11-18",
     "purpose": "Package original native build controls and verify publication readiness; no new experiment.",
     "timestamp_basis": "Both Git timestamps reflect the actual editorial curation event."
-  }
+  },
+  "curation_followups": [
+    {
+      "id": "prompt-overhead-correction",
+      "date": "2026-11-18",
+      "purpose": "Restore overlooked measured CLI system/tool overhead and separate documented minimal-harness costs.",
+      "evidence_dates": [
+        "2026-11-15",
+        "2026-11-16"
+      ],
+      "author_assertion_date": "2026-11-18",
+      "timestamp_basis": "Actual editorial correction date; no new inference and no rewritten historical commits."
+    }
+  ]
 }

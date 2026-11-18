@@ -33,6 +33,13 @@ System instructions, schemas, observations, history, and completion behavior are
 visible experimental variables, not free orchestration. Context accounting is
 endpoint/schema-version dependent; no universal fixed token tax is claimed.
 
+For the historical Qwen3-30B-A3B setup, before cursor schemas and revised brevity
+guidance, the source notebook documented **958 tokens** for an empty-history
+rendered request with all five tools: 411 system/guidance, 336 combined schemas,
+and 211 template/boundary delta. This is not a measurement of the current
+configuration, nor the separate ~4.5K scaffolding measurement for the CLI.
+[Historical counts and scope](../experiments/agent-completion/README.md#measured-system-and-tool-scaffolding).
+
 Document processing lives in `documents.py`, not a second duplicate implementation
 under `document-workflow`. [Workflow notes](../document-workflow/README.md) explain
 state ownership and the semantic-fidelity boundary.

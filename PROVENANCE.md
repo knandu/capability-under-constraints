@@ -17,10 +17,18 @@ the original source decision checkpoint, including
 its `-06:00` offset. The committer timestamp is the actual curation time, not
 backdated. This graph did not literally exist during the investigation.
 
-A final, explicitly curation-only commit packages the original native build
+A curation-only closure packages the original native build
 controls and publication audit. Both of its timestamps are November 18: that is
 when this editorial verification happened, not an additional inference experiment.
 It is not backdated to manufacture an eleventh historical decision.
+
+A subsequent curation correction restores an overlooked ignored local prompt-size
+aggregate from November 15 and the separately documented November 16 minimal-
+harness measurements. The author's November 18 assertion identifies the former
+as system-prompt and tool-description overhead; that characterization is retained
+alongside the numeric decomposition, including framing and ancillary messages.
+The correction's author and committer dates are actual curation dates, not a new
+inference experiment or a rewrite of the ten historical gates.
 
 The baseline gate uses the November 14 protocol checkpoint, before target
 qualification. Later target results enter at the locality gate. Locality and the
