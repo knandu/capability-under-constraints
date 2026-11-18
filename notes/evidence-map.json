@@ -867,6 +867,45 @@
       "original_sha256": "a095521f978b7fe2ee271d0c99ce4e9dbc110584a490597b0089148b951290ef",
       "normalization": "Unmodified source bytes; public identity/path review.",
       "public_sha256": "a095521f978b7fe2ee271d0c99ce4e9dbc110584a490597b0089148b951290ef"
+    },
+    {
+      "gate": "publication-audit",
+      "public_path": "experiments/kernel-stop/builds/stock-sm75.json",
+      "artifact": "original native build controls: hybrid-zen5-cuda75",
+      "kind": "tracked source artifact",
+      "source_commit": "ac39a5b4f53590cd83fe8d4e254ee23851ac0764",
+      "source_blob": "0de3c9f83b10452e1390af9cd3cfe28818c461c9",
+      "original_sha256": "f969740ad8fb35d76166adc0c5436f23df60a2a8e2884276e602000106422327",
+      "normalization": "Replace only -S, -B, CUDA toolset and toolkit-root directory arguments with explicit placeholders.",
+      "public_sha256": "abcef3f335e02f9f07112d37f718bb2d3d55f5bbd8a39e392c9486d0a9ad9442"
+    },
+    {
+      "gate": "publication-audit",
+      "public_path": "experiments/kernel-stop/builds/sm75-forced-mmq.json",
+      "artifact": "original native build controls: hybrid-zen5-cuda75-mmq",
+      "kind": "tracked source artifact",
+      "source_commit": "ac39a5b4f53590cd83fe8d4e254ee23851ac0764",
+      "source_blob": "18b4d3bd32e79e976e982bea3867b366b2d4607f",
+      "original_sha256": "3b44158c49aff8765521a19cb19f064dfcc4f12590a9025656360b8f5d511d1c",
+      "normalization": "Replace only -S, -B, CUDA toolset and toolkit-root directory arguments with explicit placeholders.",
+      "public_sha256": "8b9c1c3e49646261b335e1a8240fdbd1d19817c8d0fc314c15d4b4aca58074e0"
+    },
+    {
+      "gate": "publication-audit",
+      "public_path": "experiments/kernel-stop/builds/pascal-ptx-forced-mmq.json",
+      "artifact": "original native build controls: hybrid-zen5-cuda61-mmq",
+      "kind": "tracked source artifact",
+      "source_commit": "ac39a5b4f53590cd83fe8d4e254ee23851ac0764",
+      "source_blob": "5051f7a6dfd8ae560c5026b4cbdc8b5cb9c98165",
+      "original_sha256": "0429f6c0f66425af21e36b78c7ecfbca00b831f166cb78cdccd74521c036e323",
+      "normalization": "Replace only -S, -B, CUDA toolset and toolkit-root directory arguments with explicit placeholders.",
+      "public_sha256": "71d65915b4ce0b39a276d8067672cd988a1913a71fb74180947a9817b70e0545"
     }
-  ]
+  ],
+  "curation": {
+    "id": "publication-audit",
+    "date": "2026-11-18",
+    "purpose": "Package original native build controls and verify publication readiness; no new experiment.",
+    "timestamp_basis": "Both Git timestamps reflect the actual editorial curation event."
+  }
 }

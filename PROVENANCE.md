@@ -11,10 +11,16 @@ investigation remains unchanged.
 
 ## What the dates mean
 
-Each curated commit uses `knandu <knandu@live.com>` for both author and committer.
-The author timestamp represents the original source decision checkpoint, including
+Each commit uses `knandu <knandu@live.com>` for both author and committer.
+For the ten reconstructed experimental gates, the author timestamp represents
+the original source decision checkpoint, including
 its `-06:00` offset. The committer timestamp is the actual curation time, not
 backdated. This graph did not literally exist during the investigation.
+
+A final, explicitly curation-only commit packages the original native build
+controls and publication audit. Both of its timestamps are November 18: that is
+when this editorial verification happened, not an additional inference experiment.
+It is not backdated to manufacture an eleventh historical decision.
 
 The baseline gate uses the November 14 protocol checkpoint, before target
 qualification. Later target results enter at the locality gate. Locality and the

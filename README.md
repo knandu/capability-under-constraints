@@ -126,6 +126,7 @@ Start with the [decision/evidence map](notes/investigation-map.md), then the
 experiment directories. [Limitations](notes/limitations.md) distinguish measured
 results from untested questions. [Implementation notes](notes/implementation-notes.md)
 compress repaired plumbing without treating it as experimental success.
+[Curation audit](notes/curation-audit.md) records validation and publication boundaries.
 
 From the repository root, offline checks need Python 3.11+:
 

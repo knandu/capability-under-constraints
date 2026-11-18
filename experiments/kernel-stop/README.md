@@ -13,6 +13,10 @@ November 15, 2026, 12:26:46 -06:00 (`ac39a5b`), after the 12:06-12:12 run.
 controls. `summary.csv` retains the original aggregate calculation, including
 contemporary and historical comparisons. Identical output hashes and matching
 cache counters constrain interpretation; all nine effective-control checks passed.
+`builds/` retains the three original build configurations, compiler/runtime
+settings, build timestamps, and CMake arguments. Only source, build, and toolkit
+directory arguments are replaced by explicit placeholders; variant flags remain
+unchanged. These records were added at the final curation audit, not a new run.
 
 The relevant comparison is sustained decode with the already-selected expert
 cache, not an isolated microkernel or prefill speedup. The small differences did
