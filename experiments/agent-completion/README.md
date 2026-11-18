@@ -61,6 +61,13 @@ counts and their provenance. This is corroborating evidence that scaffolding
 cost is measurable, **not** a matched CLI-versus-harness speed/quality experiment
 or a measurement of current prompt costs.
 
+**Decision: CONTINUE WITH AN OBSERVABLE HARNESS.** A small work request surrounded
+by much more orchestration made the agent's own context budget part of the
+investigation. The goal was not simply to minimize prompt size, but to understand
+what each instruction, tool, observation, and piece of workflow state was buying.
+The [minimal harness](../../harness/README.md) made those costs visible and
+controllable.
+
 The scan found the controlled CLI aggregate, its analysis code, the documented
 minimal-harness measurements, and the existing case-specific client-context
 observations. The inspected customization-verification aggregates added no token

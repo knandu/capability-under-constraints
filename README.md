@@ -77,14 +77,6 @@ same workload. Instructions, schemas, observations, history, and intermediate
 work now competed with the user's material for the same context.
 An affordance can cost both **tokens** and **another decision/action choice**.
 
-That cost was measured. One controlled CLI request used **4,557 prompt tokens**
-for a **48-token work request**: **4,509 tokens of system/tool scaffolding**
-(29.36% of its 15,360-token input budget). This is the author's system-prompt
-and tool-description overhead observation; the recorded total also includes
-ancillary messages and chat framing. It describes that CLI configuration, not
-a universal constant or the later minimal harness.
-[Measurement and decomposition](experiments/agent-completion/README.md#measured-system-and-tool-scaffolding).
-
 ## Movement two: what happens when this becomes an agent?
 
 ### 7. A successful tool call was not reliable completion
@@ -96,11 +88,47 @@ including an undone edit. **STOP policy tweaking; preserve the boundary.**
 [Focused protocol records](experiments/agent-completion/README.md).
 
 
-### 8. Build an observable instrument, not an agent framework
+### 8. The agent had its own context budget
+
+Once context became scarce, I started measuring what was actually consuming it.
+
+In one controlled CLI experiment, the work request itself was only **48 tokens**.
+The server reported a **4,557-token prompt**, exactly matching an independent
+rendering and tokenization of the request.
+
+| Prompt component | Tokens |
+|---|---:|
+| Controlled work request | 48 |
+| Everything else in the rendered request | 4,509 |
+| **Total prompt** | **4,557** |
+
+The system message alone accounted for **2,925 tokens**. The remaining non-work
+content included tool descriptions, framing, and ancillary messages.
+
+The important result is not that an agent has a universal **4,509-token overhead**.
+This was one measured configuration. A very small piece of actual work arrived
+at the model surrounded by substantially more orchestration machinery.
+
+That changed the question. Context was not merely capacity available to the
+user's task. **The agent itself was competing for it.**
+
+The later minimal harness was deliberately designed to make that cost visible
+and controllable. In a separate historical measurement, its empty-history rendered
+request with five tools used **958 tokens**. The two measurements are not a
+controlled benchmark comparison, and neither describes current prompt costs.
+They reinforce the reason for building the smaller instrument: once context
+became a constrained resource, the machinery around the model could no longer
+be treated as free.
+
+**Decision: CONTINUE WITH AN OBSERVABLE HARNESS.**
+
+The goal was not simply to minimize prompt size. It was to understand what each
+instruction, tool, observation, and piece of workflow state was buying.
 
 The small [standard-library harness](harness/README.md) exposes the model/tool
 loop, context accounting, timing, streamed output, and explicit completion.
 Its purpose is to make experiments inspectable, not to claim general autonomy.
+[Measurement and decomposition](experiments/agent-completion/README.md#measured-system-and-tool-scaffolding).
 
 
 ### 9. Durable document state belongs outside disposable chat context

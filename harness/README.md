@@ -2,6 +2,9 @@
 
 A standard-library Python HTTP/SSE application for inspecting a local model/tool
 loop. It is not a production service or a general agent framework.
+The goal was not simply to minimize prompt size: it was to understand what each
+instruction, tool, observation, and piece of workflow state was buying within a
+limited context budget.
 The source enters the curated history before document processing; later gates add
 durable document state and explicit startup budgets.
 
