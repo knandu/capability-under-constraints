@@ -23,7 +23,8 @@ mistaking successful compilation or a short burst for useful inference.
 
 The useful configuration did not come from simply moving more of the model onto
 the GPU. An all-CPU baseline was already competitive with the first controlled
-CPU/GPU placement, at 23.73 versus 24.16 tok/s.
+CPU/GPU placement, at 23.73 versus 24.16 tok/s. Simply involving the GPU was
+therefore not the important result.
 
 The retained measurements show the optimization developing in steps
 (medians of three runs):
@@ -32,18 +33,22 @@ The retained measurements show the optimization developing in steps
 |---|---:|
 | All CPU | 23.73 tok/s |
 | Original controlled placement | 24.16 tok/s |
-| Matched controlled placement | 27.37 tok/s |
-| Experts of six layers on GPU (42 expert layers on CPU) | 31.32 tok/s |
+| Controlled placement, matched runtime settings | 27.37 tok/s |
+| Expert weights of six layers on GPU (42 expert layers on CPU) | 31.32 tok/s |
 | 1 GiB expert cache | 39.10 tok/s |
 | 2 GiB expert cache | **43.95 tok/s** |
 
-"Controlled placement" separated expert placement from the rest of the model so
-that locality could be varied deliberately rather than treating GPU offload as a
-single layer-count knob.
+"Controlled placement" decided where expert weights lived explicitly, rather than
+treating GPU offload as a single knob that moves a count of whole layers (the
+ordinary 4/6/8/9-layer splits). That made locality something to vary deliberately:
+first how many layers' experts stayed on the CPU, then how much VRAM served as an
+expert cache. "Matched" runs used the same thread-affinity, microbatch, loading,
+and Flash Attention settings as the matched CPU and ordinary-split cases.
 
 The final configuration was not "pin the experts to the GPU." It used **2 GiB of
 VRAM as an expert cache**, configured so that 95% of cache misses were served by
-the CPU. Statically placing six layers' experts on the GPU was measurably slower.
+the CPU. The CPU remained an important execution tier. Statically placing six
+layers' experts on the GPU was measurably slower.
 
 That distinction matters. The result is evidence that **expert reuse and locality
 can make a small amount of VRAM disproportionately useful**. It is not evidence
